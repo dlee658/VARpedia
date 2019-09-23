@@ -18,6 +18,9 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 public class View {
 
@@ -45,9 +48,6 @@ public class View {
 		viewListView.setPlaceholder(new Label("No creations created"));
 		viewPane.setCenter(viewListView);
 		
-		
-
-
 		deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
