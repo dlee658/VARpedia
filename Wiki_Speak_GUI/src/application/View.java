@@ -44,6 +44,8 @@ public class View {
 		viewListView.setItems(creationList.getCList()); 
 		viewListView.setPlaceholder(new Label("No creations created"));
 		viewPane.setCenter(viewListView);
+		
+		
 
 
 		deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
