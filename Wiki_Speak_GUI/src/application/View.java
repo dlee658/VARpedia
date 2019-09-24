@@ -46,8 +46,9 @@ public class View {
 		viewListView = new ListView<String>();
 		viewListView.setItems(creationList.getCList()); 
 		viewListView.setPlaceholder(new Label("No creations created"));
+		viewPane.setPadding(new Insets(20));
 		viewPane.setCenter(viewListView);
-		
+
 		deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -71,15 +72,15 @@ public class View {
 		if (fileName == null) {
 			return;
 		}
-		
+
 		ButtonType yesBtn = new ButtonType("yes");
 		ButtonType noBtn = new ButtonType("no", ButtonBar.ButtonData.CANCEL_CLOSE);
 		Alert deleteAlert = new Alert(AlertType.CONFIRMATION,"Are you sure you want to delete: " + fileName,yesBtn,noBtn);
 		deleteAlert.setTitle("Confirm Deletion");
 		deleteAlert.setHeaderText(null);
-		
+
 		Optional<ButtonType> btn = deleteAlert.showAndWait();
-		
+
 		if (btn.get() == yesBtn) {
 			File file = new File("Creations" + File.separatorChar + fileName + ".mp4");
 			file.delete();
@@ -93,15 +94,10 @@ public class View {
 		if (fileName == null) {
 			return;
 		}
+		File file = new File("Creations" + File.separatorChar + fileName + ".mp4");
 
-		try {
-			String command = "ffplay -autoexit \"Creations" + File.separatorChar + fileName + ".mp4\"";
-			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
-			Process playProcess = pb.start();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		VideoPlayer vp = new VideoPlayer();
+		vp.play(file);
 	}
 
 	public Tab getTab() {
@@ -111,7 +107,7 @@ public class View {
 	public void update(String fileName) {
 		creationList.update();
 		viewListView.setItems(creationList.getCList()); 
-		
+
 	}
 
 

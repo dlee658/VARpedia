@@ -12,6 +12,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Wiki-Speak Authoring Tool");
+		primaryStage.setMinHeight(500);
+		primaryStage.setMinWidth(600);
 
 		setUpDirectories();
 		Home home = new Home();
