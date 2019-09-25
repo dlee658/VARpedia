@@ -4,21 +4,36 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.imageio.ImageIO;
 
 import com.flickr4java.flickr.*;
 import com.flickr4java.flickr.photos.*;
 
+import javafx.concurrent.Task;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
+
 public class VideoCreation {
-	
+
 	private static String getAPIKey(String key) throws Exception {
 		String config = System.getProperty("user.dir") 
 				+ System.getProperty("file.separator")+ "flickr-api-keys.txt"; 
-		
+
 		File file = new File(config); 
 		BufferedReader br = new BufferedReader(new FileReader(file)); 
-		
+
 		String line;
 		while ( (line = br.readLine()) != null ) {
 			if (line.trim().startsWith(key)) {
@@ -30,7 +45,7 @@ public class VideoCreation {
 		throw new RuntimeException("Couldn't find " + key +" in config file "+file.getName());
 	}
 
-	public void retrieveImages(String term, int numOfImages) {
+	private void retrieveImages(String term, int numOfImages) {
 		try {
 			String apiKey = getAPIKey("apiKey");
 			String sharedSecret = getAPIKey("sharedSecret");
@@ -38,38 +53,64 @@ public class VideoCreation {
 			Flickr flickr = new Flickr(apiKey, sharedSecret, new REST());
 
 			int page = 0;
-			
-	        PhotosInterface photos = flickr.getPhotosInterface();
-	        SearchParameters params = new SearchParameters();
-	        params.setSort(SearchParameters.RELEVANCE);
-	        params.setMedia("photos"); 
-	        params.setText(term);
-	        
-	        PhotoList<Photo> results = photos.search(params, numOfImages, page);
-	        System.out.println("Retrieving " + results.size()+ " results");
-	        
-	        for (Photo photo: results) {
-	        	try {
-	        		BufferedImage image = photos.getImage(photo,Size.LARGE);
-		        	String filename = term.trim().replace(' ', '-')+"-"+System.currentTimeMillis()+"-"+photo.getId()+".jpg";
-		        	File outputfile = new File("downloads",filename);
-		        	ImageIO.write(image, "jpg", outputfile);
-		        	System.out.println("Downloaded "+filename);
-	        	} catch (FlickrException fe) {
-	        		System.err.println("Ignoring image " +photo.getId() +": "+ fe.getMessage());
+
+			PhotosInterface photos = flickr.getPhotosInterface();
+			SearchParameters params = new SearchParameters();
+			params.setSort(SearchParameters.RELEVANCE);
+			params.setMedia("photos"); 
+			params.setText(term);
+
+			PhotoList<Photo> results = photos.search(params,numOfImages, page);
+			System.out.println("Retrieving " + results.size()+ " results");
+			int i = 1;
+
+			for (Photo photo: results) {
+				try {
+					BufferedImage image = photos.getImage(photo,Size.LARGE);
+					String filename;
+					if (i == 10) {
+						filename = term+i+".jpg";
+					} else {
+						filename = term+"0"+i+".jpg";
+					}			
+					File outputfile = new File(filename);
+					ImageIO.write(image, "jpg", outputfile);
+					System.out.println("Downloaded "+filename);
+					i++;
+				} catch (FlickrException fe) {
+					System.err.println("Ignoring image " +photo.getId() +": "+ fe.getMessage());
 				}
-	        }
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		System.out.println("\nDone");
 	}
 
+	public void createVideo(String term,int numOfImages, String name) {
+		String video = "\"Video" + File.separatorChar + term + ".mp4\"";
+		String audio = "\"Audio" + File.separatorChar + term + ".wav\"";
+		String creation = "\"Creations" + File.separatorChar + name + ".mp4\"";
 
+		try {
+			retrieveImages(term, 5);
+			String cmd = "ffmpeg -y -r `ls "+term+"*.jpg | wc -l`/`soxi -D " + audio + "` -i " + term + "%02d.jpg -vf \"scale=1024:720:force_original_aspect_ratio=decrease,pad=1024:720:(ow-iw)/2:(oh-ih)/2,drawtext=FreeSerif.ttf:fontsize=50: "
+					+ "fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text="+term+"\" -c:v libx264 -pix_fmt yuv420p " + video + ";ffmpeg -i " + video + " -i " + audio + " -c:v copy -c:a aac -strict experimental "+ creation;
+			ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
+			Process creationProcess = pb.start();
 
+			creationProcess.waitFor();
+			//ffmpeg -y -r `ls apple*.jpg | wc -l`/`soxi -D Audio/apple.wav` -i apple%02d.jpg -vf "scale=1024:720:force_original_aspect_ratio=decrease,pad=1024:720:(ow-iw)/2:(oh-ih)/2,drawtext=FreeSerif.ttf:fontsize=50: fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text=apple" -c:v libx264 -pix_fmt yuv420p Video/apple.mp4
 
+			
 
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-
+	}
 }

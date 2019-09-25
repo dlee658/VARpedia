@@ -15,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
@@ -23,6 +24,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 public class Create {
 
@@ -30,6 +32,7 @@ public class Create {
 	private String term;
 	private int sentenceCount;
 	private View _view;
+	protected int numOfImages;
 
 	public Create(View view) {
 		createTab = new Tab("Create Creation");
@@ -50,13 +53,21 @@ public class Create {
 		TextField sentenceField = new TextField(); 
 		sentenceField.setMaxWidth(50);
 		Button enterBtn = new Button("Enter");
+		ChoiceBox cb = new ChoiceBox();
+		for (int i = 1;i<=10;i++) {
+			cb.getItems().add(i);
+		}
+		
+		
 		HBox sentenceHB = new HBox(5,msg,sentenceField,enterBtn);
 		sentenceHB.setPadding(new Insets(10));
 		sentenceHB.setDisable(true);
+		
+		VBox vb = new VBox(sentenceHB,cb);
 
 		createPane.setTop(searchHB);
 		createPane.setCenter(searchResult);
-		createPane.setBottom(sentenceHB);
+		createPane.setBottom(vb);
 
 		searchBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -140,6 +151,7 @@ public class Create {
 				int numSentence = Integer.parseInt(sentenceField.getText());
 				if (numSentence > 0 && numSentence <= sentenceCount) {
 					createText(numSentence);
+					numOfImages = Integer.parseUnsignedInt(cb.getValue().toString());
 					createTab.setContent(creationPane());
 				} else {
 					Label warningMsg = new Label("Invalid number,try again");
@@ -224,20 +236,9 @@ public class Create {
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
 
-					String video = "\"Video" + File.separatorChar + term + ".mp4\"";
-					cmd = "ffmpeg -f lavfi -i color=c=blue:s=320x240:d=5 -t `soxi -D " + audio + "` -vf "
-							+ "\"drawtext=FreeSerif.ttf:fontsize=30: fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text=" 
-							+ term + "\" -y " + video;
-					pb = new ProcessBuilder("bash", "-c", cmd);
-					Process videoProcess = pb.start();
-					videoProcess.waitFor();
-
-					String creation = "\"Creations" + File.separatorChar + name + ".mp4\"";
-					cmd = "ffmpeg -i " + video + " -i " + audio + " -c:v copy -c:a aac -strict experimental "+ creation;
-					pb = new ProcessBuilder("bash", "-c", cmd);
-					Process creationProcess = pb.start();
-					creationProcess.waitFor();
-
+					VideoCreation vc = new VideoCreation();
+					vc.createVideo(term, numOfImages,name);
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (InterruptedException e) {
