@@ -46,11 +46,17 @@ public class Create {
 		searchHB.setPadding(new Insets(10));
 		TextArea searchResult = new TextArea(); 
 		//searchResult.setEditable(false);
-		Label msg = new Label("Enter number of sentences you'll like in the creation:");
-		TextField sentenceField = new TextField(); 
-		sentenceField.setMaxWidth(50);
-		Button enterBtn = new Button("Enter");
-		HBox sentenceHB = new HBox(5,msg,sentenceField,enterBtn);
+		Label msg = new Label("Select parts of the text:");
+		//TextField sentenceField = new TextField(); 
+		
+		
+		
+		//sentenceField.setMaxWidth(50);
+		
+		
+		Button previewBtn = new Button("Preview");
+		Button saveBtn = new Button("Save");
+		HBox sentenceHB = new HBox(5,msg,previewBtn,saveBtn);
 		sentenceHB.setPadding(new Insets(10));
 		sentenceHB.setDisable(true);
 
@@ -62,7 +68,7 @@ public class Create {
 			@Override
 			public void handle(ActionEvent event) {
 				sentenceHB.getChildren().clear();
-				sentenceHB.getChildren().addAll(msg,sentenceField,enterBtn);
+				sentenceHB.getChildren().addAll(msg,previewBtn, saveBtn);
 				term = searchField.getText().trim();
 
 				if (term.isEmpty()) {
@@ -79,7 +85,12 @@ public class Create {
 			private void getSearchResult() {
 				String command = "wikit " + term + " | sed 's/\\. /&\\n/g'";
 				ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
+				
+				
 				File text = new File("Audio" + File.separatorChar + "audio_text.txt");
+				
+				
+				
 				pb.redirectOutput(text);
 
 				ExecutorService worker = Executors.newSingleThreadExecutor(); 
@@ -134,18 +145,27 @@ public class Create {
 			}
 		});
 
-		enterBtn.setOnAction(new EventHandler<ActionEvent>() {
+		//change to preview
+		saveBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				int numSentence = Integer.parseInt(sentenceField.getText());
+				String selectedPart = searchResult.getSelectedText();
+				if (selectedPart == null) {
+					Label warningMsg = new Label("Select something, try again");
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,warningMsg);					
+				} else {
+					createText(selectedPart);
+				}
+				/*int numSentence = Integer.parseInt(sentenceField.getText());
 				if (numSentence > 0 && numSentence <= sentenceCount) {
 					createText(numSentence);
 					createTab.setContent(creationPane());
 				} else {
 					Label warningMsg = new Label("Invalid number,try again");
 					sentenceHB.getChildren().clear();
-					sentenceHB.getChildren().addAll(msg,sentenceField,enterBtn,warningMsg);
-				}
+					sentenceHB.getChildren().addAll(msg,previewBtn,warningMsg);}*/
+				
 			}
 		});
 
@@ -154,8 +174,22 @@ public class Create {
 	}
 
 
-	protected void createText(int numSentence) {
-		String cmd = "echo `head -" + numSentence + " \"Audio" + File.separatorChar + "audio_text.txt\"`";
+	/*
+	 * protected void createText(int numSentence) { String cmd = "echo `head -" +
+	 * numSentence + " \"Audio" + File.separatorChar + "audio_text.txt\"`";
+	 * ProcessBuilder pb = new ProcessBuilder("bash","-c",cmd);
+	 * pb.redirectOutput(new File("Audio" + File.separatorChar + term + ".txt"));
+	 * try { Process process = pb.start(); process.waitFor();
+	 * 
+	 * } catch(Exception e) {
+	 * 
+	 * }
+	 * 
+	 * }
+	 */
+
+	protected void createText(String selectedText) {
+		String cmd = "echo " + selectedText;
 		ProcessBuilder pb = new ProcessBuilder("bash","-c",cmd);
 		pb.redirectOutput(new File("Audio" + File.separatorChar + term + ".txt"));
 		try {
@@ -168,7 +202,7 @@ public class Create {
 		}
 
 	}
-
+	
 	public Pane creationPane() {
 		BorderPane creationPane = new BorderPane();
 		TextField nameField = new TextField(); 
