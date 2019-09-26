@@ -180,6 +180,16 @@ public class Create {
 				}
 				else {
 		//preview the selectedpart
+					
+					
+					ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo "+selectedPart+ " | festival --tts");
+                    try {
+						pb.start();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 					sentenceHB.getChildren().clear();
 					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);		
 				}
