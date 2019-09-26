@@ -47,7 +47,9 @@ public class Create {
 		HBox searchHB = new HBox(5,searchField,searchBtn); 
 		searchHB.setPadding(new Insets(10));
 		TextArea searchResult = new TextArea(); 
-		//searchResult.setEditable(false);
+//		 searchResult.setPrefWidth(100);
+	//	 searchResult.setPrefRowCount(50);
+	//	searchResult.setEditable(false);
 		Label msg = new Label("Select parts of the text:");
 		//TextField sentenceField = new TextField(); 
 		
@@ -218,10 +220,20 @@ public class Create {
 				}
 				else {
 					numberTxt = numberTxt +1;
+					//ask user for the setting??
+					
 					createText(selectedPart);
+					
+					audioCreation();
+					
+					
+					
 					sentenceHB.getChildren().clear();
 					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);			
 
+					
+					
+					
 				}
 				/*int numSentence = Integer.parseInt(sentenceField.getText());
 				if (numSentence > 0 && numSentence <= sentenceCount) {
@@ -261,7 +273,7 @@ public class Create {
 		ProcessBuilder pb = new ProcessBuilder("bash","-c",cmd);
 		pb.redirectOutput(new File("Audio" + File.separatorChar + term +numberTxt+ ".txt"));
 		
-		audioCreation();
+
 		
 		try {
 			Process process = pb.start();
