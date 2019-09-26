@@ -313,6 +313,11 @@ public class Create {
 		return creationPane;
 	}
 
+	
+	//another method is required to combine all the audios
+	
+	
+	//this needs to be implemented!! for the change synthtic speech setting with festival
 	protected void audioCreation() {
 
 		String audio = "\"Audio" + File.separatorChar + term +numberTxt+ ".wav\"";
