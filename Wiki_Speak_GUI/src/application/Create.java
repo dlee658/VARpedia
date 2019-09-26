@@ -28,8 +28,9 @@ public class Create {
 
 	private Tab createTab;
 	private String term;
-	private int sentenceCount;
+//	private int sentenceCount;
 	private View _view;
+	private int numberTxt = 0;
 
 	public Create(View view) {
 		createTab = new Tab("Create Creation");
@@ -130,7 +131,7 @@ public class Create {
 								while ((line = reader.readLine()) != null ) {
 									count++;
 									searchResult.appendText("\n" + count  + ". " + line);
-									sentenceCount = count;
+		//							sentenceCount = count;
 									sentenceHB.setDisable(false);
 								}
 								reader.close();
@@ -146,8 +147,46 @@ public class Create {
 				});
 			}
 		});
-
-		//change to preview
+		//button for next
+		nextBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+				if(numberTxt>0) {
+				createTab.setContent(creationPane());			
+				}
+				else {
+					Label warningMsg = new Label("Save something, try again");
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);					
+				}
+			
+			}
+			});
+		//button for Preview
+		previewBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				String selectedPart = searchResult.getSelectedText();		
+				if (selectedPart.length() == 0) {
+					Label warningMsg = new Label("Select something, try again");
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);								
+				}
+				else if (selectedPart.length() > 40) {
+					Label warningMsg = new Label("Too long, try again");
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
+				}
+				else {
+		//preview the selectedpart
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);		
+				}
+			
+			}
+			});
+		//change to save
 		saveBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -156,8 +195,23 @@ public class Create {
 					Label warningMsg = new Label("Select something, try again");
 					sentenceHB.getChildren().clear();
 					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);					
-				} else {
+				} 
+				else if (selectedPart.length() == 0) {
+					Label warningMsg = new Label("Select something, try again");
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);								
+				}
+				else if (selectedPart.length() > 40) {
+					Label warningMsg = new Label("Too long, try again");
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
+				}
+				else {
+					numberTxt = numberTxt +1;
 					createText(selectedPart);
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);			
+
 				}
 				/*int numSentence = Integer.parseInt(sentenceField.getText());
 				if (numSentence > 0 && numSentence <= sentenceCount) {
@@ -174,6 +228,8 @@ public class Create {
 		return createPane;
 
 	}
+	
+
 
 
 	/*
@@ -193,7 +249,7 @@ public class Create {
 	protected void createText(String selectedText) {
 		String cmd = "echo " + selectedText;
 		ProcessBuilder pb = new ProcessBuilder("bash","-c",cmd);
-		pb.redirectOutput(new File("Audio" + File.separatorChar + term + ".txt"));
+		pb.redirectOutput(new File("Audio" + File.separatorChar + term +numberTxt+ ".txt"));
 		try {
 			Process process = pb.start();
 			process.waitFor();
@@ -246,8 +302,8 @@ public class Create {
 
 	protected void createCreation(String name) {
 
-		String audio = "\"Audio" + File.separatorChar + term + ".wav\"";
-		String text = "\"Audio" + File.separatorChar + term + ".txt\"";
+		String audio = "\"Audio" + File.separatorChar + term +numberTxt+ ".wav\"";
+		String text = "\"Audio" + File.separatorChar + term + numberTxt+".txt\"";
 
 
 		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
