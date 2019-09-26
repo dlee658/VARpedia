@@ -250,6 +250,9 @@ public class Create {
 		String cmd = "echo " + selectedText;
 		ProcessBuilder pb = new ProcessBuilder("bash","-c",cmd);
 		pb.redirectOutput(new File("Audio" + File.separatorChar + term +numberTxt+ ".txt"));
+		
+		audioCreation();
+		
 		try {
 			Process process = pb.start();
 			process.waitFor();
@@ -300,6 +303,42 @@ public class Create {
 		return creationPane;
 	}
 
+	protected void audioCreation() {
+
+		String audio = "\"Audio" + File.separatorChar + term +numberTxt+ ".wav\"";
+		String text = "\"Audio" + File.separatorChar + term + numberTxt+".txt\"";
+
+
+		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
+		Task<File> task = new Task<File>() {
+			@Override
+			protected File call() throws Exception {
+				try {
+					String cmd = "text2wave -o " + audio + " " + text;
+					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
+					Process audioProcess = pb.start();
+					audioProcess.waitFor();
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				return null;	
+			}
+		};
+		createWorker.submit(task);
+		task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent event) {
+
+				//createTab.setContent(defaultPane());
+			}	
+		});
+
+	}
+	
+	//***************
 	protected void createCreation(String name) {
 
 		String audio = "\"Audio" + File.separatorChar + term +numberTxt+ ".wav\"";
@@ -353,7 +392,12 @@ public class Create {
 			}	
 		});
 	}
-
+//????************************
+	
+	
+	
+	
+	
 	protected boolean isValidName(String name) {
 		File file = new File("Creations" + File.separatorChar + name + ".mp4");
 		if(file.exists()) {
