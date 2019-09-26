@@ -42,6 +42,7 @@ public class Create {
 		TextField searchField = new TextField(); 
 		searchField.setPromptText("Enter search term:");
 		Button searchBtn = new Button("Search");
+
 		HBox searchHB = new HBox(5,searchField,searchBtn); 
 		searchHB.setPadding(new Insets(10));
 		TextArea searchResult = new TextArea(); 
@@ -56,7 +57,8 @@ public class Create {
 		
 		Button previewBtn = new Button("Preview");
 		Button saveBtn = new Button("Save");
-		HBox sentenceHB = new HBox(5,msg,previewBtn,saveBtn);
+		Button nextBtn = new Button("Next");
+		HBox sentenceHB = new HBox(5,msg,previewBtn,saveBtn,nextBtn);
 		sentenceHB.setPadding(new Insets(10));
 		sentenceHB.setDisable(true);
 
@@ -68,7 +70,7 @@ public class Create {
 			@Override
 			public void handle(ActionEvent event) {
 				sentenceHB.getChildren().clear();
-				sentenceHB.getChildren().addAll(msg,previewBtn, saveBtn);
+				sentenceHB.getChildren().addAll(msg,previewBtn, saveBtn,nextBtn);
 				term = searchField.getText().trim();
 
 				if (term.isEmpty()) {
@@ -153,7 +155,7 @@ public class Create {
 				if (selectedPart == null) {
 					Label warningMsg = new Label("Select something, try again");
 					sentenceHB.getChildren().clear();
-					sentenceHB.getChildren().addAll(msg,previewBtn,warningMsg);					
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);					
 				} else {
 					createText(selectedPart);
 				}
