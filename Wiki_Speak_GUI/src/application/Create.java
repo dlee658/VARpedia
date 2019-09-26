@@ -126,11 +126,11 @@ public class Create {
 								sentenceHB.setDisable(true);
 
 							} else {
-								int count = 1;
-								searchResult.setText(count + ". " + line);
+							//	int count = 1;
+					//			searchResult.setText(count + ". " + line);
 								while ((line = reader.readLine()) != null ) {
-									count++;
-									searchResult.appendText("\n" + count  + ". " + line);
+					//				count++;
+									searchResult.appendText(line);
 		//							sentenceCount = count;
 									sentenceHB.setDisable(false);
 								}
