@@ -46,7 +46,9 @@ public class Create {
 
 		HBox searchHB = new HBox(5,searchField,searchBtn); 
 		searchHB.setPadding(new Insets(10));
-		TextArea searchResult = new TextArea(); 
+		TextArea searchResult = new TextArea();
+/*		searchResult.prefWidthProperty().bind(<parentControl>.widthProperty());
+		searchResult.setText(term + " not found, please try again");*/
 //		 searchResult.setPrefWidth(100);
 	//	 searchResult.setPrefRowCount(50);
 	//	searchResult.setEditable(false);
@@ -82,7 +84,7 @@ public class Create {
 					return;
 				}
 				
-				searchBtn.setDisable(true);
+			searchBtn.setDisable(true);
 				getSearchResult();
 
 			}
@@ -175,7 +177,7 @@ public class Create {
 					sentenceHB.getChildren().clear();
 					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);								
 				}
-				else if (selectedPart.length() > 40) {
+				else if (selectedPart.length() > 150) {
 					Label warningMsg = new Label("Too long, try again");
 					sentenceHB.getChildren().clear();
 					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
@@ -203,6 +205,16 @@ public class Create {
 			@Override
 			public void handle(ActionEvent event) {
 				String selectedPart = searchResult.getSelectedText();
+/*				
+				ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo " + selectedPart + " | wc -w");
+                try {
+					pb.start();
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	*/	
+				
 				if (selectedPart == null) {
 					Label warningMsg = new Label("Select something, try again");
 					sentenceHB.getChildren().clear();
@@ -213,7 +225,7 @@ public class Create {
 					sentenceHB.getChildren().clear();
 					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);								
 				}
-				else if (selectedPart.length() > 40) {
+				else if (selectedPart.length() > 150) {
 					Label warningMsg = new Label("Too long, try again");
 					sentenceHB.getChildren().clear();
 					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
@@ -329,7 +341,7 @@ public class Create {
 	//another method is required to combine all the audios
 	
 	
-	//this needs to be implemented!! for the change synthtic speech setting with festival
+	//this needs to be implemented!! for the change synthetic speech setting with festival
 	protected void audioCreation() {
 
 		String audio = "\"Audio" + File.separatorChar + term +numberTxt+ ".wav\"";
