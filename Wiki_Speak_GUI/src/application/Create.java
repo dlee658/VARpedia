@@ -378,7 +378,7 @@ public class Create {
 			@Override
 			protected File call() throws Exception {
 				try {
-					String cmd = "text2wave -o " + audio + " " + text + " -eval \n("+voice+")\"";
+					String cmd = "text2wave -o " + audio + " " + text + " -eval \"("+voice+")\"";
 					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
