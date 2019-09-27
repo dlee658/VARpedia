@@ -34,7 +34,8 @@ public class Create {
 	private View _view;
 	private int numberTxt = 0;
 	protected int numOfImages;
-
+	protected String voice;
+	
 	public Create(View view) {
 		createTab = new Tab("Create Creation");
 		createTab.setContent(defaultPane());
@@ -65,7 +66,7 @@ public class Create {
 		}
 		
 		ChoiceBox<String> voiceCB = new ChoiceBox<String>();
-		voiceCB.getItems().addAll("voice one", "voice two", "voice 3");
+		voiceCB.getItems().addAll("voice_kal_diphone", "voice_akl_nz_jdt_diphone", "voice_akl_nz_cw_cg_cg");
 
 		Button previewBtn = new Button("Preview");
 		Button saveBtn = new Button("Save");
@@ -257,9 +258,20 @@ public class Create {
 						//ask user for the setting??
 
 
-						createText(selectedPart);
+						if(voiceCB.getValue() != null) {
 
-						audioCreation();
+							voice = voiceCB.getValue().toString();
+							createText(selectedPart);
+
+							audioCreation();
+						}					
+						else {
+							//set default voice as kal diphone
+							voice = "voice_kal_diphone";
+							createText(selectedPart);
+
+							audioCreation();
+						}		
 					}
 
 
@@ -366,7 +378,7 @@ public class Create {
 			@Override
 			protected File call() throws Exception {
 				try {
-					String cmd = "text2wave -o " + audio + " " + text;
+					String cmd = "text2wave -o " + audio + " " + text + " -eval \n("+voice+")\"";
 					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
