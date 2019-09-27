@@ -1,7 +1,6 @@
 package application;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
 
 import javafx.event.ActionEvent;
@@ -18,9 +17,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 
 public class View {
 
