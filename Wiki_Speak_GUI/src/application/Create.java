@@ -34,7 +34,6 @@ public class Create {
 	private View _view;
 	private int numberTxt = 0;
 	protected int numOfImages;
-	protected String voice;
 
 	public Create(View view) {
 		createTab = new Tab("Create Creation");
@@ -66,8 +65,7 @@ public class Create {
 		}
 		
 		ChoiceBox<String> voiceCB = new ChoiceBox<String>();
-
-		voiceCB.getItems().addAll("voice_kal_diphone", "voice_akl_nz_jdt_diphone", "voice_akl_nz_cw_cg_cg");
+		voiceCB.getItems().addAll("voice one", "voice two", "voice 3");
 
 		Button previewBtn = new Button("Preview");
 		Button saveBtn = new Button("Save");
@@ -258,22 +256,10 @@ public class Create {
 						numberTxt = numberTxt +1;
 						//ask user for the setting??
 
-						
-						if(voiceCB.getValue() != null) {
 
-							voice = voiceCB.getValue().toString();
-							createText(selectedPart);
+						createText(selectedPart);
 
-							audioCreation();
-						}					
-						else {
-							//set default voice as kal diphone
-							voice = "voice_kal_diphone";
-							createText(selectedPart);
-
-							audioCreation();
-						}					
-
+						audioCreation();
 					}
 
 
@@ -380,7 +366,7 @@ public class Create {
 			@Override
 			protected File call() throws Exception {
 				try {
-					String cmd = "text2wave -o " + audio + " " + text+ " -eval \"("+voice+")\"";
+					String cmd = "text2wave -o " + audio + " " + text;
 					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
@@ -427,24 +413,11 @@ public class Create {
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
 
-
-
+					
+					
 					VideoCreation vc = new VideoCreation();
 					vc.createVideo(term, numOfImages,name);
 
-					/*					String video = "\"Video" + File.separatorChar + term + ".mp4\"";
-					cmd = "ffmpeg -f lavfi -i color=c=blue:s=320x240:d=5 -t `soxi -D " + audio + "` -vf "
-							+ "\"drawtext=FreeSerif.ttf:fontsize=30: fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text=" 
-							+ term + "\" -y " + video;
-					pb = new ProcessBuilder("bash", "-c", cmd);
-					Process videoProcess = pb.start();
-					videoProcess.waitFor();
-
-					String creation = "\"Creations" + File.separatorChar + name + ".mp4\"";
-					cmd = "ffmpeg -i " + video + " -i " + audio + " -c:v copy -c:a aac -strict experimental "+ creation;
-					pb = new ProcessBuilder("bash", "-c", cmd);
-					Process creationProcess = pb.start();
-					creationProcess.waitFor();*/
 
 
 				} catch (IOException e) {
