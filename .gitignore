@@ -23,6 +23,15 @@
 hs_err_pid*
 
 # Generated directories
+<<<<<<< HEAD
 Wiki_Speak_GUI/Creations/*
 Wiki_Speak_GUI/Audio/*
 Wiki_Speak_GUI/Video/*
+=======
+/Creations/*
+/Audio/*
+/Video/*
+
+# Downloaded images
+*.jpg
+>>>>>>> 720846727057577a6d68c39b3a63c7c6ce55e072
