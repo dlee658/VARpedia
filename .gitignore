@@ -23,6 +23,6 @@
 hs_err_pid*
 
 # Generated directories
-/Creations/*
-/Audio/*
-/Video/*
+Wiki_Speak_GUI/Creations/*
+Wiki_Speak_GUI/Audio/*
+Wiki_Speak_GUI/Video/*

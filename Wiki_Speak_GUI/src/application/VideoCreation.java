@@ -94,9 +94,10 @@ public class VideoCreation {
 		String creation = "\"Creations" + File.separatorChar + name + ".mp4\"";
 
 		try {
-			retrieveImages(term, 5);
-			String cmd = "ffmpeg -y -r `ls "+term+"*.jpg | wc -l`/`soxi -D " + audio + "` -i " + term + "%02d.jpg -vf \"scale=1024:720:force_original_aspect_ratio=decrease,pad=1024:720:(ow-iw)/2:(oh-ih)/2,drawtext=FreeSerif.ttf:fontsize=50: "
-					+ "fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text="+term+"\" -c:v libx264 -pix_fmt yuv420p " + video + ";ffmpeg -i " + video + " -i " + audio + " -c:v copy -c:a aac -strict experimental "+ creation;
+			retrieveImages(term, numOfImages);
+			String cmd = "ffmpeg -y -r `ls "+term+"*.jpg | wc -l`/`soxi -D " + audio + "` -i " + term + "%02d.jpg -vf \"scale=1024:720:force_original_aspect_ratio=decrease,"
+					+ "pad=1024:720:(ow-iw)/2:(oh-ih)/2,drawtext=FreeSerif.ttf:fontsize=50: fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text=" + term + "\" -c:v libx264 "
+							+ "-pix_fmt yuv420p " + video + ";ffmpeg -i " + video + " -i " + audio + " -c:v copy -c:a aac -strict experimental "+ creation + "; rm "+term+ "*.jpg";
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 			Process creationProcess = pb.start();
 
