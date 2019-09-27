@@ -30,8 +30,12 @@ public class Create {
 
 	private Tab createTab;
 	private String term;
-	private int sentenceCount;
+//	private int sentenceCount;
 	private View _view;
+<<<<<<< HEAD
+=======
+	private int numberTxt = 0;
+>>>>>>> selectParts
 	protected int numOfImages;
 
 	public Create(View view) {
@@ -45,26 +49,43 @@ public class Create {
 		TextField searchField = new TextField(); 
 		searchField.setPromptText("Enter search term:");
 		Button searchBtn = new Button("Search");
+
 		HBox searchHB = new HBox(5,searchField,searchBtn); 
 		searchHB.setPadding(new Insets(10));
-		TextArea searchResult = new TextArea(); 
-		//searchResult.setEditable(false);
-		Label msg = new Label("Enter number of sentences you'll like in the creation:");
-		TextField sentenceField = new TextField(); 
-		sentenceField.setMaxWidth(50);
-		Button enterBtn = new Button("Enter");
+<<<<<<< HEAD
+
+=======
+		TextArea searchResult = new TextArea();
+/*		searchResult.prefWidthProperty().bind(<parentControl>.widthProperty());
+		searchResult.setText(term + " not found, please try again");*/
+//		 searchResult.setPrefWidth(100);
+	//	 searchResult.setPrefRowCount(50);
+	//	searchResult.setEditable(false);
+		Label msg = new Label("Select parts of the text:");
+		//TextField sentenceField = new TextField(); 
+		
+>>>>>>> selectParts
 		ChoiceBox cb = new ChoiceBox();
 		for (int i = 1;i<=10;i++) {
 			cb.getItems().add(i);
 		}
 		
+<<<<<<< HEAD
 		
-		HBox sentenceHB = new HBox(5,msg,sentenceField,enterBtn);
+
+
+=======
+		//sentenceField.setMaxWidth(50);
+		
+		
+		Button previewBtn = new Button("Preview");
+		Button saveBtn = new Button("Save");
+		Button nextBtn = new Button("Next");
+		HBox sentenceHB = new HBox(5,msg,previewBtn,saveBtn,nextBtn);
 		sentenceHB.setPadding(new Insets(10));
 		sentenceHB.setDisable(true);
-		
 		VBox vb = new VBox(sentenceHB,cb);
-
+>>>>>>> selectParts
 		createPane.setTop(searchHB);
 		createPane.setCenter(searchResult);
 		createPane.setBottom(vb);
@@ -73,7 +94,7 @@ public class Create {
 			@Override
 			public void handle(ActionEvent event) {
 				sentenceHB.getChildren().clear();
-				sentenceHB.getChildren().addAll(msg,sentenceField,enterBtn);
+				sentenceHB.getChildren().addAll(msg,previewBtn, saveBtn,nextBtn);
 				term = searchField.getText().trim();
 
 				if (term.isEmpty()) {
@@ -82,7 +103,7 @@ public class Create {
 					return;
 				}
 				
-				searchBtn.setDisable(true);
+			searchBtn.setDisable(true);
 				getSearchResult();
 
 			}
@@ -90,7 +111,12 @@ public class Create {
 			private void getSearchResult() {
 				String command = "wikit " + term + " | sed 's/\\. /&\\n/g'";
 				ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
+				
+				
 				File text = new File("Audio" + File.separatorChar + "audio_text.txt");
+				
+				
+				
 				pb.redirectOutput(text);
 
 				ExecutorService worker = Executors.newSingleThreadExecutor(); 
@@ -123,12 +149,12 @@ public class Create {
 								sentenceHB.setDisable(true);
 
 							} else {
-								int count = 1;
-								searchResult.setText(count + ". " + line);
+							//	int count = 1;
+					//			searchResult.setText(count + ". " + line);
 								while ((line = reader.readLine()) != null ) {
-									count++;
-									searchResult.appendText("\n" + count  + ". " + line);
-									sentenceCount = count;
+					//				count++;
+									searchResult.appendText(line);
+		//							sentenceCount = count;
 									sentenceHB.setDisable(false);
 								}
 								reader.close();
@@ -144,11 +170,104 @@ public class Create {
 				});
 			}
 		});
-
-		enterBtn.setOnAction(new EventHandler<ActionEvent>() {
+		//button for next
+		nextBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				int numSentence = Integer.parseInt(sentenceField.getText());
+				
+				if(numberTxt>0) {
+				numOfImages = Integer.parseUnsignedInt(cb.getValue().toString());
+				createTab.setContent(creationPane());			
+				}
+				else {
+					Label warningMsg = new Label("Save something, try again");
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);					
+				}
+			
+			}
+			});
+		//button for Preview
+		previewBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				String selectedPart = searchResult.getSelectedText();		
+				if (selectedPart.length() == 0) {
+					Label warningMsg = new Label("Select something, try again");
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);								
+				}
+				else if (selectedPart.length() > 150) {
+					Label warningMsg = new Label("Too long, try again");
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
+				}
+				else {
+		//preview the selectedpart
+					
+					
+					ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo "+selectedPart+ " | festival --tts");
+                    try {
+						pb.start();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);		
+				}
+			
+			}
+			});
+		//change to save
+		saveBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				String selectedPart = searchResult.getSelectedText();
+/*				
+				ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo " + selectedPart + " | wc -w");
+                try {
+					pb.start();
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	*/	
+				
+				if (selectedPart == null) {
+					Label warningMsg = new Label("Select something, try again");
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);					
+				} 
+				else if (selectedPart.length() == 0) {
+					Label warningMsg = new Label("Select something, try again");
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);								
+				}
+				else if (selectedPart.length() > 150) {
+					Label warningMsg = new Label("Too long, try again");
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
+				}
+				else {
+					numberTxt = numberTxt +1;
+					//ask user for the setting??
+					
+					createText(selectedPart);
+					
+					audioCreation();
+					
+					
+					
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);			
+
+					
+					
+					
+				}
+				/*int numSentence = Integer.parseInt(sentenceField.getText());
 				if (numSentence > 0 && numSentence <= sentenceCount) {
 					createText(numSentence);
 					numOfImages = Integer.parseUnsignedInt(cb.getValue().toString());
@@ -156,20 +275,39 @@ public class Create {
 				} else {
 					Label warningMsg = new Label("Invalid number,try again");
 					sentenceHB.getChildren().clear();
-					sentenceHB.getChildren().addAll(msg,sentenceField,enterBtn,warningMsg);
-				}
+					sentenceHB.getChildren().addAll(msg,previewBtn,warningMsg);}*/
+				
 			}
 		});
 
 		return createPane;
 
 	}
+	
 
 
-	protected void createText(int numSentence) {
-		String cmd = "echo `head -" + numSentence + " \"Audio" + File.separatorChar + "audio_text.txt\"`";
+
+	/*
+	 * protected void createText(int numSentence) { String cmd = "echo `head -" +
+	 * numSentence + " \"Audio" + File.separatorChar + "audio_text.txt\"`";
+	 * ProcessBuilder pb = new ProcessBuilder("bash","-c",cmd);
+	 * pb.redirectOutput(new File("Audio" + File.separatorChar + term + ".txt"));
+	 * try { Process process = pb.start(); process.waitFor();
+	 * 
+	 * } catch(Exception e) {
+	 * 
+	 * }
+	 * 
+	 * }
+	 */
+
+	protected void createText(String selectedText) {
+		String cmd = "echo " + selectedText;
 		ProcessBuilder pb = new ProcessBuilder("bash","-c",cmd);
-		pb.redirectOutput(new File("Audio" + File.separatorChar + term + ".txt"));
+		pb.redirectOutput(new File("Audio" + File.separatorChar + term +numberTxt+ ".txt"));
+		
+
+		
 		try {
 			Process process = pb.start();
 			process.waitFor();
@@ -180,7 +318,7 @@ public class Create {
 		}
 
 	}
-
+	
 	public Pane creationPane() {
 		BorderPane creationPane = new BorderPane();
 		TextField nameField = new TextField(); 
@@ -220,10 +358,15 @@ public class Create {
 		return creationPane;
 	}
 
-	protected void createCreation(String name) {
+	
+	//another method is required to combine all the audios
+	
+	
+	//this needs to be implemented!! for the change synthetic speech setting with festival
+	protected void audioCreation() {
 
-		String audio = "\"Audio" + File.separatorChar + term + ".wav\"";
-		String text = "\"Audio" + File.separatorChar + term + ".txt\"";
+		String audio = "\"Audio" + File.separatorChar + term +numberTxt+ ".wav\"";
+		String text = "\"Audio" + File.separatorChar + term + numberTxt+".txt\"";
 
 
 		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
@@ -236,9 +379,71 @@ public class Create {
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
 
+					
+					
+					
+					
+					
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				return null;	
+			}
+		};
+		createWorker.submit(task);
+		task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent event) {
+
+				//createTab.setContent(defaultPane());
+			}	
+		});
+
+	}
+	
+	//***************
+	protected void createCreation(String name) {
+
+		String audio = "\"Audio" + File.separatorChar + term +numberTxt+ ".wav\"";
+		String text = "\"Audio" + File.separatorChar + term + numberTxt+".txt\"";
+
+
+		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
+		Task<File> task = new Task<File>() {
+			@Override
+			protected File call() throws Exception {
+				try {
+					String cmd = "text2wave -o " + audio + " " + text;
+					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
+					Process audioProcess = pb.start();
+					audioProcess.waitFor();
+
+<<<<<<< HEAD
+
+					
+=======
+					
 					VideoCreation vc = new VideoCreation();
 					vc.createVideo(term, numOfImages,name);
 					
+/*					String video = "\"Video" + File.separatorChar + term + ".mp4\"";
+					cmd = "ffmpeg -f lavfi -i color=c=blue:s=320x240:d=5 -t `soxi -D " + audio + "` -vf "
+							+ "\"drawtext=FreeSerif.ttf:fontsize=30: fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text=" 
+							+ term + "\" -y " + video;
+					pb = new ProcessBuilder("bash", "-c", cmd);
+					Process videoProcess = pb.start();
+					videoProcess.waitFor();
+
+					String creation = "\"Creations" + File.separatorChar + name + ".mp4\"";
+					cmd = "ffmpeg -i " + video + " -i " + audio + " -c:v copy -c:a aac -strict experimental "+ creation;
+					pb = new ProcessBuilder("bash", "-c", cmd);
+					Process creationProcess = pb.start();
+					creationProcess.waitFor();*/
+
+>>>>>>> selectParts
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (InterruptedException e) {
@@ -262,7 +467,12 @@ public class Create {
 			}	
 		});
 	}
-
+//????************************
+	
+	
+	
+	
+	
 	protected boolean isValidName(String name) {
 		File file = new File("Creations" + File.separatorChar + name + ".mp4");
 		if(file.exists()) {

@@ -26,6 +26,10 @@ hs_err_pid*
 /Creations/*
 /Audio/*
 /Video/*
+<<<<<<< HEAD
 
 # Downloaded images
 *.jpg
+=======
+/.metadata/
+>>>>>>> selectParts
