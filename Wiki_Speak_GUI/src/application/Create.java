@@ -176,8 +176,17 @@ public class Create {
 			public void handle(ActionEvent event) {
 				
 				if(numberTxt>0) {
-				numOfImages = Integer.parseUnsignedInt(cb.getValue().toString());
-				createTab.setContent(creationPane());			
+					if(cb.getValue() != null) {
+						numOfImages = Integer.parseUnsignedInt(cb.getValue().toString());
+						createTab.setContent(creationPane());						
+					}
+					else {
+						Label warningMsg = new Label("Choose number of images, try again");
+						sentenceHB.getChildren().clear();
+						sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);		
+					}
+					//nullpointerexception
+		
 				}
 				else {
 					Label warningMsg = new Label("Save something, try again");
