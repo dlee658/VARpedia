@@ -3,6 +3,8 @@ package application;
 import java.io.File;
 import java.io.IOException;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,6 +15,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class VideoPlayer {
 
@@ -36,14 +39,32 @@ public class VideoPlayer {
 		vb.getChildren().addAll(mediaView,controls);
 		//mediaPane.setBottom(controls);
 		
-		Button backBtn = new Button("Back");
-		mediaPane.setTop(backBtn);
+		//Button backBtn = new Button("Back");
+		//mediaPane.setTop(backBtn);
 		mediaPane.setCenter(vb);
-		mediaPane.setPadding(new Insets(10));
+		//mediaPane.setPadding(new Insets(10));
+	
 		
 		videoPlayer.setScene(new Scene(mediaPane));
 		videoPlayer.show();
-		//player.setOnEndOfMedia(new EventHandler<>());
+		
+
+		videoPlayer.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				player.stop();
+			}
+		});
+		
+		player.setOnEndOfMedia(new Runnable() {
+			@Override
+			public void run() {
+				videoPlayer.close();
+				
+			}
+			
+		});
+		
 	}
 
 }
