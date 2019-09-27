@@ -15,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
@@ -23,6 +24,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 public class Create {
 
@@ -31,6 +33,7 @@ public class Create {
 //	private int sentenceCount;
 	private View _view;
 	private int numberTxt = 0;
+	protected int numOfImages;
 
 	public Create(View view) {
 		createTab = new Tab("Create Creation");
@@ -55,7 +58,10 @@ public class Create {
 		Label msg = new Label("Select parts of the text:");
 		//TextField sentenceField = new TextField(); 
 		
-		
+		ChoiceBox cb = new ChoiceBox();
+		for (int i = 1;i<=10;i++) {
+			cb.getItems().add(i);
+		}
 		
 		//sentenceField.setMaxWidth(50);
 		
@@ -66,10 +72,10 @@ public class Create {
 		HBox sentenceHB = new HBox(5,msg,previewBtn,saveBtn,nextBtn);
 		sentenceHB.setPadding(new Insets(10));
 		sentenceHB.setDisable(true);
-
+		VBox vb = new VBox(sentenceHB,cb);
 		createPane.setTop(searchHB);
 		createPane.setCenter(searchResult);
-		createPane.setBottom(sentenceHB);
+		createPane.setBottom(vb);
 
 		searchBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -157,6 +163,7 @@ public class Create {
 			public void handle(ActionEvent event) {
 				
 				if(numberTxt>0) {
+				numOfImages = Integer.parseUnsignedInt(cb.getValue().toString());
 				createTab.setContent(creationPane());			
 				}
 				else {
@@ -358,6 +365,12 @@ public class Create {
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
 
+					
+					
+					
+					
+					
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (InterruptedException e) {
@@ -394,7 +407,11 @@ public class Create {
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
 
-					String video = "\"Video" + File.separatorChar + term + ".mp4\"";
+					
+					VideoCreation vc = new VideoCreation();
+					vc.createVideo(term, numOfImages,name);
+					
+/*					String video = "\"Video" + File.separatorChar + term + ".mp4\"";
 					cmd = "ffmpeg -f lavfi -i color=c=blue:s=320x240:d=5 -t `soxi -D " + audio + "` -vf "
 							+ "\"drawtext=FreeSerif.ttf:fontsize=30: fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text=" 
 							+ term + "\" -y " + video;
@@ -406,7 +423,7 @@ public class Create {
 					cmd = "ffmpeg -i " + video + " -i " + audio + " -c:v copy -c:a aac -strict experimental "+ creation;
 					pb = new ProcessBuilder("bash", "-c", cmd);
 					Process creationProcess = pb.start();
-					creationProcess.waitFor();
+					creationProcess.waitFor();*/
 
 				} catch (IOException e) {
 					e.printStackTrace();
