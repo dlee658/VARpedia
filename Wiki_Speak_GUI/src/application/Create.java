@@ -59,10 +59,13 @@ public class Create {
 		Label msg = new Label("Select parts of the text:");
 
 
-		ChoiceBox cb = new ChoiceBox();
+		ChoiceBox imageCB = new ChoiceBox();
 		for (int i = 1;i<=10;i++) {
-			cb.getItems().add(i);
+			imageCB.getItems().add(i);
 		}
+		
+		ChoiceBox<String> voiceCB = new ChoiceBox<String>();
+		voiceCB.getItems().addAll("voice one", "voice two", "voice 3");
 
 		Button previewBtn = new Button("Preview");
 		Button saveBtn = new Button("Save");
@@ -70,7 +73,7 @@ public class Create {
 		HBox sentenceHB = new HBox(5,msg,previewBtn,saveBtn,nextBtn);
 		sentenceHB.setPadding(new Insets(10));
 		sentenceHB.setDisable(true);
-		VBox vb = new VBox(sentenceHB,cb);
+		VBox vb = new VBox(sentenceHB,imageCB, voiceCB);
 
 		createPane.setTop(searchHB);
 		createPane.setCenter(searchResult);
@@ -161,8 +164,8 @@ public class Create {
 			public void handle(ActionEvent event) {
 
 				if(numberTxt>0) {
-					if(cb.getValue() != null) {
-						numOfImages = Integer.parseUnsignedInt(cb.getValue().toString());
+					if(imageCB.getValue() != null) {
+						numOfImages = Integer.parseUnsignedInt(imageCB.getValue().toString());
 						createTab.setContent(creationPane());						
 					}
 					else {
