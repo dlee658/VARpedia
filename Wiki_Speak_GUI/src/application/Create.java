@@ -378,7 +378,7 @@ public class Create {
 			@Override
 			protected File call() throws Exception {
 				try {
-					String cmd = "text2wave -o " + audio + " " + text + " -eval \n("+voice+")\"";
+					String cmd = "text2wave -o " + audio + " " + text + " -eval \"("+voice+")\"";
 					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
@@ -411,16 +411,17 @@ public class Create {
 	//***************
 	protected void createCreation(String name) {
 
-		String audio = "\"Audio" + File.separatorChar + term +numberTxt+ ".wav\"";
-		String text = "\"Audio" + File.separatorChar + term + numberTxt+".txt\"";
+		String dir = "\"Audio" + File.separatorChar + term +"*.wav\"";
+		String audio = "\"Audio" + File.separatorChar + term +".wav\"";
+
 
 
 		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
 		Task<File> task = new Task<File>() {
 			@Override
 			protected File call() throws Exception {
-				try {
-					String cmd = "text2wave -o " + audio + " " + text;
+				try { 
+					String cmd = "ffmpeg -f concat -safe 0 -i <(for f in " + dir + "; do echo \"file '$PWD/$f'\"; done) -c copy " + audio;
 					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
