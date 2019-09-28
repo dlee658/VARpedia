@@ -80,6 +80,7 @@ public class Create {
 		searchBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
+				numberTxt = 0;
 				sentenceHB.getChildren().clear();
 				sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);
 				term = searchField.getText().trim();
