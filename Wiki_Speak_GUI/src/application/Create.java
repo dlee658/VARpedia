@@ -64,6 +64,7 @@ public class Create {
 			imageCB.getItems().add(i);
 		}
 		*/
+		Label voiceLabel = new Label("Voice: ");
 		
 		ChoiceBox<String> voiceCB = new ChoiceBox<String>();
 		voiceCB.setValue("voice_kal_diphone");
@@ -75,7 +76,8 @@ public class Create {
 		HBox sentenceHB = new HBox(5,msg,previewBtn,saveBtn,nextBtn);
 		sentenceHB.setPadding(new Insets(10));
 		sentenceHB.setDisable(true);
-		VBox vb = new VBox(sentenceHB, voiceCB);
+		HBox voiceS = new HBox(voiceLabel,voiceCB);
+		VBox vb = new VBox(voiceS, sentenceHB);
 
 		createPane.setTop(searchHB);
 		createPane.setCenter(searchResult);
