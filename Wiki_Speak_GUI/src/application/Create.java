@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -15,6 +16,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -329,7 +331,24 @@ sentenceHB.getChildren().clear();
 		backBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				createTab.setContent(defaultPane());
+				
+				
+				
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Back");
+				alert.setHeaderText(null);
+				alert.setContentText("All the saved files going to be deleted");
+
+
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.OK){
+					createTab.setContent(defaultPane());
+				} else {
+				    // ... user chose CANCEL or closed the dialog
+				}
+				
+				
+
 			}
 		});
 
