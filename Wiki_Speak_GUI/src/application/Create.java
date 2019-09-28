@@ -187,13 +187,15 @@ public class Create {
 		previewBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				String selectedPart = searchResult.getSelectedText();		
+				String selectedPart = searchResult.getSelectedText();
 				int wordCount = selectedPart.split("\\s+").length;
-				if (wordCount == 0) {
+				if (selectedPart.isEmpty()) {
 					Label warningMsg = new Label("Select something, try again");
 					sentenceHB.getChildren().clear();
-					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);								
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);						
 				}
+
+				
 
 				else if (wordCount > 20) { 
 					Label warningMsg = new Label("Too long, try again");
@@ -233,19 +235,15 @@ sentenceHB.getChildren().clear();
 					e.printStackTrace();
 				}	*/	
 
-				if (selectedPart == null) {
+				if (selectedPart.isEmpty()) {
 					Label warningMsg = new Label("Select something, try again");
 					sentenceHB.getChildren().clear();
 					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);					
 				} 
 				else {
 					int wordCount = selectedPart.split("\\s+").length;
-					if (wordCount == 0) {
-						Label warningMsg = new Label("Select something, try again");
-						sentenceHB.getChildren().clear();
-						sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);								
-					}
-					else if (wordCount > 20) {
+
+					 if (wordCount > 20) {
 						Label warningMsg = new Label("Too long, try again");
 						sentenceHB.getChildren().clear();
 						sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
@@ -347,6 +345,7 @@ sentenceHB.getChildren().clear();
 
 		String audio = "\"Audio" + File.separatorChar + term +numberTxt+ ".wav\"";
 		String text = "\"Audio" + File.separatorChar + term + numberTxt+".txt\"";
+		
 
 
 		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
@@ -354,7 +353,29 @@ sentenceHB.getChildren().clear();
 			@Override
 			protected File call() throws Exception {
 				try {
-					String cmd = "text2wave -o " + audio + " " + text + " -eval \"("+voice+")\"";
+
+					String voiceFile;
+					String cmd;
+				
+					if(voice.equals("voice_kal_diphone")) {
+						 voiceFile = "\"Voice" + File.separatorChar + "kal.scm\"";
+				//	 cmd = "text2wave -o " + audio + " " + text + " -eval kal.scm";
+					}
+					else if(voice.equals("voice_akl_nz_jdt_diphone")) {
+						 voiceFile = "\"Voice" + File.separatorChar + "jdt.scm\"";
+				//		 cmd = "text2wave -o " + audio + " " + text + " -eval jdt.scm";					
+					}
+					else if(voice.equals("voice_akl_nz_cw_cg_cg")) {
+						 voiceFile = "\"Voice" + File.separatorChar + "cw.scm\"";
+				//		 cmd = "text2wave -o " + audio + " " + text + " -eval cw.scm";					
+					}				
+					else {
+						 voiceFile = "\"Voice" + File.separatorChar + "kal.scm\"";
+					//	cmd = "text2wave -o " + audio + " " + text + " -eval kal.scm";						
+					}
+					
+					cmd = "text2wave -o " + audio + " " + text + " -eval "+voiceFile;					
+
 					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
