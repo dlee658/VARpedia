@@ -57,12 +57,13 @@ public class Create {
 
 		Label msg = new Label("Select parts of the text:");
 
-
+/*
 		ChoiceBox<Integer> imageCB = new ChoiceBox<Integer>();
 		imageCB.setValue(1);
 		for (int i = 1;i<=10;i++) {
 			imageCB.getItems().add(i);
 		}
+		*/
 		
 		ChoiceBox<String> voiceCB = new ChoiceBox<String>();
 		voiceCB.setValue("voice_kal_diphone");
@@ -74,7 +75,7 @@ public class Create {
 		HBox sentenceHB = new HBox(5,msg,previewBtn,saveBtn,nextBtn);
 		sentenceHB.setPadding(new Insets(10));
 		sentenceHB.setDisable(true);
-		VBox vb = new VBox(sentenceHB,imageCB, voiceCB);
+		VBox vb = new VBox(sentenceHB, voiceCB);
 
 		createPane.setTop(searchHB);
 		createPane.setCenter(searchResult);
@@ -181,15 +182,15 @@ public class Create {
 			public void handle(ActionEvent event) {
 
 				if(numberTxt>0) {
-					if(imageCB.getValue() != null) {
-						numOfImages = Integer.parseUnsignedInt(imageCB.getValue().toString());
+			//		if(imageCB.getValue() != null) {
+		//				numOfImages = Integer.parseUnsignedInt(imageCB.getValue().toString());
 						createTab.setContent(creationPane());						
-					}
-					else {
+			//		}
+			/*		else {
 						Label warningMsg = new Label("Choose number of images, try again");
 						sentenceHB.getChildren().clear();
 						sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);		
-					}
+					}*/
 					//nullpointerexception
 				}
 				else {
@@ -319,17 +320,28 @@ sentenceHB.getChildren().clear();
 	}
 
 	public Pane creationPane() {
+		
+		ChoiceBox<Integer> imageCB = new ChoiceBox<Integer>();
+		imageCB.setValue(1);
+		for (int i = 1;i<=10;i++) {
+			imageCB.getItems().add(i);
+		}
+		
 		BorderPane creationPane = new BorderPane();
 		TextField nameField = new TextField(); 
 		Label nameLabel = new Label("Enter name of your new creation:");
+		Label selectNum = new Label("Select number of images: ");
+		HBox topHB = new HBox(5,selectNum,imageCB);
 		Button createBtn = new Button("Create!");
+		topHB.setPadding(new Insets(10));
 		HBox createHB = new HBox(5,nameLabel,nameField,createBtn); 
 		createHB.setPadding(new Insets(10));
 		Button backBtn = new Button("Back");
 		HBox backHB = new HBox(backBtn);
 		backHB.setPadding(new Insets(10));
 
-		creationPane.setTop(createHB);
+		creationPane.setTop(topHB);
+		creationPane.setCenter(createHB);
 		creationPane.setBottom(backHB);
 
 		backBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -359,6 +371,7 @@ sentenceHB.getChildren().clear();
 		createBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
+				numOfImages = Integer.parseUnsignedInt(imageCB.getValue().toString());
 				String name = nameField.getText();
 				if(isValidName(name)) {
 					createCreation(name);
@@ -440,6 +453,7 @@ sentenceHB.getChildren().clear();
 		//String dir = "Audio" + File.separatorChar + term + "+([[:digit:]]).wav";
 		String audio = "\"Audio" + File.separatorChar + term +".wav\"";
 
+		
 
 
 		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
