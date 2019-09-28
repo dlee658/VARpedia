@@ -77,6 +77,7 @@ public class Create {
 		sentenceHB.setPadding(new Insets(10));
 		sentenceHB.setDisable(true);
 		HBox voiceS = new HBox(voiceLabel,voiceCB);
+		voiceS.setPadding(new Insets(10));
 		VBox vb = new VBox(voiceS, sentenceHB);
 
 		createPane.setTop(searchHB);
