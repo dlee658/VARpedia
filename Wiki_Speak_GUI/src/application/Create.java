@@ -224,7 +224,7 @@ sentenceHB.getChildren().clear();
 			@Override
 			public void handle(ActionEvent event) {
 				String selectedPart = searchResult.getSelectedText();
-
+				int wordCount = selectedPart.split("\\s+").length;
 				/*				
 				ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo " + selectedPart + " | wc -w");
                 try {
@@ -240,19 +240,15 @@ sentenceHB.getChildren().clear();
 					sentenceHB.getChildren().clear();
 					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);					
 				} 
+				else if (wordCount > 20) {
+					Label warningMsg = new Label("Too long, try again");
+					sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
+				}
 				else {
-					int wordCount = selectedPart.split("\\s+").length;
 
-					 if (wordCount > 20) {
-						Label warningMsg = new Label("Too long, try again");
-						sentenceHB.getChildren().clear();
-						sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
-					}
-					else {
 						numberTxt = numberTxt +1;
 						//ask user for the setting??
-
-
 						if(voiceCB.getValue() != null) {
 
 							voice = voiceCB.getValue().toString();
@@ -266,7 +262,7 @@ sentenceHB.getChildren().clear();
 							createText(selectedPart);
 
 							audioCreation();
-						}		
+						
 					}
 
 
