@@ -65,6 +65,7 @@ public class Create {
 		}
 		
 		ChoiceBox<String> voiceCB = new ChoiceBox<String>();
+		voiceCB.setValue("voice_kal_diphone");
 		voiceCB.getItems().addAll("voice_kal_diphone", "voice_akl_nz_jdt_diphone", "voice_akl_nz_cw_cg_cg");
 
 		Button previewBtn = new Button("Preview");
