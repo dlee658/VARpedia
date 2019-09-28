@@ -190,13 +190,15 @@ public class Create {
 		previewBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				String selectedPart = searchResult.getSelectedText();		
+				String selectedPart = searchResult.getSelectedText();
 				int wordCount = selectedPart.split("\\s+").length;
-				if (wordCount == 0) {
+				if (selectedPart.isEmpty()) {
 					Label warningMsg = new Label("Select something, try again");
 					sentenceHB.getChildren().clear();
-					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);								
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);						
 				}
+
+				
 
 				else if (wordCount > 20) { 
 					Label warningMsg = new Label("Too long, try again");
@@ -236,19 +238,15 @@ public class Create {
 					e.printStackTrace();
 				}	*/	
 
-				if (selectedPart == null) {
+				if (selectedPart.isEmpty()) {
 					Label warningMsg = new Label("Select something, try again");
 					sentenceHB.getChildren().clear();
 					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);					
 				} 
 				else {
 					int wordCount = selectedPart.split("\\s+").length;
-					if (wordCount == 0) {
-						Label warningMsg = new Label("Select something, try again");
-						sentenceHB.getChildren().clear();
-						sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);								
-					}
-					else if (wordCount > 20) {
+
+					 if (wordCount > 20) {
 						Label warningMsg = new Label("Too long, try again");
 						sentenceHB.getChildren().clear();
 						sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
@@ -379,7 +377,7 @@ public class Create {
 			@Override
 			protected File call() throws Exception {
 				try {
-<<<<<<< HEAD
+
 					String voiceFile;
 					String cmd;
 				
@@ -401,9 +399,7 @@ public class Create {
 					}
 					
 					cmd = "text2wave -o " + audio + " " + text + " -eval "+voiceFile;					
-=======
 
->>>>>>> 78e3fe9e52f63c9c257db95ae469d4b4afb9b482
 					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
