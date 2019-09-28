@@ -80,6 +80,21 @@ public class Create {
 		searchBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
+				
+				String command = "rm Audio/*.txt; rm  Audio/*.wav";
+				ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);			
+				try {
+					Process searchProcess = pb.start(); 
+					searchProcess.waitFor();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
 				numberTxt = 0;
 				sentenceHB.getChildren().clear();
 				sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);
