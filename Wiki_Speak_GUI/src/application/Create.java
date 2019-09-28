@@ -411,7 +411,7 @@ public class Create {
 	//***************
 	protected void createCreation(String name) {
 
-		String dir = "\"Audio" + File.separatorChar + term +"*.wav\"";
+		String dir = "\"Audio" + File.separatorChar + term + "+([[:digit:]]).wav\"";
 		String audio = "\"Audio" + File.separatorChar + term +".wav\"";
 
 
@@ -421,7 +421,7 @@ public class Create {
 			@Override
 			protected File call() throws Exception {
 				try { 
-					String cmd = "ffmpeg -f concat -safe 0 -i <(for f in " + dir + "; do echo \"file '$PWD/$f'\"; done) -c copy " + audio;
+					String cmd = " for f in" + dir + "; do echo \"file '$f'\" >> mylist.txt ; done ; ffmpeg -safe 0 -y -f concat -i mylist.txt -c copy " + audio+ "; rm mylist.txt";
 					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
