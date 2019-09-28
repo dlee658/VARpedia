@@ -207,7 +207,9 @@ public class Create {
 			@Override
 			public void handle(ActionEvent event) {
 				String selectedPart = searchResult.getSelectedText();
+		//		System.out.println(selectedPart);
 				int wordCount = selectedPart.split("\\s+").length;
+			//	System.out.println(selectedPart);
 				if (selectedPart.isEmpty()) {
 					Label warningMsg = new Label("Select something, try again");
 					sentenceHB.getChildren().clear();
@@ -223,7 +225,8 @@ public class Create {
 				}
 				else {
 					//preview the selected part
-					ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo "+selectedPart+ " | festival --tts");
+					ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo \""+selectedPart+ "\" | festival --tts");
+					System.out.println(selectedPart);
 					try {
 						pb.start();
 					} catch (IOException e) {
@@ -300,7 +303,7 @@ sentenceHB.getChildren().clear();
 	}
 
 	protected void createText(String selectedText) {
-		String cmd = "echo " + selectedText;
+		String cmd = "echo \"" + selectedText + "\"";
 		ProcessBuilder pb = new ProcessBuilder("bash","-c",cmd);
 		pb.redirectOutput(new File("Audio" + File.separatorChar + term +numberTxt+ ".txt"));
 
