@@ -52,15 +52,12 @@ public class Create {
 		searchHB.setPadding(new Insets(10));
 		TextArea searchResult = new TextArea();
 		searchResult.setWrapText(true);
-		//		searchResult.prefWidthProperty().bind(<parentControl>.widthProperty());
-		//	searchResult.setText(term + " not found, please try again");
-		//		 searchResult.setPrefWidth(100);
-		//	 searchResult.setPrefRowCount(50);
-		//	searchResult.setEditable(false);
+
 		Label msg = new Label("Select parts of the text:");
 
 
-		ChoiceBox imageCB = new ChoiceBox();
+		ChoiceBox<Integer> imageCB = new ChoiceBox<Integer>();
+		imageCB.setValue(1);
 		for (int i = 1;i<=10;i++) {
 			imageCB.getItems().add(i);
 		}
@@ -212,10 +209,10 @@ public class Create {
 						e.printStackTrace();
 					}
 
-					sentenceHB.getChildren().clear();
-					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);		
+						
 				}
-
+sentenceHB.getChildren().clear();
+					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);	
 			}
 		});
 
@@ -289,24 +286,6 @@ public class Create {
 
 	}
 
-
-
-
-	/*
-	 * protected void createText(int numSentence) { String cmd = "echo `head -" +
-	 * numSentence + " \"Audio" + File.separatorChar + "audio_text.txt\"`";
-	 * ProcessBuilder pb = new ProcessBuilder("bash","-c",cmd);
-	 * pb.redirectOutput(new File("Audio" + File.separatorChar + term + ".txt"));
-	 * try { Process process = pb.start(); process.waitFor();
-	 * 
-	 * } catch(Exception e) {
-	 * 
-	 * }
-	 * 
-	 * }
-	 */
-	
-
 	protected void createText(String selectedText) {
 		String cmd = "echo " + selectedText;
 		ProcessBuilder pb = new ProcessBuilder("bash","-c",cmd);
@@ -363,9 +342,6 @@ public class Create {
 	}
 
 
-	//another method is required to combine all the audios
-
-
 	//this needs to be implemented!! for the change synthetic speech setting with festival
 	protected void audioCreation() {
 
@@ -382,12 +358,6 @@ public class Create {
 					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
-
-
-
-
-
-
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -421,12 +391,11 @@ public class Create {
 			@Override
 			protected File call() throws Exception {
 				try { 
-					String cmd = " for f in" + dir + "; do echo \"file '$f'\" >> mylist.txt ; done ; ffmpeg -safe 0 -y -f concat -i mylist.txt -c copy " + audio+ "; rm mylist.txt";
+					String cmd = "for f in" + dir + "; do echo \"file '$f'\" >> mylist.txt ; done ; ffmpeg -safe 0 -y -f concat -i mylist.txt -c copy " + audio+ "; rm mylist.txt; rm " + dir;
 					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
 
-					
 					
 					VideoCreation vc = new VideoCreation();
 					vc.createVideo(term, numOfImages,name);
