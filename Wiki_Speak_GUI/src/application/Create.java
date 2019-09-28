@@ -434,7 +434,7 @@ sentenceHB.getChildren().clear();
 	//***************
 	protected void createCreation(String name) {
 
-		String dir = "\"Audio" + File.separatorChar + term + "+([[:digit:]]).wav\"";
+		//String dir = "Audio" + File.separatorChar + term + "+([[:digit:]]).wav";
 		String audio = "\"Audio" + File.separatorChar + term +".wav\"";
 
 
@@ -444,7 +444,10 @@ sentenceHB.getChildren().clear();
 			@Override
 			protected File call() throws Exception {
 				try { 
-					String cmd = "for f in" + dir + "; do echo \"file '$f'\" >> mylist.txt ; done ; ffmpeg -safe 0 -y -f concat -i mylist.txt -c copy " + audio+ "; rm mylist.txt; rm " + dir;
+					String cmd = "for f in Audio/*.wav; do echo \"file '$f'\" >> mylist.txt ; done ; ffmpeg -y -f concat -i mylist.txt -c copy " + audio + "; rm mylist.txt";
+					//for f in Audio/apple+([[:digit:]]).wav;do echo "file '$f'" >> mylist.txt ; done ; ffmpeg -y -f concat -i mylist.txt -c copy "Audio/apple.wav"; rm mylist.txt
+
+
 					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
