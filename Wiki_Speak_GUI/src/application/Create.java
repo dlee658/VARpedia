@@ -337,8 +337,8 @@ sentenceHB.getChildren().clear();
 				
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Back");
-				alert.setHeaderText(null);
-				alert.setContentText("All the saved files going to be deleted");
+				alert.setHeaderText("Are you sure you want to leave?");
+				alert.setContentText("Current creation will not be saved.");
 
 
 				Optional<ButtonType> result = alert.showAndWait();
