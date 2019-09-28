@@ -371,6 +371,7 @@ public class Create {
 
 		String audio = "\"Audio" + File.separatorChar + term +numberTxt+ ".wav\"";
 		String text = "\"Audio" + File.separatorChar + term + numberTxt+".txt\"";
+		
 
 
 		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
@@ -378,7 +379,27 @@ public class Create {
 			@Override
 			protected File call() throws Exception {
 				try {
-					String cmd = "text2wave -o " + audio + " " + text + " -eval \n("+voice+")\"";
+					String voiceFile;
+					String cmd;
+				
+					if(voice.equals("voice_kal_diphone")) {
+						 voiceFile = "\"Voice" + File.separatorChar + "kal.scm\"";
+				//	 cmd = "text2wave -o " + audio + " " + text + " -eval kal.scm";
+					}
+					else if(voice.equals("voice_akl_nz_jdt_diphone")) {
+						 voiceFile = "\"Voice" + File.separatorChar + "jdt.scm\"";
+				//		 cmd = "text2wave -o " + audio + " " + text + " -eval jdt.scm";					
+					}
+					else if(voice.equals("voice_akl_nz_cw_cg_cg")) {
+						 voiceFile = "\"Voice" + File.separatorChar + "cw.scm\"";
+				//		 cmd = "text2wave -o " + audio + " " + text + " -eval cw.scm";					
+					}				
+					else {
+						 voiceFile = "\"Voice" + File.separatorChar + "kal.scm\"";
+					//	cmd = "text2wave -o " + audio + " " + text + " -eval kal.scm";						
+					}
+					
+					cmd = "text2wave -o " + audio + " " + text + " -eval "+voiceFile;					
 					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
