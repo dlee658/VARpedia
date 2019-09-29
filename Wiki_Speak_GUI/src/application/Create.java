@@ -37,7 +37,7 @@ public class Create {
 	private View _view;
 	private int numberTxt = 0;
 	private String voice;
-	
+
 	public Create(View view) {
 		createTab = new Tab("Create Creation");
 		createTab.setContent(defaultPane());
@@ -58,7 +58,7 @@ public class Create {
 		Label msg = new Label("Highlight text to:");
 
 		Label voiceLabel = new Label("Select voice: ");
-		
+
 		ChoiceBox<String> voiceCB = new ChoiceBox<String>();
 		voiceCB.setValue("Male");
 		voiceCB.getItems().addAll("Male", "NZ Guy", "Posh Lady");
@@ -66,27 +66,33 @@ public class Create {
 		Button previewBtn = new Button("Preview");
 		Button saveBtn = new Button("Save");
 		Button nextBtn = new Button("Next");
-		previewBtn.setMaxWidth(Double.MAX_VALUE);
-		saveBtn.setMaxWidth(Double.MAX_VALUE);
-		nextBtn.setMaxWidth(Double.MAX_VALUE);
+			
+		HBox audioHB = new HBox(5,msg,previewBtn,saveBtn);
+		audioHB.setPadding(new Insets(10));
 		
-		HBox actionHB = new HBox(5,msg,previewBtn,saveBtn,nextBtn);
-		actionHB.setPadding(new Insets(10));
+		HBox nextHB = new HBox(5,nextBtn);
+		nextHB.setPadding(new Insets(10));
+		nextHB.setAlignment(Pos.BOTTOM_RIGHT);
 
 		HBox voiceHB = new HBox(voiceLabel,voiceCB);
 		voiceHB.setPadding(new Insets(10));
+
+		VBox vb = new VBox(voiceHB, audioHB);
 		
-		VBox vb = new VBox(voiceHB, actionHB);
-		vb.setDisable(true);
+		BorderPane bottom = new BorderPane();
+		bottom.setLeft(vb);
+		bottom.setRight(nextHB);
+		
+		bottom.setDisable(true);
 
 		createPane.setTop(searchHB);
 		createPane.setCenter(searchResult);
-		createPane.setBottom(vb);
+		createPane.setBottom(bottom);
 
 		searchBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				
+
 				String command = "rm Audio/*.txt; rm  Audio/*.wav; rm *.jpg";
 				ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);			
 				try {
@@ -99,15 +105,15 @@ public class Create {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
+
+
 				numberTxt = 0;
-				actionHB.getChildren().clear();
-				actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);
+				audioHB.getChildren().clear();
+				audioHB.getChildren().addAll(msg,previewBtn,saveBtn);
 				term = searchField.getText().trim();
 
 				if (term.isEmpty()) {
-					vb.setDisable(true);
+					bottom.setDisable(true);
 					searchResult.clear();
 					return;
 				}
@@ -151,14 +157,14 @@ public class Create {
 							String line = reader.readLine().trim();
 							if (line.equals(term + " not found :^(")) {
 								searchResult.setText(term + " not found, please try again");
-								vb.setDisable(true);
+								bottom.setDisable(true);
 
 							} else {
 
 								searchResult.setText(line);
 								while ((line = reader.readLine()) != null ) {
 									searchResult.appendText(line);
-									vb.setDisable(false);
+									bottom.setDisable(false);
 								}
 								reader.close();
 							}
@@ -184,12 +190,12 @@ public class Create {
 			public void handle(ActionEvent event) {
 
 				if(numberTxt>0) {
-						createTab.setContent(creationPane());						
+					createTab.setContent(creationPane());						
 				}
 				else {
 					Label warningMsg = new Label("Save something, try again");
-					actionHB.getChildren().clear();
-					actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);					
+					audioHB.getChildren().clear();
+					audioHB.getChildren().addAll(msg,previewBtn,saveBtn,warningMsg);					
 				}
 
 			}
@@ -201,21 +207,16 @@ public class Create {
 			@Override
 			public void handle(ActionEvent event) {
 				String selectedPart = searchResult.getSelectedText();
-		//		System.out.println(selectedPart);
 				int wordCount = selectedPart.split("\\s+").length;
-			//	System.out.println(selectedPart);
 				if (selectedPart.isEmpty()) {
-					Label warningMsg = new Label("Select something, try again");
-					actionHB.getChildren().clear();
-					actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);						
+					Label warningMsg = new Label("Please highlight some text");
+					audioHB.getChildren().clear();
+					audioHB.getChildren().addAll(msg,previewBtn,saveBtn,warningMsg);						
 				}
-
-				
-
 				else if (wordCount > 20) { 
-					Label warningMsg = new Label("Too long, try again");
-					actionHB.getChildren().clear();
-					actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
+					Label warningMsg = new Label("Selection exceeds 20 words, try again");
+					audioHB.getChildren().clear();
+					audioHB.getChildren().addAll(msg,previewBtn,saveBtn,warningMsg);							
 				}
 				else {
 					//preview the selected part
@@ -227,10 +228,10 @@ public class Create {
 						e.printStackTrace();
 					}
 
-						
+
 				}
-actionHB.getChildren().clear();
-					actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);	
+				audioHB.getChildren().clear();
+				audioHB.getChildren().addAll(msg,previewBtn,saveBtn);	
 			}
 		});
 
@@ -244,35 +245,35 @@ actionHB.getChildren().clear();
 
 				if (selectedPart.isEmpty()) {
 					Label warningMsg = new Label("Select something, try again");
-					actionHB.getChildren().clear();
-					actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);					
+					audioHB.getChildren().clear();
+					audioHB.getChildren().addAll(msg,previewBtn,saveBtn,warningMsg);					
 				} 
 				else if (wordCount > 20) {
 					Label warningMsg = new Label("Too long, try again");
-					actionHB.getChildren().clear();
-					actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
+					audioHB.getChildren().clear();
+					audioHB.getChildren().addAll(msg,previewBtn,saveBtn,warningMsg);							
 				}
 				else {
-						numberTxt = numberTxt +1;
-						//ask user for the setting??
-						if(voiceCB.getValue() != null) {
-							voice = voiceCB.getValue().toString();
-							createText(selectedPart);
+					numberTxt = numberTxt +1;
+					//ask user for the setting??
+					if(voiceCB.getValue() != null) {
+						voice = voiceCB.getValue().toString();
+						createText(selectedPart);
 
-							audioCreation();
-						}					
-						else {
-							//set default voice as kal diphone
-							voice = "voice_kal_diphone";
-							createText(selectedPart);
+						audioCreation();
+					}					
+					else {
+						//set default voice as kal diphone
+						voice = "voice_kal_diphone";
+						createText(selectedPart);
 
-							audioCreation();
-						
+						audioCreation();
+
 					}
 
 
-					actionHB.getChildren().clear();
-					actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);			
+					audioHB.getChildren().clear();
+					audioHB.getChildren().addAll(msg,previewBtn,saveBtn);			
 
 
 
@@ -302,13 +303,13 @@ actionHB.getChildren().clear();
 	}
 
 	public Pane creationPane() {
-		
+
 		ChoiceBox<Integer> imageCB = new ChoiceBox<Integer>();
 		imageCB.setValue(1);
 		for (int i = 1;i<=10;i++) {
 			imageCB.getItems().add(i);
 		}
-		
+
 		BorderPane creationPane = new BorderPane();
 		TextField nameField = new TextField(); 
 		Label nameLabel = new Label("Enter name of your new creation:");
@@ -329,9 +330,9 @@ actionHB.getChildren().clear();
 		backBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				
-				
-				
+
+
+
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Back");
 				alert.setHeaderText("Are you sure you want to leave?");
@@ -342,10 +343,10 @@ actionHB.getChildren().clear();
 				if (result.get() == ButtonType.OK){
 					createTab.setContent(defaultPane());
 				} else {
-				    // ... user chose CANCEL or closed the dialog
+					// ... user chose CANCEL or closed the dialog
 				}
-				
-				
+
+
 
 			}
 		});
@@ -375,7 +376,7 @@ actionHB.getChildren().clear();
 
 		String audio = "\"Audio" + File.separatorChar + term +numberTxt+ ".wav\"";
 		String text = "\"Audio" + File.separatorChar + term + numberTxt+".txt\"";
-		
+
 
 
 		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
@@ -386,24 +387,24 @@ actionHB.getChildren().clear();
 
 					String voiceFile;
 					String cmd;
-				
+
 					if(voice.equals("Male")) {
-						 voiceFile = "\"Voice" + File.separatorChar + "kal.scm\"";
-				//	 cmd = "text2wave -o " + audio + " " + text + " -eval kal.scm";
+						voiceFile = "\"Voice" + File.separatorChar + "kal.scm\"";
+						//	 cmd = "text2wave -o " + audio + " " + text + " -eval kal.scm";
 					}
 					else if(voice.equals("NZ Guy")) {
-						 voiceFile = "\"Voice" + File.separatorChar + "jdt.scm\"";
-				//		 cmd = "text2wave -o " + audio + " " + text + " -eval jdt.scm";					
+						voiceFile = "\"Voice" + File.separatorChar + "jdt.scm\"";
+						//		 cmd = "text2wave -o " + audio + " " + text + " -eval jdt.scm";					
 					}
 					else if(voice.equals("Posh Lady")) {
-						 voiceFile = "\"Voice" + File.separatorChar + "cw.scm\"";
-				//		 cmd = "text2wave -o " + audio + " " + text + " -eval cw.scm";					
+						voiceFile = "\"Voice" + File.separatorChar + "cw.scm\"";
+						//		 cmd = "text2wave -o " + audio + " " + text + " -eval cw.scm";					
 					}				
 					else {
-						 voiceFile = "\"Voice" + File.separatorChar + "kal.scm\"";
-					//	cmd = "text2wave -o " + audio + " " + text + " -eval kal.scm";						
+						voiceFile = "\"Voice" + File.separatorChar + "kal.scm\"";
+						//	cmd = "text2wave -o " + audio + " " + text + " -eval kal.scm";						
 					}
-					
+
 					cmd = "text2wave -o " + audio + " " + text + " -eval "+voiceFile;					
 
 					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
@@ -448,7 +449,7 @@ actionHB.getChildren().clear();
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
 
-					
+
 					VideoCreation vc = new VideoCreation();
 					vc.createVideo(term, numOfImages,name);
 
