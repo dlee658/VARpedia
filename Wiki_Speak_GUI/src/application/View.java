@@ -17,6 +17,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 public class View {
 
@@ -34,10 +35,14 @@ public class View {
 		BorderPane viewPane = new BorderPane();
 		Button deleteBtn = new Button("delete");
 		Button playBtn = new Button("play");
-		HBox hb = new HBox(10);
-		hb.setPadding(new Insets(10));
-		hb.getChildren().addAll(playBtn,deleteBtn);
-		viewPane.setRight(hb);
+		
+		deleteBtn.setMaxWidth(Double.MAX_VALUE);
+		playBtn.setMaxWidth(Double.MAX_VALUE);
+		
+		VBox vb = new VBox(10);
+		vb.setPadding(new Insets(0,0,20,20));
+		vb.getChildren().addAll(playBtn,deleteBtn);
+		viewPane.setRight(vb);
 
 		viewListView = new ListView<String>();
 		viewListView.setItems(creationList.getCList()); 

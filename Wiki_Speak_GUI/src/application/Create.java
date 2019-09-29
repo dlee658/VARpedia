@@ -14,6 +14,7 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -35,8 +36,7 @@ public class Create {
 	//	private int sentenceCount;
 	private View _view;
 	private int numberTxt = 0;
-	protected int numOfImages;
-	protected String voice;
+	private String voice;
 	
 	public Create(View view) {
 		createTab = new Tab("Create Creation");
@@ -55,30 +55,29 @@ public class Create {
 		TextArea searchResult = new TextArea();
 		searchResult.setWrapText(true);
 
-		Label msg = new Label("Select parts of the text:");
+		Label msg = new Label("Highlight text to:");
 
-/*
-		ChoiceBox<Integer> imageCB = new ChoiceBox<Integer>();
-		imageCB.setValue(1);
-		for (int i = 1;i<=10;i++) {
-			imageCB.getItems().add(i);
-		}
-		*/
-		Label voiceLabel = new Label("Voice: ");
+		Label voiceLabel = new Label("Select voice: ");
 		
 		ChoiceBox<String> voiceCB = new ChoiceBox<String>();
-		voiceCB.setValue("voice_kal_diphone");
+		voiceCB.setValue("Male");
 		voiceCB.getItems().addAll("Male", "NZ Guy", "Posh Lady");
 
 		Button previewBtn = new Button("Preview");
 		Button saveBtn = new Button("Save");
 		Button nextBtn = new Button("Next");
-		HBox sentenceHB = new HBox(5,msg,previewBtn,saveBtn,nextBtn);
-		sentenceHB.setPadding(new Insets(10));
-		sentenceHB.setDisable(true);
-		HBox voiceS = new HBox(voiceLabel,voiceCB);
-		voiceS.setPadding(new Insets(10));
-		VBox vb = new VBox(voiceS, sentenceHB);
+		previewBtn.setMaxWidth(Double.MAX_VALUE);
+		saveBtn.setMaxWidth(Double.MAX_VALUE);
+		nextBtn.setMaxWidth(Double.MAX_VALUE);
+		
+		HBox actionHB = new HBox(5,msg,previewBtn,saveBtn,nextBtn);
+		actionHB.setPadding(new Insets(10));
+
+		HBox voiceHB = new HBox(voiceLabel,voiceCB);
+		voiceHB.setPadding(new Insets(10));
+		
+		VBox vb = new VBox(voiceHB, actionHB);
+		vb.setDisable(true);
 
 		createPane.setTop(searchHB);
 		createPane.setCenter(searchResult);
@@ -103,12 +102,12 @@ public class Create {
 				
 				
 				numberTxt = 0;
-				sentenceHB.getChildren().clear();
-				sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);
+				actionHB.getChildren().clear();
+				actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);
 				term = searchField.getText().trim();
 
 				if (term.isEmpty()) {
-					sentenceHB.setDisable(true);
+					vb.setDisable(true);
 					searchResult.clear();
 					return;
 				}
@@ -152,14 +151,14 @@ public class Create {
 							String line = reader.readLine().trim();
 							if (line.equals(term + " not found :^(")) {
 								searchResult.setText(term + " not found, please try again");
-								sentenceHB.setDisable(true);
+								vb.setDisable(true);
 
 							} else {
 
 								searchResult.setText(line);
 								while ((line = reader.readLine()) != null ) {
 									searchResult.appendText(line);
-									sentenceHB.setDisable(false);
+									vb.setDisable(false);
 								}
 								reader.close();
 							}
@@ -185,21 +184,12 @@ public class Create {
 			public void handle(ActionEvent event) {
 
 				if(numberTxt>0) {
-			//		if(imageCB.getValue() != null) {
-		//				numOfImages = Integer.parseUnsignedInt(imageCB.getValue().toString());
 						createTab.setContent(creationPane());						
-			//		}
-			/*		else {
-						Label warningMsg = new Label("Choose number of images, try again");
-						sentenceHB.getChildren().clear();
-						sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);		
-					}*/
-					//nullpointerexception
 				}
 				else {
 					Label warningMsg = new Label("Save something, try again");
-					sentenceHB.getChildren().clear();
-					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);					
+					actionHB.getChildren().clear();
+					actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);					
 				}
 
 			}
@@ -216,16 +206,16 @@ public class Create {
 			//	System.out.println(selectedPart);
 				if (selectedPart.isEmpty()) {
 					Label warningMsg = new Label("Select something, try again");
-					sentenceHB.getChildren().clear();
-					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);						
+					actionHB.getChildren().clear();
+					actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);						
 				}
 
 				
 
 				else if (wordCount > 20) { 
 					Label warningMsg = new Label("Too long, try again");
-					sentenceHB.getChildren().clear();
-					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
+					actionHB.getChildren().clear();
+					actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
 				}
 				else {
 					//preview the selected part
@@ -239,8 +229,8 @@ public class Create {
 
 						
 				}
-sentenceHB.getChildren().clear();
-					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);	
+actionHB.getChildren().clear();
+					actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);	
 			}
 		});
 
@@ -254,13 +244,13 @@ sentenceHB.getChildren().clear();
 
 				if (selectedPart.isEmpty()) {
 					Label warningMsg = new Label("Select something, try again");
-					sentenceHB.getChildren().clear();
-					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);					
+					actionHB.getChildren().clear();
+					actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);					
 				} 
 				else if (wordCount > 20) {
 					Label warningMsg = new Label("Too long, try again");
-					sentenceHB.getChildren().clear();
-					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
+					actionHB.getChildren().clear();
+					actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
 				}
 				else {
 						numberTxt = numberTxt +1;
@@ -281,8 +271,8 @@ sentenceHB.getChildren().clear();
 					}
 
 
-					sentenceHB.getChildren().clear();
-					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);			
+					actionHB.getChildren().clear();
+					actionHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn);			
 
 
 
@@ -363,10 +353,10 @@ sentenceHB.getChildren().clear();
 		createBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				numOfImages = Integer.parseUnsignedInt(imageCB.getValue().toString());
+				int numOfImages = Integer.parseUnsignedInt(imageCB.getValue().toString());
 				String name = nameField.getText();
 				if(isValidName(name)) {
-					createCreation(name);
+					createCreation(name,numOfImages);
 				} else { 
 					Label msg = new Label("Existing creation called '" + name + "' , Enter another name");
 					creationPane.setCenter(msg);
@@ -440,13 +430,10 @@ sentenceHB.getChildren().clear();
 	}
 
 	//***************
-	protected void createCreation(String name) {
+	protected void createCreation(String name,int numOfImages) {
 
 		//String dir = "Audio" + File.separatorChar + term + "+([[:digit:]]).wav";
 		String audio = "\"Audio" + File.separatorChar + term +".wav\"";
-
-		
-
 
 		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
 		Task<File> task = new Task<File>() {
