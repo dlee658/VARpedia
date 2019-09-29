@@ -68,7 +68,7 @@ public class Create {
 		
 		ChoiceBox<String> voiceCB = new ChoiceBox<String>();
 		voiceCB.setValue("voice_kal_diphone");
-		voiceCB.getItems().addAll("voice_kal_diphone", "voice_akl_nz_jdt_diphone", "voice_akl_nz_cw_cg_cg");
+		voiceCB.getItems().addAll("Male", "NZ Guy", "Posh Lady");
 
 		Button previewBtn = new Button("Preview");
 		Button saveBtn = new Button("Save");
@@ -397,15 +397,15 @@ sentenceHB.getChildren().clear();
 					String voiceFile;
 					String cmd;
 				
-					if(voice.equals("voice_kal_diphone")) {
+					if(voice.equals("Male")) {
 						 voiceFile = "\"Voice" + File.separatorChar + "kal.scm\"";
 				//	 cmd = "text2wave -o " + audio + " " + text + " -eval kal.scm";
 					}
-					else if(voice.equals("voice_akl_nz_jdt_diphone")) {
+					else if(voice.equals("NZ Guy")) {
 						 voiceFile = "\"Voice" + File.separatorChar + "jdt.scm\"";
 				//		 cmd = "text2wave -o " + audio + " " + text + " -eval jdt.scm";					
 					}
-					else if(voice.equals("voice_akl_nz_cw_cg_cg")) {
+					else if(voice.equals("Posh Lady")) {
 						 voiceFile = "\"Voice" + File.separatorChar + "cw.scm\"";
 				//		 cmd = "text2wave -o " + audio + " " + text + " -eval cw.scm";					
 					}				
