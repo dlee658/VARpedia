@@ -88,7 +88,7 @@ public class Create {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				String command = "rm Audio/*.txt; rm  Audio/*.wav";
+				String command = "rm Audio/*.txt; rm  Audio/*.wav; rm *.jpg";
 				ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);			
 				try {
 					Process searchProcess = pb.start(); 
@@ -251,15 +251,6 @@ sentenceHB.getChildren().clear();
 			public void handle(ActionEvent event) {
 				String selectedPart = searchResult.getSelectedText();
 				int wordCount = selectedPart.split("\\s+").length;
-				/*				
-				ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo " + selectedPart + " | wc -w");
-                try {
-					pb.start();
-
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}	*/	
 
 				if (selectedPart.isEmpty()) {
 					Label warningMsg = new Label("Select something, try again");
@@ -272,11 +263,9 @@ sentenceHB.getChildren().clear();
 					sentenceHB.getChildren().addAll(msg,previewBtn,saveBtn,nextBtn,warningMsg);							
 				}
 				else {
-
 						numberTxt = numberTxt +1;
 						//ask user for the setting??
 						if(voiceCB.getValue() != null) {
-
 							voice = voiceCB.getValue().toString();
 							createText(selectedPart);
 
@@ -464,7 +453,7 @@ sentenceHB.getChildren().clear();
 			@Override
 			protected File call() throws Exception {
 				try { 
-					String cmd = "for f in Audio/*.wav; do echo \"file '$f'\" >> mylist.txt ; done ; ffmpeg -y -f concat -i mylist.txt -c copy " + audio + "; rm mylist.txt";
+					String cmd = "for f in Audio/*.wav; do echo \"file '$f'\" >> mylist.txt ; done ; ffmpeg -safe 0 -y -f concat -i mylist.txt -c copy " + audio + "; rm mylist.txt";
 					//for f in Audio/apple+([[:digit:]]).wav;do echo "file '$f'" >> mylist.txt ; done ; ffmpeg -y -f concat -i mylist.txt -c copy "Audio/apple.wav"; rm mylist.txt
 
 

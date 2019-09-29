@@ -5,6 +5,7 @@ import java.io.File;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -29,14 +30,16 @@ public class VideoPlayer {
 		MediaPlayer player = new MediaPlayer(video);
 		player.setAutoPlay(true);
 		MediaView mediaView = new MediaView(player);
+		//mediaView.setPreserveRatio(true);
+			
 		//mediaPane.setCenter(mediaView);
 		
-
-		
+	
 		Button playBtn = new Button("Play/Pause");
 		Button forwardBtn = new Button(">>");
 		Button backwardBtn = new Button("<<");
 		HBox controls = new HBox(10);
+		controls.setAlignment(Pos.CENTER);
 		controls.getChildren().addAll(backwardBtn,playBtn,forwardBtn);
 		VBox vb = new VBox(10);
 		vb.getChildren().addAll(mediaView,controls);
@@ -44,11 +47,13 @@ public class VideoPlayer {
 		
 		//Button backBtn = new Button("Back");
 		//mediaPane.setTop(backBtn);
-		mediaPane.setCenter(vb);
+	mediaPane.setCenter(vb);
 		//mediaPane.setPadding(new Insets(10));
 		
 		
-		Scene scene = new Scene(mediaPane,800,1000);
+		Scene scene = new Scene(mediaPane,640,500);	
+		mediaView.fitWidthProperty().bind(scene.widthProperty()); 
+		mediaView.fitHeightProperty().bind(scene.heightProperty());
 //		videoPlayer.setScene(new Scene(640,480));
 		videoPlayerWindow.setScene(scene);
 		videoPlayerWindow.show();
@@ -62,14 +67,14 @@ public class VideoPlayer {
 			}
 		});
 		
-		player.setOnEndOfMedia(new Runnable() {
-			@Override
-			public void run() {
-				videoPlayerWindow.close();
-				
-			}
-			
-		});
+//		player.setOnEndOfMedia(new Runnable() {
+//			@Override
+//			public void run() {
+//				videoPlayerWindow.close();
+//				
+//			}
+//			
+//		});
 		
 		
 		playBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -98,10 +103,6 @@ public class VideoPlayer {
 				player.seek( player.getCurrentTime().add( Duration.seconds(-2)) );
 			}
 		});
-		
-		
-		
-		
 		
 	}
 
