@@ -46,7 +46,6 @@ public class VideoCreation {
 			params.setText(term);
 
 			PhotoList<Photo> results = photos.search(params,numOfImages, page);
-			System.out.println("Retrieving " + results.size()+ " results");
 			int i = 1;
 
 			for (Photo photo: results) {
@@ -60,7 +59,6 @@ public class VideoCreation {
 					}			
 					File outputfile = new File(filename);
 					ImageIO.write(image, "jpg", outputfile);
-					System.out.println("Downloaded "+filename);
 					i++;
 				} catch (FlickrException fe) {
 					System.err.println("Ignoring image " +photo.getId() +": "+ fe.getMessage());
@@ -69,8 +67,6 @@ public class VideoCreation {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		System.out.println("\nDone");
 	}
 
 	public void createVideo(String term,int numOfImages, String name) {
