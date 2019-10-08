@@ -118,6 +118,7 @@ public class Create {
 
 				if (term.isEmpty()) {
 					bottom.setDisable(true);
+					cancelBtn.setDisable(true);
 					searchResult.clear();
 					return;
 				}
@@ -190,7 +191,10 @@ public class Create {
 			@Override
 			public void handle(ActionEvent event) {
 				searchTask.cancel();
+				searchResult.clear();
 				searchBtn.setDisable(false);
+				cancelBtn.setDisable(true);
+				bottom.setDisable(true);
 			}
 		});
 
@@ -460,7 +464,7 @@ public class Create {
 
 	private boolean isValidName(String name) {
 		File file = new File("Creations" + File.separatorChar + name + ".mp4");
-		if(file.exists()) {
+		if(file.exists() || name.isBlank()) {
 			return false;
 		}
 		return true;
