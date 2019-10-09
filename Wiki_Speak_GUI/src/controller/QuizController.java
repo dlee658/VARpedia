@@ -17,7 +17,7 @@ public class QuizController {
 	private Button exitBtn;
 	
 	@FXML
-	private Label questionN;
+	private Text questionN;
 	
 	@FXML 
 	private Button opt1;

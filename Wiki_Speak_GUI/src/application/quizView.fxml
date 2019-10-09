@@ -46,7 +46,7 @@
                            <font>
                               <Font size="21.0" />
                            </font></Button>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Question 1">
+                        <Text fx:id="questionN" strokeType="OUTSIDE" strokeWidth="0.0" text="Question 1">
                            <font>
                               <Font size="40.0" />
                            </font>
