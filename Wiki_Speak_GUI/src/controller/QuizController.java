@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
+
 public class QuizController {
 	@FXML 
 	private Button exitBtn;
@@ -42,7 +43,7 @@ public class QuizController {
            loader.setLocation(Main.class.getResource("mainMenu.fxml"));
            rootLayout = loader.load();
            salesBtn.getScene().setRoot(rootLayout);
-           questionNumer = 1;
+           questionNumber = 1;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -50,98 +51,72 @@ public class QuizController {
 	
 	@FXML
 	private void playBtn(ActionEvent event) {
-		try {
-			if (playBtn.getText().equals("Play")) {
-				playBtn.setText("Pause");
-			}
-			else {
-				playBtn.setText("Play");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (playBtn.getText().equals("Play")) {
+			playBtn.setText("Pause");
+		}
+		else {
+			playBtn.setText("Play");
 		}
 	}
 	
 
 	@FXML
 	private void opt1Press(ActionEvent event) {
-		try {
+
 			questionNumber = questionNumber +1;
 			// Load root layout from fxml file.
 			 questionN.setText("Question " + Integer.toString(questionNumber));
 			 
 			 //if correct
-			 opt1.setTextFill(Color.GREEN);
+			 opt1.setStyle("-fx-background-color: #00ff00");
 			 //if wrong
-			// opt1.setTextFill(Color.RED);
+			 opt1.setStyle("-fx-background-color: #ff0000");
 			 
 			 
-			 Thread.sleep(5000);
-			 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+
 	}
 	
 	@FXML
 	private void opt2Press(ActionEvent event) {
-		try {
-			questionNumber = questionNumber +1;
-			// Load root layout from fxml file.
-		 questionN.setText("Question " + Integer.toString(questionNumber));
-  
+		questionNumber = questionNumber +1;
+		// Load root layout from fxml file.
+
+		questionN.setText("Question " + Integer.toString(questionNumber));
 		 //if correct
-		 opt1.setTextFill(Color.GREEN);
+		 opt1.setStyle("-fx-background-color: #00ff00");
 		 //if wrong
-		// opt1.setTextFill(Color.RED);
-		 
-		 
-		 Thread.sleep(5000);
-		 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		 opt1.setStyle("-fx-background-color: #ff0000");
 	}
 	
 	@FXML
 	private void opt3Press(ActionEvent event) {
-		try {
+
 			questionNumber = questionNumber +1;
 			// Load root layout from fxml file.
 			 questionN.setText("Question " + Integer.toString(questionNumber));
 
 			 //if correct
-			 opt1.setTextFill(Color.GREEN);
+			 opt1.setStyle("-fx-background-color: #00ff00");
 			 //if wrong
-			// opt1.setTextFill(Color.RED);
+			 opt1.setStyle("-fx-background-color: #ff0000");
 			 
 			 
-			 Thread.sleep(5000);
-			 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
 	}
 	
 	
 	@FXML
 	private void opt4Press(ActionEvent event) {
-		try {
+
 			questionNumber = questionNumber +1;
 			// Load root layout from fxml file.
 			 questionN.setText("Question " + Integer.toString(questionNumber));
-  
 			 //if correct
-			 opt1.setTextFill(Color.GREEN);
+			 opt1.setStyle("-fx-background-color: #00ff00");
 			 //if wrong
-			// opt1.setTextFill(Color.RED);
-			 
-			 
-			 Thread.sleep(5000);
-			 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			 opt1.setStyle("-fx-background-color: #ff0000");
+			
 	}
 	
 }
