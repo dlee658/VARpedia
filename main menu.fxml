@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.202" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainEventHandlingController">
+   <children>
+      <Button fx:id="salesBtn" layoutX="245.0" layoutY="170.0" mnemonicParsing="false" onAction="#handleSalesBtnAction" text="Manage Sales" textAlignment="CENTER" />
+      <Button fx:id="customerBtn" layoutX="228.0" layoutY="215.0" mnemonicParsing="false" onAction="#handleCustomerBtnAction" text="Manage Customers" textAlignment="CENTER" />
+      <Button fx:id="employeeBtn" layoutX="227.0" layoutY="262.0" mnemonicParsing="false" onAction="#handleEmployeeBtnAction" text="Manage Employees" textAlignment="CENTER" />
+      <Button fx:id="productBtn" layoutX="234.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleProductBtnAction" text="Manage Products" textAlignment="CENTER" />
+      <Text layoutX="123.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aroha Explore Management System" textAlignment="CENTER" wrappingWidth="353.974609375">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>
