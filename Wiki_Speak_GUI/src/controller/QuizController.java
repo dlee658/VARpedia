@@ -2,6 +2,8 @@ package controller;
 import java.awt.Label;
 import java.io.IOException;
 
+import com.sun.prism.paint.Color;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -68,8 +70,14 @@ public class QuizController {
 			// Load root layout from fxml file.
 			 questionN.setText("Question " + Integer.toString(questionNumber));
 			 
+			 //if correct
+			 opt1.setTextFill(Color.GREEN);
+			 //if wrong
+			// opt1.setTextFill(Color.RED);
 			 
-  
+			 
+			 Thread.sleep(5000);
+			 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -82,6 +90,14 @@ public class QuizController {
 			// Load root layout from fxml file.
 		 questionN.setText("Question " + Integer.toString(questionNumber));
   
+		 //if correct
+		 opt1.setTextFill(Color.GREEN);
+		 //if wrong
+		// opt1.setTextFill(Color.RED);
+		 
+		 
+		 Thread.sleep(5000);
+		 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -93,7 +109,15 @@ public class QuizController {
 			questionNumber = questionNumber +1;
 			// Load root layout from fxml file.
 			 questionN.setText("Question " + Integer.toString(questionNumber));
-  
+
+			 //if correct
+			 opt1.setTextFill(Color.GREEN);
+			 //if wrong
+			// opt1.setTextFill(Color.RED);
+			 
+			 
+			 Thread.sleep(5000);
+			 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -107,6 +131,14 @@ public class QuizController {
 			// Load root layout from fxml file.
 			 questionN.setText("Question " + Integer.toString(questionNumber));
   
+			 //if correct
+			 opt1.setTextFill(Color.GREEN);
+			 //if wrong
+			// opt1.setTextFill(Color.RED);
+			 
+			 
+			 Thread.sleep(5000);
+			 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
