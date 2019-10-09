@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.sun.prism.paint.Color;
 
+import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,8 +42,8 @@ public class QuizController {
 			// Load root layout from fxml file.
 		   FXMLLoader loader = new FXMLLoader();
            loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-           rootLayout = loader.load();
-           salesBtn.getScene().setRoot(rootLayout);
+           Pane rootLayout = loader.load();
+           exitBtn.getScene().setRoot(rootLayout);
            questionNumber = 1;
 		} catch (IOException e) {
 			e.printStackTrace();
