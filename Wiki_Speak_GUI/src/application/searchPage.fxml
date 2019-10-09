@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SearchPageController">
+   <children>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Home">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <HBox layoutX="140.0" layoutY="53.0" spacing="20.0">
+         <children>
+            <TextField fx:id="searchField" promptText="Enter search term">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <Button mnemonicParsing="false" text="Search">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <ProgressIndicator fx:id="searchIndicator" disable="true" prefHeight="15.0" prefWidth="30.0" visible="false" />
+         </children>
+      </HBox>
+      <TextArea fx:id="resultArea" layoutX="31.0" layoutY="111.0" prefHeight="223.0" prefWidth="538.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextArea>
+      <Button layoutX="524.0" layoutY="347.0" mnemonicParsing="false" text="Next">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+   </children>
+</Pane>

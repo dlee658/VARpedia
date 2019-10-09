@@ -38,4 +38,43 @@ public class MainController {
 			e.printStackTrace();
 		}
 	}
+	
+	@FXML
+	private void handleCreateBtnAction(ActionEvent event) {
+		try {
+			// Load root layout from fxml file.
+		   FXMLLoader loader = new FXMLLoader();
+           loader.setLocation(Main.class.getResource("searchPage.fxml"));
+           rootLayout = loader.load();
+           createBtn.getScene().setRoot(rootLayout);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	private void handleViewBtnAction(ActionEvent event) {
+		try {
+			// Load root layout from fxml file.
+		   FXMLLoader loader = new FXMLLoader();
+           loader.setLocation(Main.class.getResource("viewView.fxml"));
+           rootLayout = loader.load();
+           viewBtn.getScene().setRoot(rootLayout);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	private void handleHelpBtnAction(ActionEvent event) {
+		try {
+			// Load root layout from fxml file.
+		   FXMLLoader loader = new FXMLLoader();
+           loader.setLocation(Main.class.getResource("helpPage.fxml"));
+           rootLayout = loader.load();
+           quizBtn.getScene().setRoot(rootLayout);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
