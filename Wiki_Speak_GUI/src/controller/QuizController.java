@@ -85,9 +85,9 @@ public class QuizController {
 
 		questionN.setText("Question " + Integer.toString(questionNumber));
 		 //if correct
-		 opt1.setStyle("-fx-background-color: #00ff00");
+		 opt2.setStyle("-fx-background-color: #00ff00");
 		 //if wrong
-		 opt1.setStyle("-fx-background-color: #ff0000");
+		 opt2.setStyle("-fx-background-color: #ff0000");
 	}
 	
 	@FXML
@@ -98,9 +98,9 @@ public class QuizController {
 			 questionN.setText("Question " + Integer.toString(questionNumber));
 
 			 //if correct
-			 opt1.setStyle("-fx-background-color: #00ff00");
+			 opt3.setStyle("-fx-background-color: #00ff00");
 			 //if wrong
-			 opt1.setStyle("-fx-background-color: #ff0000");
+			 opt3.setStyle("-fx-background-color: #ff0000");
 			 
 			 
 
@@ -114,9 +114,9 @@ public class QuizController {
 			// Load root layout from fxml file.
 			 questionN.setText("Question " + Integer.toString(questionNumber));
 			 //if correct
-			 opt1.setStyle("-fx-background-color: #00ff00");
+			 opt4.setStyle("-fx-background-color: #00ff00");
 			 //if wrong
-			 opt1.setStyle("-fx-background-color: #ff0000");
+			 opt4.setStyle("-fx-background-color: #ff0000");
 			
 	}
 	
