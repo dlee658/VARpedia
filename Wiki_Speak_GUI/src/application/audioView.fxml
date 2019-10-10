@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SearchPageController">
+   <bottom>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" text="Home">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
+            <TextArea fx:id="resultArea" layoutX="22.0" layoutY="73.0" prefHeight="361.0" prefWidth="856.0" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Highlight or edit the text to save or preview">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Tooltip>
+               </tooltip>
+            </TextArea>
+            <Button fx:id="nextBtn" disable="true" layoutX="797.0" layoutY="540.0" mnemonicParsing="false" onAction="#handleNextBtnAction" text="Next">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
+            <HBox layoutX="29.0" layoutY="464.0" spacing="20.0">
+               <children>
+                  <Label text="Voice:">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <ChoiceBox prefHeight="45.0" prefWidth="150.0" />
+                  <Button mnemonicParsing="false" text="Preview">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" text="Save">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Button>
+                  <ProgressIndicator disable="true" progress="0.0" />
+               </children>
+            </HBox>
+            <Button fx:id="nextBtn1" layoutX="14.0" layoutY="540.0" mnemonicParsing="false" onAction="#handleNextBtnAction" text="Back">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
+            <Text layoutX="211.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Highlight some text to peview/save">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+   </bottom>
+</BorderPane>
