@@ -38,7 +38,7 @@
                   <ProgressIndicator fx:id="searchIndicator" disable="true" prefHeight="45.0" prefWidth="44.0" visible="false" />
                </children>
             </HBox>
-            <TextArea fx:id="resultArea" layoutX="24.0" layoutY="139.0" prefHeight="391.0" prefWidth="856.0" wrapText="true">
+            <TextArea fx:id="resultArea" editable="false" layoutX="24.0" layoutY="139.0" prefHeight="391.0" prefWidth="856.0" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
