@@ -235,7 +235,12 @@ public class Create {
 				else {
 					//preview the selected part
 					warningMsg.setText("");
-					ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo \""+selectedPart+ "\" | festival --tts");
+					ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo $'(voice_kal_diphone) \n(SayText \""+selectedPart+ "\")' > preview.scm; festival -b preview.scm");
+					
+					
+					
+					
+					
 					try {
 						pb.start();
 					} catch (IOException e) {

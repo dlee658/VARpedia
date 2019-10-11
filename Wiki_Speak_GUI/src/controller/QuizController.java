@@ -1,5 +1,5 @@
 package controller;
-import java.awt.Label;
+
 import java.io.IOException;
 import java.util.Random;
 
@@ -13,7 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
+import javafx.scene.control.Label;;
 
 public class QuizController {
 	@FXML 
