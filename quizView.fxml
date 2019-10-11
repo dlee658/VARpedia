@@ -82,7 +82,8 @@
             <HBox GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <children>
                   <Label text="Score: " />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="0/10" />
+                  <Label fx:id="scoreLabel" text="  0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    /10" />
                </children>
             </HBox>
          </children>
