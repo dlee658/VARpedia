@@ -82,7 +82,7 @@ public class QuizController {
 	
 	@FXML
 	public void initialize() {
-		generateVideo();
+		//generateVideo();
 		setAnswer();
 		
 	}
@@ -167,7 +167,7 @@ public class QuizController {
 
 			questionNumber = questionNumber +1;
 			
-			if (questionNumber == 11) {
+			if (questionNumber == 10) {
 				finished();
 			}
 			
@@ -195,7 +195,7 @@ public class QuizController {
 	
 		questionNumber = questionNumber +1;
 		
-		if (questionNumber == 11) {
+		if (questionNumber == 10) {
 			finished();
 		}
 		
@@ -222,7 +222,7 @@ public class QuizController {
 
 		questionNumber = questionNumber +1;
 		
-		if (questionNumber == 11) {
+		if (questionNumber == 10) {
 			finished();
 		}
 		
@@ -254,7 +254,7 @@ public class QuizController {
 
 		questionNumber = questionNumber +1;
 		
-		if (questionNumber == 11) {
+		if (questionNumber == 10) {
 			finished();
 		}
 		

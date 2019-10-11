@@ -46,7 +46,7 @@
                            <font>
                               <Font size="19.0" />
                            </font></Button>
-                        <Label fx:id="QuestionN" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="236.0" text="Question One" wrapText="true">
+                        <Label fx:id="questionN" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="236.0" text="Question One" wrapText="true">
                            <font>
                               <Font size="31.0" />
                            </font>

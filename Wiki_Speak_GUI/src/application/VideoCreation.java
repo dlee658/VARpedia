@@ -69,19 +69,19 @@ public class VideoCreation {
 		}
 	}
 
-	public void createVideo(String term,int numOfImages, String name) {
+	public void createVideo(String term, String name) {
 		String video = "\"Video" + File.separatorChar + term + ".mp4\"";
 		String audio = "\"Audio" + File.separatorChar + term + ".wav\"";
 		String creation = "\"Creations" + File.separatorChar + name + ".mp4\"";
 
 		try {
-			retrieveImages(term, numOfImages);
+	//		retrieveImages(term, numOfImages);
 			
 //			String cmd = "cat *.jpg | ffmpeg -framerate " + numOfImages + "/`soxi -D " + audio + "` -i - -c:v libx264 -pix_fmt yuv420p -vf \"scale=640:480:force_original_aspect_ratio=decrease,"
 //					+ "pad=640:480:(ow-iw)/2:(oh-ih)/2,drawtext=FreeSerif.ttf:fontsize=50: fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text=" + term + "\" -r 25 -y " + video 
 //					+ " &> status.txt ;ffmpeg -i " + video + " -i " + audio + " -c:v copy -c:a aac -strict experimental "+ creation + " &> status2.txt";
 				
-			String cmd = "cat *.jpg | ffmpeg -f image2pipe -framerate " + numOfImages + "/`soxi -D " + audio + "` -i - -c:v libx264 -pix_fmt yuv420p -vf \"scale=640:480:force_original_aspect_ratio=decrease,"
+			String cmd = "cat *.jpg | ffmpeg -f image2pipe -framerate $(ls *.jpg | wc -l) /`soxi -D " + audio + "` -i - -c:v libx264 -pix_fmt yuv420p -vf \"scale=640:480:force_original_aspect_ratio=decrease,"
 					+ "pad=640:480:(ow-iw)/2:(oh-ih)/2,drawtext=FreeSerif.ttf:fontsize=50: fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text=" + term + "\" -r 25 -max_muxing_queue_size 1024 -y " + creation
 					+ " &> status.txt"; 
 			

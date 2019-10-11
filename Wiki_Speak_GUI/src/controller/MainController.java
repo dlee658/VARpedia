@@ -31,7 +31,7 @@ public class MainController {
 		try {
 			// Load root layout from fxml file.
 		   FXMLLoader loader = new FXMLLoader();
-           loader.setLocation(Main.class.getResource("quizView.fxml"));
+           loader.setLocation(Main.class.getResource("createCreation.fxml"));
            rootLayout = loader.load();
            quizBtn.getScene().setRoot(rootLayout);
 		} catch (IOException e) {
