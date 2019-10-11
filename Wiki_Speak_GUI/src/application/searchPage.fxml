@@ -20,7 +20,7 @@
             </Button>
             <HBox layoutX="129.0" layoutY="76.0" spacing="20.0">
                <children>
-                  <TextField fx:id="searchField" promptText="Enter search term">
+                  <TextField fx:id="searchField" onKeyPressed="#handleEnterKeyAction" promptText="Enter search term">
                      <font>
                         <Font size="24.0" />
                      </font>

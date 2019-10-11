@@ -24,9 +24,7 @@ public class QuizController {
 	
 	@FXML 
 	private Button opt1;
-	
-	
-	
+
 	@FXML 
 	private Button opt2;
 	

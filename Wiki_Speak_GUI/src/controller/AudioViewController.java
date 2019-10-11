@@ -96,7 +96,16 @@ public class AudioViewController {
 		voiceCB.getItems().addAll("Male", "NZ Guy", "Posh Lady");
 		initializeResultArea();
 		numberTxt = 0;
-		//term = get term from somewhere maybe a text file;
+		BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader("term.txt"));
+			term = reader.readLine();
+			reader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -210,7 +219,7 @@ public class AudioViewController {
 		};
 		createWorker.submit(task);
 	}
-	
+
 	protected void createText(String selectedText) {
 		String cmd = "echo \"" + selectedText + "\"";
 		ProcessBuilder pb = new ProcessBuilder("bash","-c",cmd);

@@ -1,9 +1,11 @@
 package controller;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,6 +21,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 public class SearchPageController {
@@ -83,10 +87,17 @@ public class SearchPageController {
 		search(term);
 		//enable next btn
 	}
+	
+	@FXML
+	private void handleEnterKeyAction(KeyEvent key) {
+		if (key.getCode().equals(KeyCode.ENTER)){
+            searchBtn.fire();
+        }
+	}
 
 	@FXML
 	private void handleNextBtnAction(ActionEvent event) {
-		try {
+		try {	
 			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("audioView.fxml"));
@@ -169,6 +180,10 @@ public class SearchPageController {
 							resultArea.appendText(line);
 						}
 						reader.close();
+						//save term to a textfile
+						BufferedWriter writer = new BufferedWriter(new FileWriter("term.txt"));
+					    writer.write(term);
+					    writer.close();
 					}
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
