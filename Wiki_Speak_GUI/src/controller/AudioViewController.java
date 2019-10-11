@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -30,6 +31,9 @@ public class AudioViewController {
 	@FXML 
 	private Button previewBtn;
 
+	@FXML
+	private CheckBox checkBox;
+	
 	@FXML 
 	private Button saveBtn;
 
@@ -50,7 +54,7 @@ public class AudioViewController {
 	private int numberTxt;
 
 	private String term;
-
+	
 	@FXML
 	private void handleHomeBtnAction(ActionEvent event) {
 		try {
@@ -109,6 +113,22 @@ public class AudioViewController {
 
 	}
 
+	private void audioCreation() {
+		String audio = "\"Audio" + File.separatorChar + term +".wav\"";
+		String cmd = "for f in Audio/*.wav; do echo \"file '$f'\" >> mylist.txt ; done ; ffmpeg -safe 0 -y -f concat -i mylist.txt -c copy " + audio + "; rm mylist.txt";
+		try {
+		ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
+		Process audioProcess = pb.start();
+
+			audioProcess.waitFor();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	private void initializeResultArea() {
 		File text = new File("Audio" + File.separatorChar + "audio_text.txt");
