@@ -1,7 +1,8 @@
 package controller;
-import java.awt.Label;
+
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import com.sun.prism.paint.Color;
 
@@ -13,7 +14,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.scene.control.Label;;
 
 public class QuizController {
 	@FXML 
@@ -24,6 +28,9 @@ public class QuizController {
 	
 	@FXML 
 	private Button opt1;
+	
+	@FXML
+	private MediaView mediaPlayer;
 
 	@FXML 
 	private Button opt2;
@@ -42,10 +49,22 @@ public class QuizController {
 
 	private int questionNumber = 1;
 	private int score =0;
+	
+	//
 	protected String term = "apple";
 
+	//
+	protected int answerNumber = 1;
 	
-	protected int answerNumber;
+	/*private void generateVideo() {
+		
+		Media video = new Media(file.toURI().toString());
+		MediaPlayer player = new MediaPlayer(video);
+		player.setAutoPlay(true);
+		MediaView mediaView = new MediaView(player);
+		
+		
+	}	*/		
 	
 	@FXML
 	private void handleExitBtnAction(ActionEvent event) {
@@ -62,11 +81,19 @@ public class QuizController {
 	}
 	
 	@FXML
+	public void initialize() {
+		generateVideo();
+		setAnswer();
+		
+	}
+	
+	@FXML
 	private void playBtn(ActionEvent event) {
+		//System.out.println(playBtn.getText());
 		if (playBtn.getText().equals("Play")) {
 			playBtn.setText("Pause");
 		}
-		else {
+		else if(playBtn.getText().equals("Pause")) {
 			playBtn.setText("Play");
 		}
 	}
@@ -133,12 +160,7 @@ public class QuizController {
 
 	@FXML
 	private void opt1Press(ActionEvent event) {
-		
-		if(questionN.getText().equals("Question One")) {
-			questionN.setText("Question 1");
-			setAnswer();
-		}
-		else {
+
 		
 		
 		
@@ -153,28 +175,24 @@ public class QuizController {
 			 questionN.setText("Question " + Integer.toString(questionNumber));
 			 
 			if (isAnswer(1)) {
-			 opt1.setStyle("-fx-background-color: #00ff00");
+
 			 score = score +1;
 			 scoreLabel.setText(Integer.toString(score));
 			}
-			else {
-			 //if wrong
-			 opt1.setStyle("-fx-background-color: #ff0000");}
 			 
+			
+
+			
 			setAnswer();
 			 
-		}
+		
 
 	}
 	
 	@FXML
 	private void opt2Press(ActionEvent event) {
 		
-		if(questionN.getText().equals("Question One")) {
-			questionN.setText("Question 1");
-			setAnswer();
-		}
-		else {
+	
 		questionNumber = questionNumber +1;
 		
 		if (questionNumber == 11) {
@@ -185,25 +203,23 @@ public class QuizController {
 		 questionN.setText("Question " + Integer.toString(questionNumber));
 		 
 		if (isAnswer(2)) {
-		 opt2.setStyle("-fx-background-color: #00ff00");
+		// opt2.setStyle("-fx-background-color: #00ff00");
 		 score = score +1;
 		 scoreLabel.setText(Integer.toString(score));
 		}
-		else {
+		//else {
 		 //if wrong
-		 opt2.setStyle("-fx-background-color: #ff0000");}
+		// opt2.setStyle("-fx-background-color: #ff0000");}
 		 
+
+		
 		setAnswer();}
-	}
+	
 	
 	@FXML
 	private void opt3Press(ActionEvent event) {
 
-		if(questionN.getText().equals("Question One")) {
-			questionN.setText("Question 1");
-			setAnswer();
-		}
-		else {
+
 		questionNumber = questionNumber +1;
 		
 		if (questionNumber == 11) {
@@ -214,29 +230,28 @@ public class QuizController {
 		 questionN.setText("Question " + Integer.toString(questionNumber));
 		 
 		if (isAnswer(3)) {
-		 opt3.setStyle("-fx-background-color: #00ff00");
+	//	 opt3.setStyle("-fx-background-color: #00ff00");
 		 score = score +1;
 		 scoreLabel.setText(Integer.toString(score));
 		}
-		else {
+//		else {
 		 //if wrong
-		 opt3.setStyle("-fx-background-color: #ff0000");}
+	//	 opt3.setStyle("-fx-background-color: #ff0000");}
 		 
+
+		
 		setAnswer();
 			 
-		}
+		
 
 	}
-	
+
+    
 	
 	@FXML
 	private void opt4Press(ActionEvent event) {
 
-		if(questionN.getText().equals("Question One")) {
-			questionN.setText("Question 1");
-			setAnswer();
-		}
-		else {
+
 		questionNumber = questionNumber +1;
 		
 		if (questionNumber == 11) {
@@ -247,17 +262,20 @@ public class QuizController {
 		 questionN.setText("Question " + Integer.toString(questionNumber));
 		 
 		if (isAnswer(4)) {
-		 opt4.setStyle("-fx-background-color: #00ff00");
+	//	 opt4.setStyle("-fx-background-color: #00ff00");
 		 score = score +1;
 		 scoreLabel.setText(Integer.toString(score));
 		}
-		else {
+	//	else {
 		 //if wrong
-		 opt4.setStyle("-fx-background-color: #ff0000");}
+	//	 opt4.setStyle("-fx-background-color: #ff0000");}
 		 
+
+		
+		
 		setAnswer();
 		}
 			
-	}
+	
 	
 }
