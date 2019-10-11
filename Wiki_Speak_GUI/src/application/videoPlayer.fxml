@@ -7,21 +7,31 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.media.MediaView?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.202" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <MediaView fx:id="mediaPlayer" fitHeight="300.0" fitWidth="600.0" BorderPane.alignment="CENTER" />
+      <MediaView fx:id="mediaPlayer" fitHeight="400.0" fitWidth="800.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <HBox prefHeight="42.0" prefWidth="600.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="42.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="playBtn" mnemonicParsing="false" text="Play" />
-            <Slider prefHeight="14.0" prefWidth="350.0" />
-            <Label fx:id="timeLabel" text="time" />
+            <Button fx:id="playBtn" mnemonicParsing="false" onAction="#handlePlayBtnAction" text="Play">
+               <font>
+                  <Font size="24.0" />
+               </font></Button>
+            <Slider fx:id="timeSlider" prefHeight="16.0" prefWidth="496.0" />
+            <Label fx:id="timeLabel" text="time">
+               <font>
+                  <Font size="24.0" />
+               </font></Label>
             <Label fx:id="volumeLabel" text="Volume">
                <padding>
                   <Insets left="30.0" />
                </padding>
+               <font>
+                  <Font size="24.0" />
+               </font>
             </Label>
             <Slider fx:id="volSlider" prefWidth="10.0" />
          </children>
@@ -37,6 +47,9 @@
                <HBox.margin>
                   <Insets left="10.0" top="5.0" />
                </HBox.margin>
+               <font>
+                  <Font size="24.0" />
+               </font>
             </Button>
          </children>
       </HBox>
