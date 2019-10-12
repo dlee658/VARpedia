@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.Random;
@@ -12,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -100,7 +102,7 @@ public class QuizController {
 		try {
 			
 			
-			Alert alert = new Alert(AlertType.CONFIRMATION);
+/*			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Game finished");
 			alert.setHeaderText("Your score is " + Integer.toString(score));
 			alert.setContentText("Press ok to go back to main menu, or try again");
@@ -120,10 +122,32 @@ public class QuizController {
 		           questionNumber = 1;
 		           score = 0;		
 			}
+			*/
 			
-			
-			
-			
+			ButtonType yesBtn = new ButtonType("Main menu");
+			ButtonType noBtn = new ButtonType("Play again");
+			Alert deleteAlert = new Alert(AlertType.CONFIRMATION,"Press button to play again or return " + yesBtn,noBtn);
+			deleteAlert.setTitle("Game finished");
+			deleteAlert.setHeaderText("Your score is " + Integer.toString(score));
+
+			Optional<ButtonType> btn = deleteAlert.showAndWait();
+
+			if (btn.get() == yesBtn) {
+				   FXMLLoader loader = new FXMLLoader();
+		           loader.setLocation(Main.class.getResource("mainMenu.fxml"));
+		           Pane rootLayout = loader.load();
+		           exitBtn.getScene().setRoot(rootLayout);
+		           questionNumber = 1;
+		           score = 0;
+			} 
+			if(btn.get() == noBtn) {
+				   FXMLLoader loader = new FXMLLoader();
+		           loader.setLocation(Main.class.getResource("quizView.fxml"));
+		           Pane rootLayout = loader.load();
+		           exitBtn.getScene().setRoot(rootLayout);
+		           questionNumber = 1;
+		           score = 0;	
+			}
 			
 
 		} catch (IOException e) {
