@@ -2,25 +2,15 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
 
 import application.CreationList;
 import application.Main;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 
 public class viewViewController {
@@ -73,7 +63,8 @@ public class viewViewController {
 			loader.setController(vpc);			
 			playBtn.getScene().setRoot(loader.load());
 			
-				
+			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -81,38 +72,18 @@ public class viewViewController {
 	
 	@FXML
 	private void handleDeleteBtnAction(ActionEvent event) {
-		confirmDeleteCreation();
-		//sed '/pattern to match/d' ./infile
-	}
-		
-	
-	public void confirmDeleteCreation() {
-		String fileName = viewListView.getSelectionModel().getSelectedItem();
-		if (fileName == null) {
-			return;
+		try {
+			// Load root layout from fxml file.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("searchPage.fxml"));
+			rootLayout = loader.load();
+			homeBtn.getScene().setRoot(rootLayout);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
-		ButtonType yesBtn = new ButtonType("yes");
-		ButtonType noBtn = new ButtonType("no", ButtonBar.ButtonData.CANCEL_CLOSE);
-		Alert deleteAlert = new Alert(AlertType.CONFIRMATION,"Are you sure you want to delete: " + fileName,yesBtn,noBtn);
-		deleteAlert.setTitle("Confirm Deletion");
-		deleteAlert.setHeaderText(null);
-
-		Optional<ButtonType> btn = deleteAlert.showAndWait();
-
-		if (btn.get() == yesBtn) {
-			File file = new File("Creations" + File.separatorChar + fileName + ".mp4");
-			file.delete();
-			update(fileName);
-			deleteAlert.close();
-		} 
 	}
 	
-	public void update(String fileName) {
-		creationList.update();
-		viewListView.setItems(creationList.getCList()); 
-
-	}
+	
 	
 	
 }
