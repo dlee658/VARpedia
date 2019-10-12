@@ -178,15 +178,9 @@ public class QuizController {
 	private void opt1Press(ActionEvent event) {
 
 		
-		
+				questionNumber = questionNumber +1;
 		
 
-			questionNumber = questionNumber +1;
-			
-			if (questionNumber == 10) {
-				finished();
-			}
-			
 			// Load root layout from fxml file.
 			 questionN.setText("Question " + Integer.toString(questionNumber));
 			 
@@ -202,6 +196,12 @@ public class QuizController {
 			setAnswer();
 			 
 		
+	
+			
+			if (questionNumber == 10) {
+				finished();
+			}
+			
 
 	}
 	
@@ -210,10 +210,6 @@ public class QuizController {
 		
 	
 		questionNumber = questionNumber +1;
-		
-		if (questionNumber == 10) {
-			finished();
-		}
 		
 		// Load root layout from fxml file.
 		 questionN.setText("Question " + Integer.toString(questionNumber));
@@ -229,18 +225,19 @@ public class QuizController {
 		 
 
 		
-		setAnswer();}
+		setAnswer();
+
+		
+		if (questionNumber == 10) {
+			finished();
+		}}
 	
 	
 	@FXML
 	private void opt3Press(ActionEvent event) {
 
-
-		questionNumber = questionNumber +1;
 		
-		if (questionNumber == 10) {
-			finished();
-		}
+		questionNumber = questionNumber +1;
 		
 		// Load root layout from fxml file.
 		 questionN.setText("Question " + Integer.toString(questionNumber));
@@ -257,6 +254,10 @@ public class QuizController {
 
 		
 		setAnswer();
+
+		if (questionNumber == 10) {
+			finished();
+		}
 			 
 		
 
@@ -268,11 +269,7 @@ public class QuizController {
 	private void opt4Press(ActionEvent event) {
 
 
-		questionNumber = questionNumber +1;
-		
-		if (questionNumber == 10) {
-			finished();
-		}
+	questionNumber = questionNumber +1;
 		
 		// Load root layout from fxml file.
 		 questionN.setText("Question " + Integer.toString(questionNumber));
@@ -289,7 +286,12 @@ public class QuizController {
 
 		
 		
-		setAnswer();
+		setAnswer();	
+		
+		
+		if (questionNumber == 11) {
+			finished();
+		}
 		}
 			
 	
