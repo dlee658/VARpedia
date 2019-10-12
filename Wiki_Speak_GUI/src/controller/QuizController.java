@@ -123,23 +123,15 @@ public class QuizController {
     	
         }
         if (randInt == 2) {
-        	opt1.setText(term3);
         	opt2.setText(term);
-        	opt3.setText(term2);
-        	opt4.setText(term4);
     	
         }
         if (randInt == 3) {
         	opt3.setText(term);
-        	opt1.setText(term3);
-        	opt2.setText(term4);
-        	opt4.setText(term2);
+    	
         }
         if (randInt == 4) {
         	opt4.setText(term);
-        	opt1.setText(term2);
-        	opt2.setText(term4);
-        	opt3.setText(term3);
     	
         }
         
@@ -178,10 +170,15 @@ public class QuizController {
 	private void opt1Press(ActionEvent event) {
 
 		
-				questionNumber = questionNumber +1;
+		
 		
 
-			// Load root layout from fxml file.
+			questionNumber = questionNumber +1;
+			
+			if (questionNumber == 10) {
+				finished();
+			}
+			
 			 questionN.setText("Question " + Integer.toString(questionNumber));
 			 
 			if (isAnswer(1)) {
@@ -196,12 +193,6 @@ public class QuizController {
 			setAnswer();
 			 
 		
-	
-			
-			if (questionNumber == 10) {
-				finished();
-			}
-			
 
 	}
 	
@@ -211,8 +202,11 @@ public class QuizController {
 	
 		questionNumber = questionNumber +1;
 		
-		// Load root layout from fxml file.
-		 questionN.setText("Question " + Integer.toString(questionNumber));
+		if (questionNumber == 10) {
+			finished();
+		}
+		
+		questionN.setText("Question " + Integer.toString(questionNumber));
 		 
 		if (isAnswer(2)) {
 		// opt2.setStyle("-fx-background-color: #00ff00");
@@ -225,22 +219,20 @@ public class QuizController {
 		 
 
 		
-		setAnswer();
-
-		
-		if (questionNumber == 10) {
-			finished();
-		}}
+		setAnswer();}
 	
 	
 	@FXML
 	private void opt3Press(ActionEvent event) {
 
-		
+
 		questionNumber = questionNumber +1;
 		
-		// Load root layout from fxml file.
-		 questionN.setText("Question " + Integer.toString(questionNumber));
+		if (questionNumber == 10) {
+			finished();
+		}
+		
+		questionN.setText("Question " + Integer.toString(questionNumber));
 		 
 		if (isAnswer(3)) {
 	//	 opt3.setStyle("-fx-background-color: #00ff00");
@@ -254,10 +246,6 @@ public class QuizController {
 
 		
 		setAnswer();
-
-		if (questionNumber == 10) {
-			finished();
-		}
 			 
 		
 
@@ -269,7 +257,11 @@ public class QuizController {
 	private void opt4Press(ActionEvent event) {
 
 
-	questionNumber = questionNumber +1;
+		questionNumber = questionNumber +1;
+		
+		if (questionNumber == 10) {
+			finished();
+		}
 		
 		// Load root layout from fxml file.
 		 questionN.setText("Question " + Integer.toString(questionNumber));
@@ -286,12 +278,7 @@ public class QuizController {
 
 		
 		
-		setAnswer();	
-		
-		
-		if (questionNumber == 11) {
-			finished();
-		}
+		setAnswer();
 		}
 			
 	
