@@ -57,6 +57,11 @@ public class QuizController {
 	}
 	
 	@FXML
+	private void handlePlayBtnAction(ActionEvent event) {
+
+	}
+	
+	@FXML
 	private void handleEnterBtnAction(ActionEvent event) {
 		String input = answerField.getText();
 		if(isAnswer(input)) {
