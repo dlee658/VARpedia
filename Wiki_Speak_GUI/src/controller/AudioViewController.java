@@ -75,7 +75,13 @@ public class AudioViewController {
 			audioCreation();
 			
 			if(checkBox.isSelected()) {
-				String cmd = "ffmpeg -i input0.mp3 -i input1.mp3 -filter_complex amerge=inputs=2 -ac 2 output.wav";
+				
+				String audio = "\"Audio" + File.separatorChar +"music" +term +".wav\"";
+				String cmd = "ffmpeg -i "+audio+" -i backgroundMusic.wav -filter_complex amerge=inputs=2 -ac 2 "+term+".wav";
+				
+				ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
+				Process a = pb.start();
+				a.waitFor();
 			}
 			
 			FXMLLoader loader = new FXMLLoader();
@@ -83,6 +89,9 @@ public class AudioViewController {
 			rootLayout = loader.load();
 			nextBtn.getScene().setRoot(rootLayout);
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -121,6 +130,9 @@ public class AudioViewController {
 
 	private void audioCreation() {
 		String audio = "\"Audio" + File.separatorChar + term +".wav\"";
+		if((checkBox.isSelected())) {
+			audio = "\"Audio" + File.separatorChar +"music" +term +".wav\"";
+		}
 		String cmd = "for f in Audio/*.wav; do echo \"file '$f'\" >> mylist.txt ; done ; ffmpeg -safe 0 -y -f concat -i mylist.txt -c copy " + audio + "; rm mylist.txt";
 		try {
 		ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
