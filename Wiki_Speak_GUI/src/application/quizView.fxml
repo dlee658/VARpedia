@@ -91,7 +91,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="0">
+                  <Label fx:id="scoreLabel" text="0">
                      <font>
                         <Font size="24.0" />
                      </font>
