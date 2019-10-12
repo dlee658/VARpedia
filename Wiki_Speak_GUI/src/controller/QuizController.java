@@ -52,6 +52,11 @@ public class QuizController {
 	
 	//
 	protected String term = "apple";
+	
+	protected String term2 = "banana";
+	protected String term3 = "mango";
+	protected String term4 = "grapes";
+	
 
 	//
 	protected int answerNumber = 1;
@@ -112,6 +117,9 @@ public class QuizController {
 		answerNumber = randInt;
         if (randInt == 1) {
         	opt1.setText(term);
+        	opt2.setText(term2);
+        	opt3.setText(term3);
+        	opt4.setText(term4);
     	
         }
         if (randInt == 2) {
