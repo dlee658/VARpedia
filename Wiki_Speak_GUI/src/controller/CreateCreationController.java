@@ -23,9 +23,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 
@@ -35,8 +37,26 @@ public class CreateCreationController {
 	private String term;
 	private int _numOfImages;
 	
+	
+	
+	@FXML
+	private Button homeBtn;
+	@FXML
+	private VBox vb;
+	@FXML
+	private Button backBtn;
+	@FXML
+	private Button createBtn;
+	@FXML
+	private TextField txt;
+	@FXML
+	private ProgressIndicator createIndicator;
+	
+	private Label msg;
+	
 	public CreateCreationController(int numOfImages) {
 		_numOfImages = numOfImages;
+		msg = new Label();
 	}
 
 	@FXML
@@ -54,18 +74,8 @@ public class CreateCreationController {
 		}
 
 	}
-	
 	@FXML
-	private Button homeBtn;
-	@FXML
-	private Button backBtn;
-	@FXML
-	private Button createBtn;
-	@FXML
-	private TextField txt;
-	
-	@FXML
-	private void homeBtnAction(ActionEvent event) {
+	private void handleHomeBtnAction(ActionEvent event) {
 		try {
 			// Load root layout from fxml file.
 		   FXMLLoader loader = new FXMLLoader();
@@ -79,7 +89,7 @@ public class CreateCreationController {
 	}
 	
 	@FXML
-	private void backBtnAction(ActionEvent event) {
+	private void handleBackBtnAction(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Back");
 		alert.setHeaderText("Are you sure you want to leave?");
@@ -102,9 +112,12 @@ public class CreateCreationController {
 	}
 	
 	@FXML
-	private void createBtnAction(ActionEvent event) {
+	private void handleCreateBtnAction(ActionEvent event) {
 		String name = txt.getText();
-		if (isValidName(name)) {
+		if (isValidName(name) && !name.isBlank()) {
+			vb.getChildren().remove(msg);
+			vb.getChildren().add(createIndicator);
+			createIndicator.setVisible(true);
 			String audio = "\"Audio" + File.separatorChar + term +".wav\"";
 
 			ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
@@ -119,7 +132,7 @@ public class CreateCreationController {
 						audioProcess.waitFor();
 
 						VideoCreation vc = new VideoCreation();
-						vc.createVideo(term,name);
+						vc.createVideo(term,_numOfImages,name);
 
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -134,7 +147,7 @@ public class CreateCreationController {
 			task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 				@Override
 				public void handle(WorkerStateEvent event) {
-
+					createIndicator.setVisible(false);
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Creation complete");
 					alert.setHeaderText(null);
@@ -142,19 +155,23 @@ public class CreateCreationController {
 					alert.show();
 				}	
 			});
-		}else { 
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Creation Exists");
-			alert.setHeaderText(null);
-			alert.setContentText("Creation '" +name+ "' already exists");
-			alert.show();
+		}else if (name.isBlank()){ 
+			vb.getChildren().remove(createIndicator);
+			vb.getChildren().add(msg);
+			msg.setText("Please enter a name");
+			
+		} else {
+			vb.getChildren().remove(createIndicator);
+			vb.getChildren().add(msg);
+			msg.setText("Creation '" +name+ "' already exists");
+			
 		}
 	}
 	
 	
 	private boolean isValidName(String name) {
 		File file = new File("Creations" + File.separatorChar + name + ".mp4");
-		if(file.exists() || name.isEmpty()) {
+		if(file.exists()) {
 			return false;
 		}
 		return true;

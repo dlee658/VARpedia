@@ -49,7 +49,7 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <CheckBox fx:id="background" layoutX="66.0" layoutY="540.0" mnemonicParsing="false" onAction="#handleBackground" text="Background Music" />
+           
          </children>
       </Pane>
    </center>
