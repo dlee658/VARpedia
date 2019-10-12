@@ -63,7 +63,7 @@ public class QuizController {
 	//
 	@FXML
 	private void handlePlayBtnAction(ActionEvent event) {
-
+		finished();
 	}
 	//
 	@FXML
