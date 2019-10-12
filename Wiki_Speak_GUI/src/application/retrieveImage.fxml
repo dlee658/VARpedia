@@ -3,45 +3,47 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.202" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ImageRetrieveController">
    <children>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Home">
+      <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Home">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="14.0" layoutY="347.0" mnemonicParsing="false" text="Back">
+      <Button fx:id="BackBtn" layoutX="-3.0" layoutY="561.0" mnemonicParsing="false" onAction="#handleBackBtnAction" text="Back">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <HBox layoutX="83.0" layoutY="64.0" spacing="10.0">
+      <HBox layoutX="162.0" layoutY="60.0" spacing="10.0">
          <children>
             <Label text="Select number of images:">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <ChoiceBox />
-            <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="96.0" text="Retrieve">
+            <ChoiceBox fx:id="imageCB" />
+            <Button fx:id="retrieveBtn" mnemonicParsing="false" onAction="#handleRetrieveBtnAction" text="Retrieve">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
+            <ProgressIndicator fx:id="imageIndicator" prefHeight="35.0" visible="false" />
          </children>
       </HBox>
-      <ScrollPane layoutX="23.0" layoutY="113.0" prefHeight="207.0" prefWidth="555.0">
+      <ScrollPane layoutX="23.0" layoutY="113.0" prefHeight="434.0" prefWidth="859.0">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
         </content>
       </ScrollPane>
-      <Button layoutX="525.0" layoutY="347.0" mnemonicParsing="false" text="Next">
+      <Button fx:id="nextBtn" disable="true" layoutX="829.0" layoutY="562.0" mnemonicParsing="false" onAction="#handleNextBtnAction" text="Next">
          <font>
             <Font size="18.0" />
          </font>

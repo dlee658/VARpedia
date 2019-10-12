@@ -33,6 +33,12 @@ public class CreateCreationController {
 
 
 	private String term;
+	private int _numOfImages;
+	
+	public CreateCreationController(int numOfImages) {
+		_numOfImages = numOfImages;
+	}
+
 	@FXML
 	public void initialize() {
 

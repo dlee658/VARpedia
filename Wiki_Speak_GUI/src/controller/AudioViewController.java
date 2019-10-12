@@ -69,7 +69,7 @@ public class AudioViewController {
 		try {
 			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("creationPage.fxml"));
+			loader.setLocation(Main.class.getResource("retrieveImage.fxml"));
 			rootLayout = loader.load();
 			nextBtn.getScene().setRoot(rootLayout);
 		} catch (IOException e) {
@@ -172,6 +172,7 @@ public class AudioViewController {
 			audioChunkCreation(voice);
 			msg.setText("Audio: " + term + numberTxt + " saved");
 			msg.setTextFill(Color.DARKGREEN);
+			nextBtn.setDisable(false);
 
 		}					
 	}

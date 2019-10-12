@@ -69,13 +69,13 @@ public class VideoCreation {
 		}
 	}
 
-	public void createVideo(String term, String name) {
+	public void createVideo(String term,int numOfImages ,String name) {
 		String video = "\"Video" + File.separatorChar + term + ".mp4\"";
 		String audio = "\"Audio" + File.separatorChar + term + ".wav\"";
 		String creation = "\"Creations" + File.separatorChar + name + ".mp4\"";
 
 		try {
-	//		retrieveImages(term, numOfImages);
+			retrieveImages(term, numOfImages);
 			
 //			String cmd = "cat *.jpg | ffmpeg -framerate " + numOfImages + "/`soxi -D " + audio + "` -i - -c:v libx264 -pix_fmt yuv420p -vf \"scale=640:480:force_original_aspect_ratio=decrease,"
 //					+ "pad=640:480:(ow-iw)/2:(oh-ih)/2,drawtext=FreeSerif.ttf:fontsize=50: fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text=" + term + "\" -r 25 -y " + video 
