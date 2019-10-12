@@ -126,7 +126,7 @@ public class QuizController {
 			
 			ButtonType yesBtn = new ButtonType("Main menu");
 			ButtonType noBtn = new ButtonType("Play again");
-			Alert deleteAlert = new Alert(AlertType.CONFIRMATION,"Press button to play again or return " + yesBtn,noBtn);
+			Alert deleteAlert = new Alert(AlertType.CONFIRMATION,"Press button to play again or return " , yesBtn,noBtn);
 			deleteAlert.setTitle("Game finished");
 			deleteAlert.setHeaderText("Your score is " + Integer.toString(score));
 
