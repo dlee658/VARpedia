@@ -85,7 +85,6 @@ public class SearchPageController {
 		//do searching process
 		String term = searchField.getText();
 		search(term);
-		//enable next btn
 	}
 	
 	@FXML

@@ -22,12 +22,12 @@
       </Button>
       <VBox fx:id="vb" alignment="CENTER" layoutX="193.0" layoutY="172.0" prefHeight="257.0" prefWidth="514.0" spacing="10.0">
          <children>
-            <Label text="Enter your creation name:">
+            <Label fx:id="instructLabel" text="Enter your creation name:">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="txt">
+            <TextField fx:id="txt" onKeyPressed="#handleEnterKeyAction">
                <font>
                   <Font size="18.0" />
                </font>

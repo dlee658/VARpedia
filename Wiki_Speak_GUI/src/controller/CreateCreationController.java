@@ -26,6 +26,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -38,7 +40,6 @@ public class CreateCreationController {
 	private int _numOfImages;
 	
 	
-	
 	@FXML
 	private Button homeBtn;
 	@FXML
@@ -49,6 +50,8 @@ public class CreateCreationController {
 	private Button createBtn;
 	@FXML
 	private TextField txt;
+	@FXML
+	private Label instructLabel;
 	@FXML
 	private ProgressIndicator createIndicator;
 	
@@ -115,30 +118,16 @@ public class CreateCreationController {
 	private void handleCreateBtnAction(ActionEvent event) {
 		String name = txt.getText();
 		if (isValidName(name) && !name.isBlank()) {
-			vb.getChildren().remove(msg);
-			vb.getChildren().add(createIndicator);
+			vb.getChildren().clear();
+			vb.getChildren().addAll(instructLabel,txt,createBtn,createIndicator);
 			createIndicator.setVisible(true);
-			String audio = "\"Audio" + File.separatorChar + term +".wav\"";
 
 			ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
 			Task<File> task = new Task<File>() {
 				@Override
 				protected File call() throws Exception {
-					try { 
-						String cmd = "for f in Audio/*.wav; do echo \"file '$f'\" >> mylist.txt ; done ; ffmpeg -safe 0 -y -f concat -i mylist.txt -c copy " + audio + "; rm mylist.txt";
-
-						ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
-						Process audioProcess = pb.start();
-						audioProcess.waitFor();
-
-						VideoCreation vc = new VideoCreation();
-						vc.createVideo(term,_numOfImages,name);
-
-					} catch (IOException e) {
-						e.printStackTrace();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					VideoCreation vc = new VideoCreation();
+					vc.createVideo(term,_numOfImages,name);
 					return null;	
 				}
 			};
@@ -153,21 +142,30 @@ public class CreateCreationController {
 					alert.setHeaderText(null);
 					alert.setContentText("Creation '" +name+ "' created");
 					alert.show();
+					
 				}	
 			});
 		}else if (name.isBlank()){ 
-			vb.getChildren().remove(createIndicator);
-			vb.getChildren().add(msg);
 			msg.setText("Please enter a name");
+			vb.getChildren().clear();
+			vb.getChildren().addAll(instructLabel,txt,createBtn,msg);
+			
 			
 		} else {
-			vb.getChildren().remove(createIndicator);
-			vb.getChildren().add(msg);
 			msg.setText("Creation '" +name+ "' already exists");
+			vb.getChildren().clear();
+			vb.getChildren().addAll(instructLabel,txt,createBtn,msg);
+		
 			
 		}
 	}
 	
+	@FXML
+	private void handleEnterKeyAction(KeyEvent key) {
+		if (key.getCode().equals(KeyCode.ENTER)){
+            createBtn.fire();
+        }
+	}
 	
 	private boolean isValidName(String name) {
 		File file = new File("Creations" + File.separatorChar + name + ".mp4");

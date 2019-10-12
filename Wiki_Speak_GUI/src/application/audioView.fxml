@@ -69,7 +69,7 @@
                   <Tooltip text="Edit/Highlight some text to preview/save " />
                </tooltip>
             </Button>
-            <Label fx:id="msg" layoutX="423.0" layoutY="548.0" prefHeight="30.0" prefWidth="54.0">
+            <Label fx:id="msg" layoutX="423.0" layoutY="548.0">
                <font>
                   <Font size="24.0" />
                </font>
