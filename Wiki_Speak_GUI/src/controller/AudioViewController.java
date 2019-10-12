@@ -75,7 +75,7 @@ public class AudioViewController {
 			audioCreation();
 			
 			if(checkBox.isSelected()) {
-				
+				String cmd = "ffmpeg -i input0.mp3 -i input1.mp3 -filter_complex amerge=inputs=2 -ac 2 output.wav";
 			}
 			
 			FXMLLoader loader = new FXMLLoader();
