@@ -198,7 +198,7 @@ public class QuizController {
 		
 	
 			
-			if (questionNumber == 10) {
+			if (questionNumber == 11) {
 				finished();
 			}
 			
@@ -228,7 +228,7 @@ public class QuizController {
 		setAnswer();
 
 		
-		if (questionNumber == 10) {
+		if (questionNumber == 11) {
 			finished();
 		}}
 	
@@ -255,7 +255,7 @@ public class QuizController {
 		
 		setAnswer();
 
-		if (questionNumber == 10) {
+		if (questionNumber == 11) {
 			finished();
 		}
 			 
