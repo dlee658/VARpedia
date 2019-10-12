@@ -77,7 +77,8 @@ public class AudioViewController {
 			if(checkBox.isSelected()) {
 				
 				String audio = "\"Audio" + File.separatorChar +"music" +term +".wav\"";
-				String cmd = "ffmpeg -i "+audio+" -i backgroundMusic.wav -filter_complex amerge=inputs=2 -ac 2 "+term+".wav";
+				String audioC = "\"Audio" + File.separatorChar +term +".wav\"";
+				String cmd = "ffmpeg -i "+audio+" -i backgroundMusic.wav -filter_complex amerge=inputs=2 -ac 2 "+audioC;
 				
 				ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 				Process a = pb.start();

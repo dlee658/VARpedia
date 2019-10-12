@@ -75,19 +75,16 @@ public class VideoCreation {
 		String creation = "\"Creations" + File.separatorChar + name + ".mp4\"";
 
 		try {
-			retrieveImages(term, numOfImages);
+	//		retrieveImages(term, numOfImages);
 			
 //			String cmd = "cat *.jpg | ffmpeg -framerate " + numOfImages + "/`soxi -D " + audio + "` -i - -c:v libx264 -pix_fmt yuv420p -vf \"scale=640:480:force_original_aspect_ratio=decrease,"
 //					+ "pad=640:480:(ow-iw)/2:(oh-ih)/2,drawtext=FreeSerif.ttf:fontsize=50: fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text=" + term + "\" -r 25 -y " + video 
 //					+ " &> status.txt ;ffmpeg -i " + video + " -i " + audio + " -c:v copy -c:a aac -strict experimental "+ creation + " &> status2.txt";
 				
-			String cmd = "cat *.jpg | ffmpeg -f image2pipe -framerate " + numOfImages + "/`soxi -D " + audio + "` -i - -c:v libx264 -pix_fmt yuv420p -vf \"scale=640:480:force_original_aspect_ratio=decrease,"
+			String cmd = "cat *.jpg | ffmpeg -f image2pipe -framerate " + numOfImages + "/`soxi -D " + audio + "` -i - -i "+ audio + " -c:v libx264 -pix_fmt yuv420p -vf \"scale=640:480:force_original_aspect_ratio=decrease,"
 					+ "pad=640:480:(ow-iw)/2:(oh-ih)/2,drawtext=FreeSerif.ttf:fontsize=50: fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text=" + term + "\" -r 25 -max_muxing_queue_size 1024 -y " + creation
-					+ " &> status.txt; "; 
-//			
-//			String cmd2 = "cat *.jpg | ffmpeg -f image2pipe -framerate " + numOfImages + "/`soxi -D " + audio + "` -i - -c:v libx264 -pix_fmt yuv420p -vf \"scale=640:480:force_original_aspect_ratio=decrease,"
-//					+ "pad=640:480:(ow-iw)/2:(oh-ih)/2\" -r 25 -max_muxing_queue_size 1024 -y " + video
-//					+ " &> status2.txt"; 
+					+ " &> status.txt"; 
+			
 			//cat *.jpg | ffmpeg -f image2pipe -framerate $framerate -i - -i audio.wav -c:v libx264 -pix_fmt yuv420p -vf "scale=width:height" -r 25 -max_muxing_queue_size 1024 -y out.mp4 
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 			Process creationProcess = pb.start();

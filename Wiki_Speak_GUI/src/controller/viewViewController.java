@@ -40,7 +40,7 @@ public class viewViewController {
 		try {
 			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("searchPage.fxml"));
+			loader.setLocation(Main.class.getResource("mainMenu.fxml"));
 			rootLayout = loader.load();
 			homeBtn.getScene().setRoot(rootLayout);
 		} catch (IOException e) {
