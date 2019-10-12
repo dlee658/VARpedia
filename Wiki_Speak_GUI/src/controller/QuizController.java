@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Random;
 
 
@@ -11,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -34,10 +36,11 @@ public class QuizController {
 	@FXML
 	private TextField answerField;
 	
-	
 	@FXML
 	private Label scoreLabel;
+	//
 	private String answer = "apple";
+	//
 	private int questionNumber = 1;
 	private int score =0;
 
@@ -55,22 +58,27 @@ public class QuizController {
 			e.printStackTrace();
 		}
 	}
-	
+	//
 	@FXML
 	private void handlePlayBtnAction(ActionEvent event) {
 
 	}
-	
+	//
 	@FXML
 	private void handleEnterBtnAction(ActionEvent event) {
 		String input = answerField.getText();
-		if(isAnswer(input)) {
+		if(isCorrect(input)) {
 			score = score +1;
 			scoreLabel.setText(Integer.toString(score));
 		}
 		questionNumber = questionNumber +1;
 		 questionN.setText("Question " + Integer.toString(questionNumber));
 	}
+	
+	
+	
+	
+	
 	
 	@FXML
 	public void initialize() {
@@ -79,7 +87,7 @@ public class QuizController {
 		
 	}
 
-	public boolean isAnswer(String term) {
+	public boolean isCorrect(String term) {
 		if(term.equals(answer)){
 			return true;
 		}
@@ -92,19 +100,32 @@ public class QuizController {
 		try {
 			
 			
-			Alert alert = new Alert(AlertType.INFORMATION);
+			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Game finished");
-			alert.setHeaderText(null);
-			alert.setContentText("Your score is " + Integer.toString(score));
-			alert.show();
+			alert.setHeaderText("Your score is " + Integer.toString(score));
+			alert.setContentText("Press ok to go back to main menu, or try again");
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				   FXMLLoader loader = new FXMLLoader();
+		           loader.setLocation(Main.class.getResource("mainMenu.fxml"));
+		           Pane rootLayout = loader.load();
+		           exitBtn.getScene().setRoot(rootLayout);
+		           questionNumber = 1;
+		           score = 0;
+			} else {	
+				   FXMLLoader loader = new FXMLLoader();
+		           loader.setLocation(Main.class.getResource("quizView.fxml"));
+		           Pane rootLayout = loader.load();
+		           exitBtn.getScene().setRoot(rootLayout);
+		           questionNumber = 1;
+		           score = 0;		
+			}
 			
-			// Load root layout from fxml file.
-		   FXMLLoader loader = new FXMLLoader();
-           loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-           Pane rootLayout = loader.load();
-           exitBtn.getScene().setRoot(rootLayout);
-           questionNumber = 1;
-           score = 0;
+			
+			
+			
+			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
