@@ -123,15 +123,23 @@ public class QuizController {
     	
         }
         if (randInt == 2) {
+        	opt1.setText(term3);
         	opt2.setText(term);
+        	opt3.setText(term2);
+        	opt4.setText(term4);
     	
         }
         if (randInt == 3) {
         	opt3.setText(term);
-    	
+        	opt1.setText(term3);
+        	opt2.setText(term4);
+        	opt4.setText(term2);
         }
         if (randInt == 4) {
         	opt4.setText(term);
+        	opt1.setText(term2);
+        	opt2.setText(term4);
+        	opt3.setText(term3);
     	
         }
         
