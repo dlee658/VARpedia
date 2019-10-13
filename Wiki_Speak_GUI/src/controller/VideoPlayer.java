@@ -13,6 +13,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -44,17 +46,18 @@ public class VideoPlayer{
 	@FXML
 	private Slider volumeSlider;
 
+	@FXML
+	private ImageView btnImage;
+
 	private MediaPlayer mp;
-	private final boolean repeat = false;
-	private boolean stopRequested = false;
-	private boolean atEndOfMedia = false;
+
 	private Duration duration;
 
 
 	public VideoPlayer(File file) {
 		_file = file;
 	}
-	
+
 	@FXML
 	public void initialize() {
 		Media video = new Media(_file.toURI().toString());
@@ -73,23 +76,6 @@ public class VideoPlayer{
 			}
 		});
 
-		mp.setOnPlaying(new Runnable() {
-			public void run() {
-				if (stopRequested) {
-					mp.pause();
-					stopRequested = false;
-				} else {
-					playBtn.setText("||");
-				}
-			}
-		});
-
-		mp.setOnPaused(new Runnable() {
-			public void run() {
-				playBtn.setText(">");
-			}
-		});
-
 		mp.setOnReady(new Runnable() {
 			public void run() {
 				duration = mp.getMedia().getDuration();
@@ -97,15 +83,12 @@ public class VideoPlayer{
 			}
 		});
 
-		mp.setCycleCount(repeat ? MediaPlayer.INDEFINITE : 1);
-		
+
 		mp.setOnEndOfMedia(new Runnable() {
 			public void run() {
-				if (!repeat) {
-					playBtn.setText(">");
-					stopRequested = true;
-					atEndOfMedia = true;
-				}
+				btnImage.setImage(new Image("controller"+File.separatorChar+"play.png"));
+				mp.seek(mp.getStartTime());		
+				mp.pause();
 			}
 		});
 
@@ -206,18 +189,12 @@ public class VideoPlayer{
 	private void handlePlayBtnAction(ActionEvent event) {
 		Status status = mp.getStatus();
 
-		if ( status == Status.PAUSED
-				|| status == Status.READY
-				|| status == Status.STOPPED)
-		{
-			// rewind the movie if we're sitting at the end
-			if (atEndOfMedia) {
-				mp.seek(mp.getStartTime());
-				atEndOfMedia = false;
-			}
+		if ( status == Status.PAUSED || status == Status.READY || status == Status.STOPPED)	{
 			mp.play();
+			btnImage.setImage(new Image("controller"+File.separatorChar+"pause.png"));
 		} else {
 			mp.pause();
+			btnImage.setImage(new Image("controller"+File.separatorChar+"play.png"));
 		}
 	}
 

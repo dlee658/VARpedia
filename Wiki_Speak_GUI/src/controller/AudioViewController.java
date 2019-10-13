@@ -50,12 +50,28 @@ public class AudioViewController {
 
 	private int numberTxt;
 
-	private String term;
+	private String _term;
+
+	private String _resultAreaText;
 	
+	public AudioViewController(String term, String resultAreaText) {
+		_term = term;
+		_resultAreaText = resultAreaText;
+	}
+
+	@FXML
+	public void initialize() {
+		voiceCB.setValue("Male");
+		voiceCB.getItems().addAll("Male", "NZ Guy", "Posh Lady");
+		resultArea.setText(_resultAreaText);
+		numberTxt = 0;
+		
+	
+	}
+
 	@FXML
 	private void handleHomeBtnAction(ActionEvent event) {
 		try {
-			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("mainMenu.fxml"));
 			rootLayout = loader.load();
@@ -68,18 +84,19 @@ public class AudioViewController {
 	@FXML
 	private void handleNextBtnAction(ActionEvent event) {
 		try {
-			// Load root layout from fxml file.
+			
 			audioCreation();
 			
+			//Combine audio with background music
 			if(checkBox.isSelected()) {
 				
-				String audio = "\"Audio" + File.separatorChar +"music" +term +".wav\"";
-				String audioC = "\"Audio" + File.separatorChar +term +".wav\"";
+				String audio = "\"Audio" + File.separatorChar +"music" +_term +".wav\"";
+				String audioC = "\"Audio" + File.separatorChar +_term +".wav\"";
 				String cmd = "ffmpeg -i "+audio+" -i backgroundMusic.wav -filter_complex amerge=inputs=2 -ac 2 "+audioC;
 				
 				ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
-				Process a = pb.start();
-				a.waitFor();
+				Process audioProcess = pb.start();
+				audioProcess.waitFor();
 			}
 			
 			FXMLLoader loader = new FXMLLoader();
@@ -96,71 +113,13 @@ public class AudioViewController {
 	@FXML
 	private void handleBackBtnAction(ActionEvent event) {
 		try {
-			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("mainMenu.fxml"));
+			loader.setLocation(Main.class.getResource("searchPage.fxml"));
 			rootLayout = loader.load();
 			nextBtn.getScene().setRoot(rootLayout);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@FXML
-	public void initialize() {
-		voiceCB.setValue("Male");
-		voiceCB.getItems().addAll("Male", "NZ Guy", "Posh Lady");
-		initializeResultArea();
-		numberTxt = 0;
-		BufferedReader reader;
-		try {
-			reader = new BufferedReader(new FileReader("term.txt"));
-			term = reader.readLine();
-			reader.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private void audioCreation() {
-		String audio = "\"Audio" + File.separatorChar + term +".wav\"";
-		if((checkBox.isSelected())) {
-			audio = "\"Audio" + File.separatorChar +"music" +term +".wav\"";
-		}
-		String cmd = "for f in Audio/*.wav; do echo \"file '$f'\" >> mylist.txt ; done ; ffmpeg -safe 0 -y -f concat -i mylist.txt -c copy " + audio + "; rm mylist.txt";
-		try {
-		ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
-		Process audioProcess = pb.start();
-
-			audioProcess.waitFor();
-		} catch (InterruptedException e) {
-
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void initializeResultArea() {
-		File text = new File("Audio" + File.separatorChar + "audio_text.txt");
-		BufferedReader reader;
-		try {
-			reader = new BufferedReader(new FileReader(text));
-			String line = reader.readLine().trim();
-			resultArea.setText(line);
-			while ((line = reader.readLine()) != null ) {
-				resultArea.appendText(line);
-			}
-			reader.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	@FXML
@@ -204,17 +163,21 @@ public class AudioViewController {
 			String voice = voiceCB.getValue().toString();
 			createText(selectedPart);
 			audioChunkCreation(voice);
-			msg.setText("Audio: " + term + numberTxt + " saved");
+			msg.setText("Audio: " + _term + numberTxt + " saved");
 			msg.setTextFill(Color.DARKGREEN);
 			nextBtn.setDisable(false);
 
 		}					
 	}
 
+	/**
+	 * Saves the highlighted text as audio
+	 * @param voice
+	 */
 	private void audioChunkCreation(String voice) {
 
-		String audio = "\"Audio" + File.separatorChar + term +numberTxt+ ".wav\"";
-		String text = "\"Audio" + File.separatorChar + term + numberTxt+".txt\"";
+		String audio = "\"Audio" + File.separatorChar + _term +numberTxt+ ".wav\"";
+		String text = "\"Audio" + File.separatorChar + _term + numberTxt+".txt\"";
 
 		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
 		Task<File> task = new Task<File>() {
@@ -255,10 +218,32 @@ public class AudioViewController {
 		createWorker.submit(task);
 	}
 
-	protected void createText(String selectedText) {
+	/**
+	 * Combines all the audio chunks into one
+	 */
+	private void audioCreation() {
+		String audio = "\"Audio" + File.separatorChar + _term +".wav\"";
+		if((checkBox.isSelected())) {
+			audio = "\"Audio" + File.separatorChar +"music" +_term +".wav\"";
+		}
+		String cmd = "for f in Audio/*.wav; do echo \"file '$f'\" >> mylist.txt ; done ; ffmpeg -safe 0 -y -f concat -i mylist.txt -c copy " + audio + "; rm mylist.txt";
+		try {
+		ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
+		Process audioProcess = pb.start();
+	
+			audioProcess.waitFor();
+		} catch (InterruptedException e) {
+	
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void createText(String selectedText) {
 		String cmd = "echo \"" + selectedText + "\"";
 		ProcessBuilder pb = new ProcessBuilder("bash","-c",cmd);
-		pb.redirectOutput(new File("Audio" + File.separatorChar + term +numberTxt+ ".txt"));
+		pb.redirectOutput(new File("Audio" + File.separatorChar + _term +numberTxt+ ".txt"));
 
 		try {
 			Process process = pb.start();

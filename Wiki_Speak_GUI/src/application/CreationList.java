@@ -10,7 +10,11 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-
+/**
+ * Contains a list of the current creations created for the view list
+ * @author student
+ *
+ */
 public class CreationList {
 	private List<String> _creationList = new ArrayList<String>();
 
@@ -24,6 +28,9 @@ public class CreationList {
 		return content;
 	}
 
+	/**
+	 * Gets the latest list of creation files in the system and stores it in the creation list
+	 */
 	public void update() {
 		_creationList.clear();
 		String cmd = "ls Creations | sort";

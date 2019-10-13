@@ -11,22 +11,20 @@ import javafx.scene.Scene;
 //import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.layout.Pane;
 
+/**
+ * Main method of application
+ * @author student
+ *
+ */
 public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Wiki-Speak Authoring Tool");
-		primaryStage.setMinHeight(500);
-		primaryStage.setMinWidth(600);
+		primaryStage.setResizable(false);
 
 		setUpDirectories();
-//		Home home = new Home();
-//		View view = new View();
-//		Create create = new Create(view);
-//		
-//		//Set up the tab panes
-//		TabPane tabPane = new TabPane(home.getTab(),create.getTab(),view.getTab());
-//		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+
 		try {
 		 FXMLLoader loader = new FXMLLoader();
          loader.setLocation(Main.class.getResource("mainMenu.fxml"));
@@ -35,16 +33,16 @@ public class Main extends Application {
 		primaryStage.setScene(new Scene(rootLayout));
 		primaryStage.show();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
 	}
 
+	/**
+	 * Sets up the directories for creation, audio and video files
+	 */
 	private void setUpDirectories() {
-		//create creation, audio and video files
-
 		File creation = new File("Creations");
 		File audio = new File("Audio");
 		File video = new File("Video");

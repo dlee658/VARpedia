@@ -64,7 +64,7 @@ public class SearchPageController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
 	private void handleCancelBtnAction(ActionEvent event) {
 		searchTask.cancel();
@@ -86,22 +86,22 @@ public class SearchPageController {
 		String term = searchField.getText();
 		search(term);
 	}
-	
+
 	@FXML
 	private void handleEnterKeyAction(KeyEvent key) {
 		if (key.getCode().equals(KeyCode.ENTER)){
-            searchBtn.fire();
-        }
+			searchBtn.fire();
+		}
 	}
 
 	@FXML
 	private void handleNextBtnAction(ActionEvent event) {
 		try {	
-			// Load root layout from fxml file.
+			AudioViewController avc = new AudioViewController(searchField.getText(),resultArea.getText());
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("audioView.fxml"));
-			rootLayout = loader.load();
-			nextBtn.getScene().setRoot(rootLayout);
+			loader.setController(avc);
+			nextBtn.getScene().setRoot(loader.load());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -158,7 +158,7 @@ public class SearchPageController {
 		};
 
 		worker.submit(searchTask);
-		
+
 		searchTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
@@ -168,21 +168,21 @@ public class SearchPageController {
 					String line = reader.readLine().trim();
 					if (line.equals(term + " not found :^(")) {
 						resultArea.setText(term + " not found, please try again");
-						
+
 
 
 					} else {
 
 						resultArea.setText(line);
-						
+
 						while ((line = reader.readLine()) != null ) {
 							resultArea.appendText(line);
 						}
 						reader.close();
 						//save term to a textfile
 						BufferedWriter writer = new BufferedWriter(new FileWriter("term.txt"));
-					    writer.write(term);
-					    writer.close();
+						writer.write(term);
+						writer.close();
 					}
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
