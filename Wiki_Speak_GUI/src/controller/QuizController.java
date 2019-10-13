@@ -51,6 +51,8 @@ public class QuizController {
 	private int questionNumber;
 	private int score = 0;
 
+	private MediaPlayer mp;
+
 	
 	@FXML
 	private void handleExitBtnAction(ActionEvent event) {
@@ -109,8 +111,13 @@ public class QuizController {
 			if (line == null) {
 				finished();
 			} else {
-				String name = line.substring(0,line.indexOf(",")-1).trim();
+				String name = line.substring(0,line.indexOf(",")).trim();
+				File file = new File("Video" + File.separatorChar + name + ".mp4");
 				answer = line.substring(line.indexOf(",")+1).trim();
+				Media video = new Media(file.toURI().toString());
+				mp = new MediaPlayer(video);
+				mp.setAutoPlay(true);
+				mediaPlayer.setMediaPlayer(mp);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

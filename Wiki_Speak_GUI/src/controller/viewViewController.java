@@ -102,7 +102,7 @@ public class viewViewController {
 	}
 
 	private void updateCreationTermList(String fileName) {
-		String command = "sed -i '/"+fileName+" /d' ./creationTermList.txt";
+		String command = "sed -i '/"+fileName+",/d' ./creationTermList.txt";
 		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
 		try {
 			Process searchProcess = pb.start(); 

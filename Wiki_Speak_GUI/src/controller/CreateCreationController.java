@@ -164,7 +164,7 @@ public class CreateCreationController {
 	}
 
 	private void updateCreationTermList(String name, String term) {
-		String command = "echo " + name + " " + term + " >> creationTermList.txt";
+		String command = "echo " + name + "," + term + " >> creationTermList.txt";
 		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
 		try {
 			Process searchProcess = pb.start(); 
