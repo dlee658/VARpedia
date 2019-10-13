@@ -1,10 +1,8 @@
 package controller;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -13,11 +11,14 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -71,14 +72,24 @@ public class AudioViewController {
 
 	@FXML
 	private void handleHomeBtnAction(ActionEvent event) {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-			rootLayout = loader.load();
-			homeBtn.getScene().setRoot(rootLayout);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Home");
+		alert.setHeaderText("Are you sure you want to leave?");
+		alert.setContentText("Current creation will not be saved.");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK){
+			try {
+				// Load root layout from fxml file.
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(Main.class.getResource("mainMenu.fxml"));
+				Pane rootLayout = loader.load();
+				homeBtn.getScene().setRoot(rootLayout);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} 
 	}
 
 	@FXML
@@ -99,10 +110,12 @@ public class AudioViewController {
 				audioProcess.waitFor();
 			}
 			
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("retrieveImage.fxml"));
-			rootLayout = loader.load();
-			nextBtn.getScene().setRoot(rootLayout);
+				ImageRetrieveController controller = new ImageRetrieveController(_term);
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(Main.class.getResource("retrieveImage.fxml"));
+				loader.setController(controller);
+				nextBtn.getScene().setRoot(loader.load());
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {

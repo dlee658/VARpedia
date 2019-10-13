@@ -108,17 +108,6 @@ public class SearchPageController {
 	}
 
 	private void search(String term) {
-		String command = "rm Audio/*.txt; rm  Audio/*.wav; rm *.jpg";
-		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);			
-		try {
-			Process searchProcess = pb.start(); 
-			searchProcess.waitFor();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
 		term = searchField.getText().trim();
 
 		if (term.isEmpty()) {

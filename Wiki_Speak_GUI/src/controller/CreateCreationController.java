@@ -1,10 +1,7 @@
 package controller;
 
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -34,7 +31,7 @@ import javafx.scene.layout.VBox;
 public class CreateCreationController {
 
 
-	private String term;
+	private String _term;
 	private int _numOfImages;
 
 
@@ -55,7 +52,8 @@ public class CreateCreationController {
 
 	private Label msg;
 
-	public CreateCreationController(int numOfImages) {
+	public CreateCreationController(String term, int numOfImages) {
+		_term = term;
 		_numOfImages = numOfImages;
 		msg = new Label();
 	}
@@ -63,36 +61,13 @@ public class CreateCreationController {
 	@FXML
 	public void initialize() {
 
-		BufferedReader reader;
-		try {
-			reader = new BufferedReader(new FileReader("term.txt"));
-			term = reader.readLine();
-			reader.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 	}
+
+
 	@FXML
 	private void handleHomeBtnAction(ActionEvent event) {
-		try {
-			// Load root layout from fxml file.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-			Pane rootLayout = loader.load();
-			homeBtn.getScene().setRoot(rootLayout);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@FXML
-	private void handleBackBtnAction(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Back");
+		alert.setTitle("Home");
 		alert.setHeaderText("Are you sure you want to leave?");
 		alert.setContentText("Current creation will not be saved.");
 
@@ -101,7 +76,7 @@ public class CreateCreationController {
 			try {
 				// Load root layout from fxml file.
 				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(Main.class.getResource("retrieveImage.fxml"));
+				loader.setLocation(Main.class.getResource("mainMenu.fxml"));
 				Pane rootLayout = loader.load();
 				backBtn.getScene().setRoot(rootLayout);
 
@@ -109,6 +84,20 @@ public class CreateCreationController {
 				e.printStackTrace();
 			}
 		} 
+	}
+
+	@FXML
+	private void handleBackBtnAction(ActionEvent event) {
+		try {
+			// Load root layout from fxml file.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("retrieveImage.fxml"));
+			Pane rootLayout = loader.load();
+			backBtn.getScene().setRoot(rootLayout);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -125,27 +114,49 @@ public class CreateCreationController {
 				@Override
 				protected File call() throws Exception {
 					VideoCreation vc = new VideoCreation();
-					vc.createVideo(term,_numOfImages,name);
+					vc.createVideo(_term,_numOfImages,name);
 					return null;	
 				}
 			};
 
 			createWorker.submit(task);
+
 			task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 				@Override
 				public void handle(WorkerStateEvent event) {
 					createIndicator.setVisible(false);
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Creation complete");
-					alert.setHeaderText(null);
-					alert.setContentText("Creation '" +name+ "' created");
-					alert.show();
-					updateCreationTermList(name,term);
+					try {
 
+						ButtonType mainMenuBtn = new ButtonType("Return to Main Menu");
+						ButtonType createAnotherBtn = new ButtonType("Create another");
+						Alert deleteAlert = new Alert(AlertType.CONFIRMATION, null , mainMenuBtn,createAnotherBtn);
+						deleteAlert.setTitle("Creation Complete");
+						deleteAlert.setHeaderText("Creation '" +name+ "' created");
+
+						Optional<ButtonType> btn = deleteAlert.showAndWait();
+
+						if (btn.get() == mainMenuBtn) {
+							FXMLLoader loader = new FXMLLoader();
+							loader.setLocation(Main.class.getResource("mainMenu.fxml"));
+							Pane rootLayout = loader.load();
+							createBtn.getScene().setRoot(rootLayout);
+						} 
+						if(btn.get() == createAnotherBtn) {
+							FXMLLoader loader = new FXMLLoader();
+							loader.setLocation(Main.class.getResource("searchPage.fxml"));
+							Pane rootLayout = loader.load();
+							createBtn.getScene().setRoot(rootLayout);
+						}
+
+						updateCreationTermList(name,_term);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
 				}
 
-
 			});
+			
 		}else if (name.isBlank()){ 
 			msg.setText("Please enter a name");
 			vb.getChildren().clear();

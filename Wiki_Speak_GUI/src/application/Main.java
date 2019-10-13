@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
 //import javafx.scene.control.TabPane;
 //import javafx.scene.control.TabPane.TabClosingPolicy;
@@ -35,6 +37,24 @@ public class Main extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent arg0) {
+				String command = "rm Audio/*.txt; rm  Audio/*.wav; rm *.jpg";
+				ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);			
+				try {
+					Process searchProcess = pb.start(); 
+					searchProcess.waitFor();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			
+		});
 		
 		
 	}

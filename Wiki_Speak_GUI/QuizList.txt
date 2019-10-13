@@ -1,4 +1,0 @@
-green,green
-app,a
-orange,orange
-yo,yo

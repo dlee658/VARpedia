@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.imageio.ImageIO;
 
@@ -23,12 +24,16 @@ import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 
 public class ImageRetrieveController {
 	@FXML 
@@ -51,61 +56,76 @@ public class ImageRetrieveController {
 
 	@FXML
 	private HBox HB2;
-	
+
 	@FXML
 	private HBox HB3;
 
 	@FXML 
 	private ChoiceBox<Integer> imageCB;
 
-	private int numOfImages;
+	private int _numOfImages;
 
-	private String term;
+	private String _term;
+
+	public ImageRetrieveController(String term) {
+		_term = term;
+	}
 
 	@FXML
 	public void initialize() {
 		imageCB.setValue(1);
 		imageCB.getItems().addAll(1,2,3,4,5,6,7,8,9,10);
-		BufferedReader reader;
-		try {
-			reader = new BufferedReader(new FileReader("term.txt"));
-			term = reader.readLine();
-			reader.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	@FXML
 	private void handleHomeBtnAction(ActionEvent event) {
-		try {
-			// Load root layout from fxml file.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-			homeBtn.getScene().setRoot(loader.load());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Home");
+		alert.setHeaderText("Are you sure you want to leave?");
+		alert.setContentText("Current creation will not be saved.");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK){
+			try {
+				// Load root layout from fxml file.
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(Main.class.getResource("mainMenu.fxml"));
+				Pane rootLayout = loader.load();
+				homeBtn.getScene().setRoot(rootLayout);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} 
+		
+		
 	}
 
 	@FXML
 	private void handleRetrieveBtnAction(ActionEvent event) {
+		String command = "rm *.jpg";
+		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
+		try {
+			Process searchProcess = pb.start(); 
+			searchProcess.waitFor();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		HB1.getChildren().clear();
 		HB2.getChildren().clear();
 		HB3.getChildren().clear();
 		imageIndicator.setVisible(true);
-		numOfImages = imageCB.getValue();
-		retrieveImages(term,numOfImages);
+		_numOfImages = imageCB.getValue();
+		retrieveImages(_term,_numOfImages);
 	}
 
 
 	@FXML
 	private void handleNextBtnAction(ActionEvent event) {
 		try {	
-			CreateCreationController controller = new CreateCreationController(numOfImages);
+			CreateCreationController controller = new CreateCreationController(_term, _numOfImages);
 
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("createCreation.fxml"));
@@ -174,11 +194,11 @@ public class ImageRetrieveController {
 					} else {
 						filename = term+"0"+i+".jpg";
 					}
-					
+
 					File outputfile = new File(filename);
 					ImageIO.write(image, "jpg", outputfile);
 					Image inputImage;
-					
+
 					if (i<=4) {
 						try {
 							String cwd = System.getProperty("user.dir");
@@ -192,7 +212,7 @@ public class ImageRetrieveController {
 						} catch (FileNotFoundException e1) {
 							e1.printStackTrace();
 						}
-						
+
 					} else if (i > 4 && i <= 8) {
 						try {
 							String cwd = System.getProperty("user.dir");
@@ -217,7 +237,6 @@ public class ImageRetrieveController {
 							imageView.setImage(inputImage);
 							HB3.getChildren().add(imageView);
 						} catch (FileNotFoundException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					}

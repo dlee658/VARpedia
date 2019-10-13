@@ -22,7 +22,7 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <TextArea fx:id="_resultArea" layoutX="22.0" layoutY="73.0" prefHeight="361.0" prefWidth="856.0" wrapText="true">
+            <TextArea fx:id="resultArea" layoutX="22.0" layoutY="73.0" prefHeight="361.0" prefWidth="856.0" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>

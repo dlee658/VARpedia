@@ -174,29 +174,25 @@ public class QuizController {
 	public void finished() {
 		try {
 					
-			ButtonType yesBtn = new ButtonType("Main menu");
-			ButtonType noBtn = new ButtonType("Play again");
-			Alert deleteAlert = new Alert(AlertType.CONFIRMATION,"Press button to play again or return " , yesBtn,noBtn);
-			deleteAlert.setTitle("Game finished");
+			ButtonType mainMenuBtn = new ButtonType("Main menu");
+			ButtonType playAgainBtn = new ButtonType("Play again");
+			Alert deleteAlert = new Alert(AlertType.CONFIRMATION,"Press button to play again or return " , mainMenuBtn,playAgainBtn);
+			deleteAlert.setTitle("Quiz finished");
 			deleteAlert.setHeaderText("Your score is " + Integer.toString(score));
 
 			Optional<ButtonType> btn = deleteAlert.showAndWait();
 
-			if (btn.get() == yesBtn) {
+			if (btn.get() == mainMenuBtn) {
 				   FXMLLoader loader = new FXMLLoader();
 		           loader.setLocation(Main.class.getResource("mainMenu.fxml"));
 		           Pane rootLayout = loader.load();
 		           exitBtn.getScene().setRoot(rootLayout);
-		           questionNumber = 1;
-		           score = 0;
 			} 
-			if(btn.get() == noBtn) {
+			if(btn.get() == playAgainBtn) {
 				   FXMLLoader loader = new FXMLLoader();
 		           loader.setLocation(Main.class.getResource("quizView.fxml"));
 		           Pane rootLayout = loader.load();
 		           exitBtn.getScene().setRoot(rootLayout);
-		           questionNumber = 1;
-		           score = 0;	
 			}
 			
 
