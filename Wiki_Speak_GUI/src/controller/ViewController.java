@@ -18,7 +18,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 
-public class viewViewController {
+public class ViewController {
 	@FXML 
 	private ListView<String> viewListView;
 	private CreationList creationList;

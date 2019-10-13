@@ -12,12 +12,10 @@ public class VideoCreation {
 
 		try {	
 			String cmd = "cat *.jpg | ffmpeg -f image2pipe -framerate " + numOfImages + "/`soxi -D " + audio + "` -i - -i "+ audio + " -c:v libx264 -pix_fmt yuv420p -vf \"scale=640:480:force_original_aspect_ratio=decrease,"
-					+ "pad=640:480:(ow-iw)/2:(oh-ih)/2,drawtext=FreeSerif.ttf:fontsize=50: fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text=" + term + "\" -r 25 -max_muxing_queue_size 1024 -y " + creation
-					+ " &> status.txt;"; 
+					+ "pad=640:480:(ow-iw)/2:(oh-ih)/2,drawtext=FreeSerif.ttf:fontsize=50: fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text=" + term + "\" -r 25 -max_muxing_queue_size 1024 -y " + creation + ";"; 
 			
 			String cmd2 = "cat *.jpg | ffmpeg -f image2pipe -framerate " + numOfImages + "/`soxi -D " + audio + "` -i - -i "+ audio + " -c:v libx264 -pix_fmt yuv420p -vf \"scale=640:480:force_original_aspect_ratio=decrease,"
-					+ "pad=640:480:(ow-iw)/2:(oh-ih)/2\" -r 25 -max_muxing_queue_size 1024 -y " + video
-					+ " &> status.txt"; 
+					+ "pad=640:480:(ow-iw)/2:(oh-ih)/2\" -r 25 -max_muxing_queue_size 1024 -y " + video; 
 			
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd + cmd2);
 			Process creationProcess = pb.start();

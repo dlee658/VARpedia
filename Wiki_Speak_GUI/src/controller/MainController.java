@@ -1,6 +1,5 @@
 package controller;
 
-import java.awt.Label;
 import java.io.IOException;
 
 import application.Main;
@@ -70,7 +69,7 @@ public class MainController {
 		try {
 			// Load root layout from fxml file.
 		   FXMLLoader loader = new FXMLLoader();
-           loader.setLocation(Main.class.getResource("helpPage.fxml"));
+           loader.setLocation(Main.class.getResource("helpView.fxml"));
            rootLayout = loader.load();
            quizBtn.getScene().setRoot(rootLayout);
 		} catch (IOException e) {

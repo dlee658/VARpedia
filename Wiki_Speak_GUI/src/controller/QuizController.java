@@ -5,27 +5,26 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.Optional;
-import java.util.Random;
-
-
 import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;;
 
 public class QuizController {
 	@FXML 
@@ -36,6 +35,9 @@ public class QuizController {
 	
 	@FXML
 	private MediaView mediaPlayer;
+	@FXML
+	private ImageView playImage;
+
 
 	@FXML
 	private Button enterBtn;
@@ -52,32 +54,47 @@ public class QuizController {
 	private int score = 0;
 
 	private MediaPlayer mp;
-
 	
 	@FXML
-	private void handleExitBtnAction(ActionEvent event) {
-		try {
-			// Load root layout from fxml file.
-		   FXMLLoader loader = new FXMLLoader();
-           loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-           Pane rootLayout = loader.load();
-           exitBtn.getScene().setRoot(rootLayout);
-           
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void initialize() {
+		questionNumber = 1;
+		generateQuesitonList();
+		getNextQuestion(questionNumber);
+		
+		mp.setOnEndOfMedia(new Runnable() {
+			public void run() {
+				playImage.setImage(new Image("controller"+File.separatorChar+"replay.png"));
+				mp.seek(mp.getStartTime());		
+				mp.pause();
+			}
+		});
+			
 	}
-	//
+
 	@FXML
-	private void handlePlayBtnAction(ActionEvent event) {
+	private void handleExitBtnAction(ActionEvent event) {
 		finished();
 	}
-	//
+	
+	@FXML
+	private void handlePlayBtnAction(ActionEvent event) {
+		Status status = mp.getStatus();
+
+		if ( status == Status.PAUSED || status == Status.READY || status == Status.STOPPED)	{
+			mp.play();
+			playImage.setImage(new Image("controller"+File.separatorChar+"pause.png"));
+		} else {
+			mp.pause();
+			playImage.setImage(new Image("controller"+File.separatorChar+"play.png"));
+		}
+	}
+	
 	@FXML
 	private void handleEnterBtnAction(ActionEvent event) {
+		mp.pause();
 		String input = answerField.getText();
 		if(isCorrect(input)) {
-			score = score +1;
+			score = score + 1;
 			scoreLabel.setText(Integer.toString(score));
 		}
 		questionNumber = questionNumber + 1;
@@ -85,16 +102,19 @@ public class QuizController {
 		if (questionNumber > 10 ) {
 			finished();
 		}
-			
+		answerField.clear();
 		getNextQuestion(questionNumber);
 		questionN.setText("Question " + Integer.toString(questionNumber));
 	}
 	
+	@FXML
+	private void handleEnterKeyAction(KeyEvent key) {
+		if (key.getCode().equals(KeyCode.ENTER)){
+			enterBtn.fire();
+		}
+	}
 	
-	
-	
-	
-	
+
 	private void getNextQuestion(int questionNumber) {
 		String command = "awk 'NR=="+questionNumber+"' QuizList.txt";
 		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
@@ -128,14 +148,6 @@ public class QuizController {
 		
 	}
 	
-	@FXML
-	public void initialize() {
-		questionNumber = 1;
-		generateQuesitonList();
-		getNextQuestion(questionNumber);
-		
-	}
-
 	private void generateQuesitonList() {
 		String command = " shuf -n 10 creationTermList.txt > QuizList.txt";
 		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
@@ -161,30 +173,7 @@ public class QuizController {
 
 	public void finished() {
 		try {
-			
-			
-/*			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Game finished");
-			alert.setHeaderText("Your score is " + Integer.toString(score));
-			alert.setContentText("Press ok to go back to main menu, or try again");
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK){
-				   FXMLLoader loader = new FXMLLoader();
-		           loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-		           Pane rootLayout = loader.load();
-		           exitBtn.getScene().setRoot(rootLayout);
-		           questionNumber = 1;
-		           score = 0;
-			} else {	
-				   FXMLLoader loader = new FXMLLoader();
-		           loader.setLocation(Main.class.getResource("quizView.fxml"));
-		           Pane rootLayout = loader.load();
-		           exitBtn.getScene().setRoot(rootLayout);
-		           questionNumber = 1;
-		           score = 0;		
-			}
-			*/
-			
+					
 			ButtonType yesBtn = new ButtonType("Main menu");
 			ButtonType noBtn = new ButtonType("Play again");
 			Alert deleteAlert = new Alert(AlertType.CONFIRMATION,"Press button to play again or return " , yesBtn,noBtn);
