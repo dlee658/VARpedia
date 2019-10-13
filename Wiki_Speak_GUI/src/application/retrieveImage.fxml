@@ -4,7 +4,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -37,11 +37,20 @@
             <ProgressIndicator fx:id="imageIndicator" prefHeight="35.0" visible="false" />
          </children>
       </HBox>
-      <ScrollPane fx:id="scrollPane" layoutX="23.0" layoutY="113.0" prefHeight="422.0" prefWidth="859.0" />
       <Button fx:id="nextBtn" disable="true" layoutX="819.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleNextBtnAction" text="Next">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
+      <ImageView fx:id="image1" fitHeight="150.0" fitWidth="200.0" layoutX="62.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="image5" fitHeight="150.0" fitWidth="200.0" layoutX="62.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="image8" fitHeight="150.0" fitWidth="200.0" layoutX="62.0" layoutY="375.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="image2" fitHeight="150.0" fitWidth="200.0" layoutX="262.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="image6" fitHeight="150.0" fitWidth="200.0" layoutX="262.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="image9" fitHeight="150.0" fitWidth="200.0" layoutX="262.0" layoutY="389.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="image3" fitHeight="150.0" fitWidth="200.0" layoutX="462.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="image7" fitHeight="150.0" fitWidth="200.0" layoutX="462.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="image10" fitHeight="150.0" fitWidth="200.0" layoutX="462.0" layoutY="389.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="image4" fitHeight="150.0" fitWidth="200.0" layoutX="662.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </Pane>
