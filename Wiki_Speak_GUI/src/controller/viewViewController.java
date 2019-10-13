@@ -2,15 +2,20 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 import application.CreationList;
 import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 
 public class viewViewController {
@@ -72,15 +77,42 @@ public class viewViewController {
 	
 	@FXML
 	private void handleDeleteBtnAction(ActionEvent event) {
+		String fileName = viewListView.getSelectionModel().getSelectedItem();
+		if (fileName == null) {
+			return;
+		}
+
+		ButtonType yesBtn = new ButtonType("yes");
+		ButtonType noBtn = new ButtonType("no", ButtonBar.ButtonData.CANCEL_CLOSE);
+		Alert deleteAlert = new Alert(AlertType.CONFIRMATION,"Are you sure you want to delete: " + fileName,yesBtn,noBtn);
+		deleteAlert.setTitle("Confirm Deletion");
+		deleteAlert.setHeaderText(null);
+
+		Optional<ButtonType> btn = deleteAlert.showAndWait();
+
+		if (btn.get() == yesBtn) {
+			File file = new File("Creations" + File.separatorChar + fileName + ".mp4");
+			file.delete();
+			creationList.update();
+			viewListView.setItems(creationList.getCList()); 
+			updateCreationTermList(fileName);
+			deleteAlert.close();
+		} 
+		
+	}
+
+	private void updateCreationTermList(String fileName) {
+		String command = "sed -i '/"+fileName+" /d' ./creationTermList.txt";
+		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
 		try {
-			// Load root layout from fxml file.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("searchPage.fxml"));
-			rootLayout = loader.load();
-			homeBtn.getScene().setRoot(rootLayout);
+			Process searchProcess = pb.start(); 
+			searchProcess.waitFor();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+		
 	}
 	
 	

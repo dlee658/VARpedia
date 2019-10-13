@@ -38,8 +38,8 @@ public class CreateCreationController {
 
 	private String term;
 	private int _numOfImages;
-	
-	
+
+
 	@FXML
 	private Button homeBtn;
 	@FXML
@@ -54,9 +54,9 @@ public class CreateCreationController {
 	private Label instructLabel;
 	@FXML
 	private ProgressIndicator createIndicator;
-	
+
 	private Label msg;
-	
+
 	public CreateCreationController(int numOfImages) {
 		_numOfImages = numOfImages;
 		msg = new Label();
@@ -81,16 +81,16 @@ public class CreateCreationController {
 	private void handleHomeBtnAction(ActionEvent event) {
 		try {
 			// Load root layout from fxml file.
-		   FXMLLoader loader = new FXMLLoader();
-           loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-           Pane rootLayout = loader.load();
-           homeBtn.getScene().setRoot(rootLayout);
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("mainMenu.fxml"));
+			Pane rootLayout = loader.load();
+			homeBtn.getScene().setRoot(rootLayout);
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
 	private void handleBackBtnAction(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -102,10 +102,10 @@ public class CreateCreationController {
 		if (result.get() == ButtonType.OK){
 			try {
 				// Load root layout from fxml file.
-			   FXMLLoader loader = new FXMLLoader();
-	           loader.setLocation(Main.class.getResource("retrieveImage.fxml"));
-	           Pane rootLayout = loader.load();
-	           backBtn.getScene().setRoot(rootLayout);
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(Main.class.getResource("retrieveImage.fxml"));
+				Pane rootLayout = loader.load();
+				backBtn.getScene().setRoot(rootLayout);
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -113,7 +113,7 @@ public class CreateCreationController {
 		} 
 
 	}
-	
+
 	@FXML
 	private void handleCreateBtnAction(ActionEvent event) {
 		String name = txt.getText();
@@ -142,31 +142,47 @@ public class CreateCreationController {
 					alert.setHeaderText(null);
 					alert.setContentText("Creation '" +name+ "' created");
 					alert.show();
-					
-				}	
+					updateCreationTermList(name,term);
+
+				}
+
+
 			});
 		}else if (name.isBlank()){ 
 			msg.setText("Please enter a name");
 			vb.getChildren().clear();
 			vb.getChildren().addAll(instructLabel,txt,createBtn,msg);
-			
-			
+
+
 		} else {
 			msg.setText("Creation '" +name+ "' already exists");
 			vb.getChildren().clear();
 			vb.getChildren().addAll(instructLabel,txt,createBtn,msg);
-		
-			
+
+
 		}
 	}
-	
+
+	private void updateCreationTermList(String name, String term) {
+		String command = "echo " + name + " " + term + " >> creationTermList.txt";
+		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
+		try {
+			Process searchProcess = pb.start(); 
+			searchProcess.waitFor();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+	}
 	@FXML
 	private void handleEnterKeyAction(KeyEvent key) {
 		if (key.getCode().equals(KeyCode.ENTER)){
-            createBtn.fire();
-        }
+			createBtn.fire();
+		}
 	}
-	
+
 	private boolean isValidName(String name) {
 		File file = new File("Creations" + File.separatorChar + name + ".mp4");
 		if(file.exists()) {
@@ -174,10 +190,10 @@ public class CreateCreationController {
 		}
 		return true;
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 }

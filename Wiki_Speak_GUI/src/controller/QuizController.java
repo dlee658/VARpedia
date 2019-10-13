@@ -1,7 +1,12 @@
 package controller;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Optional;
 import java.util.Random;
 
@@ -43,8 +48,8 @@ public class QuizController {
 	//
 	private String answer = "apple";
 	//
-	private int questionNumber = 1;
-	private int score =0;
+	private int questionNumber;
+	private int score = 0;
 
 	
 	@FXML
@@ -55,7 +60,7 @@ public class QuizController {
            loader.setLocation(Main.class.getResource("mainMenu.fxml"));
            Pane rootLayout = loader.load();
            exitBtn.getScene().setRoot(rootLayout);
-           questionNumber = 1;
+           
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -73,22 +78,71 @@ public class QuizController {
 			score = score +1;
 			scoreLabel.setText(Integer.toString(score));
 		}
-		questionNumber = questionNumber +1;
-		 questionN.setText("Question " + Integer.toString(questionNumber));
+		questionNumber = questionNumber + 1;
+		
+		if (questionNumber > 10 ) {
+			finished();
+		}
+			
+		getNextQuestion(questionNumber);
+		questionN.setText("Question " + Integer.toString(questionNumber));
 	}
 	
 	
 	
 	
 	
+	
+	private void getNextQuestion(int questionNumber) {
+		String command = "awk 'NR=="+questionNumber+"' QuizList.txt";
+		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
+				
+		try {
+			Process process = pb.start(); 
+			process.waitFor();
+			
+			
+			InputStream stdout = process.getInputStream();
+			BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
+			String line = stdoutBuffered.readLine();
+			
+			if (line == null) {
+				finished();
+			} else {
+				String name = line.substring(0,line.indexOf(",")-1).trim();
+				answer = line.substring(line.indexOf(",")+1).trim();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
 	
 	@FXML
 	public void initialize() {
-		//generateVideo();
-		
+		questionNumber = 1;
+		generateQuesitonList();
+		getNextQuestion(questionNumber);
 		
 	}
 
+	private void generateQuesitonList() {
+		String command = " shuf -n 10 creationTermList.txt > QuizList.txt";
+		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
+		try {
+			Process searchProcess = pb.start(); 
+			searchProcess.waitFor();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public boolean isCorrect(String term) {
 		if(term.equals(answer)){
 			return true;
