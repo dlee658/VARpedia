@@ -11,27 +11,27 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-border-color: blue; -fx-background-color: skyblue;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" text="Home">
+      <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" style="-fx-border-color: blue;" text="Home">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="BackBtn" layoutX="19.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleBackBtnAction" text="Back">
+      <Button fx:id="BackBtn" layoutX="19.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleBackBtnAction" style="-fx-border-color: blue;" text="Back">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
       <HBox layoutX="162.0" layoutY="60.0" spacing="10.0">
          <children>
-            <Label text="Select number of images:">
+            <Label text="Select number of images:" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="imageCB" />
-            <Button fx:id="retrieveBtn" mnemonicParsing="false" onAction="#handleRetrieveBtnAction" text="Retrieve">
+            <ChoiceBox fx:id="imageCB" style="-fx-border-color: blue;" />
+            <Button fx:id="retrieveBtn" mnemonicParsing="false" onAction="#handleRetrieveBtnAction" style="-fx-border-color: blue;" text="Retrieve">
                <font>
                   <Font size="18.0" />
                </font>
@@ -39,7 +39,7 @@
             <ProgressIndicator fx:id="imageIndicator" prefHeight="35.0" visible="false" />
          </children>
       </HBox>
-      <Button fx:id="nextBtn" disable="true" layoutX="819.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleNextBtnAction" text="Next">
+      <Button fx:id="nextBtn" disable="true" layoutX="819.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleNextBtnAction" style="-fx-border-color: blue;" text="Next">
          <font>
             <Font size="18.0" />
          </font>

@@ -11,7 +11,7 @@
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuizController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: skyblue; -fx-border-color: blue;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuizController">
    <top>
       <BorderPane prefHeight="211.0" prefWidth="415.0" BorderPane.alignment="CENTER">
          <center>
@@ -20,12 +20,12 @@
          <top>
             <HBox prefHeight="39.0" prefWidth="600.0" spacing="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#handleExitBtnAction" prefHeight="38.0" prefWidth="63.0" text="Exit" textFill="#cd0b0b">
+                  <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#handleExitBtnAction" prefHeight="38.0" prefWidth="63.0" style="-fx-border-color: blue;" text="Exit" textFill="#cd0b0b">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Label fx:id="questionN" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="236.0" text="Question One" wrapText="true">
+                  <Label fx:id="questionN" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="236.0" text="Question One" textFill="WHITE" wrapText="true">
                      <font>
                         <Font size="31.0" />
                      </font>
@@ -39,7 +39,7 @@
          <bottom>
             <HBox alignment="CENTER" prefHeight="42.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="playBtn" mnemonicParsing="false" onAction="#handlePlayBtnAction">
+                  <Button fx:id="playBtn" mnemonicParsing="false" onAction="#handlePlayBtnAction" style="-fx-border-color: blue;">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -62,29 +62,29 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Answer:">
+            <Label text="Answer:" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="answerField" onKeyPressed="#handleEnterKeyAction">
+            <TextField fx:id="answerField" onKeyPressed="#handleEnterKeyAction" style="-fx-border-color: blue;">
                <font>
                   <Font size="24.0" />
                </font>
             </TextField>
-            <Button fx:id="enterBtn" mnemonicParsing="false" onAction="#handleEnterBtnAction" text="Enter">
+            <Button fx:id="enterBtn" mnemonicParsing="false" onAction="#handleEnterBtnAction" style="-fx-border-color: blue;" text="Enter">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Score:">
+                  <Label text="Score:" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label fx:id="scoreLabel" text="0">
+                  <Label fx:id="scoreLabel" text="0" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>
