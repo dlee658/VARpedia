@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -12,26 +11,26 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SearchPageController">
    <center>
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0">
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: skyblue; -fx-border-color: blue;">
          <children>
-            <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" text="Home">
+            <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" style="-fx-border-color: blue;" text="Home">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
             <HBox layoutX="129.0" layoutY="76.0" spacing="20.0">
                <children>
-                  <TextField fx:id="searchField" onKeyPressed="#handleEnterKeyAction" promptText="Enter search term">
+                  <TextField fx:id="searchField" onKeyPressed="#handleEnterKeyAction" promptText="Enter search term" style="-fx-border-color: blue;">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </TextField>
-                  <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#handleSearchBtnAction" text="Search">
+                  <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#handleSearchBtnAction" style="-fx-border-color: blue;" text="Search">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button fx:id="cancelBtn" disable="true" mnemonicParsing="false" onAction="#handleCancelBtnAction" text="Cancel">
+                  <Button fx:id="cancelBtn" disable="true" mnemonicParsing="false" onAction="#handleCancelBtnAction" style="-fx-border-color: blue;" text="Cancel">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -39,7 +38,7 @@
                   <ProgressIndicator fx:id="searchIndicator" disable="true" prefHeight="45.0" prefWidth="44.0" visible="false" />
                </children>
             </HBox>
-            <TextArea fx:id="resultArea" editable="false" layoutX="24.0" layoutY="139.0" prefHeight="391.0" prefWidth="856.0" wrapText="true">
+            <TextArea fx:id="resultArea" editable="false" layoutX="24.0" layoutY="139.0" prefHeight="391.0" prefWidth="856.0" style="-fx-border-color: blue;" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font>
