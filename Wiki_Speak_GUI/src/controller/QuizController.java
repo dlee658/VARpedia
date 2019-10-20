@@ -73,6 +73,8 @@ public class QuizController {
 
 	@FXML
 	private void handleExitBtnAction(ActionEvent event) {
+		mp.pause();
+		playImage.setImage(new Image("controller"+File.separatorChar+"play.png"));
 		finished();
 	}
 	

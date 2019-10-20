@@ -4,3 +4,6 @@ b,b
 l,c
 cake,cake
 cow,cow
+hello,hello
+apple,apple
+truck,truck
