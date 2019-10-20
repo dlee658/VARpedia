@@ -110,9 +110,9 @@ public class AudioViewController {
 				audioProcess.waitFor();
 			}
 			
-				ImageRetrieveController controller = new ImageRetrieveController(_term);
+				RetrieveImage controller = new RetrieveImage(_term);
 				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(Main.class.getResource("retrieveImage.fxml"));
+				loader.setLocation(Main.class.getResource("retrieveImage2.fxml"));
 				loader.setController(controller);
 				nextBtn.getScene().setRoot(loader.load());
 

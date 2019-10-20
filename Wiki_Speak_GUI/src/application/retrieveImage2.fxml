@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-border-color: blue; -fx-background-color: skyblue;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" style="-fx-border-color: blue;" text="Home">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="BackBtn" layoutX="19.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleBackBtnAction" style="-fx-border-color: blue;" text="Back">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <HBox alignment="CENTER" layoutX="187.0" layoutY="60.0" spacing="10.0">
+         <children>
+            <Label text="Select the images you want in the creation:" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Button fx:id="nextBtn" disable="true" layoutX="819.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleNextBtnAction" style="-fx-border-color: blue;" text="Next">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <GridPane alignment="CENTER" hgap="10.0" layoutX="20.0" layoutY="115.0" prefHeight="420.0" prefWidth="860.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <CheckBox contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fx:id="image1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </CheckBox>
+            <CheckBox contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false" GridPane.columnIndex="1">
+               <graphic>
+                  <ImageView fx:id="image2" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </CheckBox>
+            <CheckBox contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false" GridPane.rowIndex="1">
+               <graphic>
+                  <ImageView fx:id="image5" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </CheckBox>
+            <CheckBox contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <graphic>
+                  <ImageView fx:id="image6" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </CheckBox>
+            <CheckBox contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <graphic>
+                  <ImageView fx:id="image9" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </CheckBox>
+            <CheckBox contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="10.0" layoutY="5.0" mnemonicParsing="false" GridPane.columnIndex="2">
+               <graphic>
+                  <ImageView fx:id="image3" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </CheckBox>
+            <CheckBox contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="446.0" layoutY="5.0" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <graphic>
+                  <ImageView fx:id="image7" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </CheckBox>
+            <CheckBox contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="446.0" layoutY="145.0" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <graphic>
+                  <ImageView fx:id="image10" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </CheckBox>
+            <CheckBox contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="446.0" layoutY="285.0" mnemonicParsing="false" GridPane.columnIndex="3">
+               <graphic>
+                  <ImageView fx:id="image4" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </CheckBox>
+            <CheckBox contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="663.0" layoutY="5.0" mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <graphic>
+                  <ImageView fx:id="image8" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </CheckBox>
+         </children>
+      </GridPane>
+      <CheckBox fx:id="selectAllCB" layoutX="373.0" layoutY="555.0" mnemonicParsing="false" onAction="#handleSelectAllAction" text="Select All">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </CheckBox>
+   </children>
+</Pane>
