@@ -18,7 +18,7 @@ import com.flickr4java.flickr.photos.Size;
 
 import javafx.concurrent.Task;
 
-public class DownloadImageTask extends Task {
+public class DownloadImageTask extends Task<Object> {
 
 	
 	private String _term;

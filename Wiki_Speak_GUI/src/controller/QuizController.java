@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import application.Main;
 import javafx.event.ActionEvent;
@@ -54,6 +56,7 @@ public class QuizController {
 	private int score = 0;
 
 	private MediaPlayer mp;
+	private List<Answer> answerList = new ArrayList<Answer>();
 	
 	@FXML
 	public void initialize() {
@@ -102,6 +105,8 @@ public class QuizController {
 		if (questionNumber > 10 ) {
 			finished();
 		}
+		answerList.add(new Answer(input, answer));
+		
 		answerField.clear();
 		getNextQuestion(questionNumber);
 		questionN.setText("Question " + Integer.toString(questionNumber));
@@ -173,29 +178,13 @@ public class QuizController {
 
 	public void finished() {
 		try {
-					
-			ButtonType mainMenuBtn = new ButtonType("Main menu");
-			ButtonType playAgainBtn = new ButtonType("Play again");
-			Alert deleteAlert = new Alert(AlertType.CONFIRMATION,"Press button to play again or return " , mainMenuBtn,playAgainBtn);
-			deleteAlert.setTitle("Quiz finished");
-			deleteAlert.setHeaderText("Your score is " + Integer.toString(score));
+			mp.pause();		
+			ResultPage controller = new ResultPage(score, questionNumber, answerList);
 
-			Optional<ButtonType> btn = deleteAlert.showAndWait();
-
-			if (btn.get() == mainMenuBtn) {
-				   FXMLLoader loader = new FXMLLoader();
-		           loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-		           Pane rootLayout = loader.load();
-		           exitBtn.getScene().setRoot(rootLayout);
-			} 
-			if(btn.get() == playAgainBtn) {
-				   FXMLLoader loader = new FXMLLoader();
-		           loader.setLocation(Main.class.getResource("quizView.fxml"));
-		           Pane rootLayout = loader.load();
-		           exitBtn.getScene().setRoot(rootLayout);
-			}
-			
-
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("quizResult.fxml"));
+			loader.setController(controller);			
+			enterBtn.getScene().setRoot(loader.load());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

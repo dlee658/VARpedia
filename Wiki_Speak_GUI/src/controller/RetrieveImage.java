@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Optional;
@@ -79,6 +80,8 @@ public class RetrieveImage {
 
 	private String _term;
 
+	private int _numOfImages;
+
 	public RetrieveImage(String term) {
 		_term = term;
 	}
@@ -86,6 +89,7 @@ public class RetrieveImage {
 	@FXML
 	public void initialize() {
 		displayImages();
+		nextBtn.setDisable(false);
 	}
 
 	public void displayImages() {
@@ -157,7 +161,7 @@ public class RetrieveImage {
 	private void handleNextBtnAction(ActionEvent event) {
 		try {	
 			getSelectedImages();
-			CreateCreationController controller = new CreateCreationController(_term, 10);
+			CreateCreationController controller = new CreateCreationController(_term, _numOfImages);
 
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("createCreation.fxml"));
@@ -169,25 +173,34 @@ public class RetrieveImage {
 	}
 
 	private void getSelectedImages() {
-		int i = 0;
-		String filename;
-		for(Field f: this.getClass().getFields()) {
+		int i = 1;
+		_numOfImages = 0;
+		for(Field f: this.getClass().getDeclaredFields()) {
 			if (f.getType().equals(CheckBox.class)) {
 				try {
-					if (f.getName().equals("selectAllCB")) {
-						filename = _term+i+".jpg";
+					CheckBox checkBox = (CheckBox) f.get(this);
+					if (checkBox.isSelected() == true) {
+						_numOfImages++;
 					} else {
-						filename = _term+"0"+i+".jpg";
+						String fileName;
+						if (i == 10) {
+							fileName = _term+i+".jpg";
+						} else {
+							fileName = _term+"0"+i+".jpg";
+						}
+//						File file = new File(fileName);
+//						file.delete();
+						
+						String command = "rm " + fileName;
+						ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
+						pb.start();
 					}
-					ImageView image;
-
-					image = (ImageView) f.get(this);
-
-					image.setImage(new Image(filename));
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
+				} 
+				
 			}
+			i++;
 		}
 
 	}
