@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import application.DownloadImageTask;
 import application.Main;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Task;
@@ -102,6 +103,7 @@ public class SearchPageController {
 			loader.setLocation(Main.class.getResource("audioView.fxml"));
 			loader.setController(avc);
 			nextBtn.getScene().setRoot(loader.load());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -169,9 +171,6 @@ public class SearchPageController {
 						}
 						reader.close();
 						//save term to a textfile
-						BufferedWriter writer = new BufferedWriter(new FileWriter("term.txt"));
-						writer.write(term);
-						writer.close();
 					}
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
