@@ -188,9 +188,7 @@ public class RetrieveImage {
 						} else {
 							fileName = _term+"0"+i+".jpg";
 						}
-//						File file = new File(fileName);
-//						file.delete();
-						
+					
 						String command = "rm " + fileName;
 						ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
 						pb.start();
@@ -198,9 +196,9 @@ public class RetrieveImage {
 				} catch (Exception e) {
 					e.printStackTrace();
 				} 
-				
+				i++;
 			}
-			i++;
+			
 		}
 
 	}
