@@ -1,7 +1,0 @@
-emily,water
-hello,hello
-l,c
-cow,cow
-b,b
-a,a
-cake,cake

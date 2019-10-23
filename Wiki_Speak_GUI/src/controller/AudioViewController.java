@@ -6,9 +6,12 @@ import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import application.DownloadImageTask;
 import application.Main;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -31,7 +34,7 @@ public class AudioViewController {
 
 	@FXML
 	private CheckBox checkBox;
-	
+
 	@FXML 
 	private Button saveBtn;
 
@@ -54,7 +57,7 @@ public class AudioViewController {
 	private String _term;
 
 	private String _resultAreaText;
-	
+
 	public AudioViewController(String term, String resultAreaText) {
 		_term = term;
 		_resultAreaText = resultAreaText;
@@ -66,8 +69,8 @@ public class AudioViewController {
 		voiceCB.getItems().addAll("Male", "NZ Guy", "Posh Lady");
 		resultArea.setText(_resultAreaText);
 		numberTxt = 0;
-		
-	
+
+
 	}
 
 	@FXML
@@ -95,30 +98,44 @@ public class AudioViewController {
 	@FXML
 	private void handleNextBtnAction(ActionEvent event) {
 		try {
-			
+
 			audioCreation();
-			
+
 			//Combine audio with background music
 			if(checkBox.isSelected()) {
-				
+
 				String audio = "\"Audio" + File.separatorChar +"music" +_term +".wav\"";
 				String audioC = "\"Audio" + File.separatorChar +_term +".wav\"";
 				String cmd = "ffmpeg -i "+audio+" -i backgroundMusic.wav -filter_complex amerge=inputs=2 -ac 2 "+audioC;
-				
+
 				ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 				Process audioProcess = pb.start();
 				audioProcess.waitFor();
 			}
-			
-				ImageRetrieveController controller = new ImageRetrieveController(_term);
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(Main.class.getResource("retrieveImage.fxml"));
-				loader.setController(controller);
-				nextBtn.getScene().setRoot(loader.load());
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
+			RetrieveImage controller = new RetrieveImage(_term);
+
+			ExecutorService worker = Executors.newSingleThreadExecutor(); 
+			DownloadImageTask dlTask = new DownloadImageTask(_term);
+			worker.submit(dlTask);
+
+			dlTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+				@Override
+				public void handle(WorkerStateEvent event) {
+					try {
+
+						FXMLLoader loader = new FXMLLoader();
+						loader.setLocation(Main.class.getResource("retrieveImage.fxml"));
+						loader.setController(controller);
+
+						nextBtn.getScene().setRoot(loader.load());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -241,12 +258,12 @@ public class AudioViewController {
 		}
 		String cmd = "for f in Audio/*.wav; do echo \"file '$f'\" >> mylist.txt ; done ; ffmpeg -safe 0 -y -f concat -i mylist.txt -c copy " + audio + "; rm mylist.txt";
 		try {
-		ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
-		Process audioProcess = pb.start();
-	
+			ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
+			Process audioProcess = pb.start();
+
 			audioProcess.waitFor();
 		} catch (InterruptedException e) {
-	
+
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();

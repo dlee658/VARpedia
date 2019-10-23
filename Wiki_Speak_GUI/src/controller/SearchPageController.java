@@ -1,11 +1,9 @@
 package controller;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -50,7 +48,6 @@ public class SearchPageController {
 	private Pane rootLayout;
 
 	private Task<Boolean> searchTask;
-
 
 	@FXML
 	private void handleHomeBtnAction(ActionEvent event) {
@@ -102,6 +99,7 @@ public class SearchPageController {
 			loader.setLocation(Main.class.getResource("audioView.fxml"));
 			loader.setController(avc);
 			nextBtn.getScene().setRoot(loader.load());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -169,9 +167,6 @@ public class SearchPageController {
 						}
 						reader.close();
 						//save term to a textfile
-						BufferedWriter writer = new BufferedWriter(new FileWriter("term.txt"));
-						writer.write(term);
-						writer.close();
 					}
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
