@@ -125,7 +125,7 @@ public class AudioViewController {
 					try {
 
 						FXMLLoader loader = new FXMLLoader();
-						loader.setLocation(Main.class.getResource("retrieveImage2.fxml"));
+						loader.setLocation(Main.class.getResource("retrieveImage.fxml"));
 						loader.setController(controller);
 
 						nextBtn.getScene().setRoot(loader.load());
