@@ -100,13 +100,13 @@ public class QuizController {
 			score = score + 1;
 			scoreLabel.setText(Integer.toString(score));
 		}
+		answerList.add(new Answer(input, answer));
 		questionNumber = questionNumber + 1;
 		
 		if (questionNumber > 10 ) {
 			finished();
 		}
-		answerList.add(new Answer(input, answer));
-		
+				
 		answerField.clear();
 		getNextQuestion(questionNumber);
 		questionN.setText("Question " + Integer.toString(questionNumber));
@@ -179,7 +179,7 @@ public class QuizController {
 	public void finished() {
 		try {
 			mp.pause();		
-			ResultPage controller = new ResultPage(score, questionNumber, answerList);
+			ResultPageController controller = new ResultPageController(score, questionNumber-1, answerList);
 
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("quizResult.fxml"));

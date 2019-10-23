@@ -7,7 +7,7 @@ public class Answer {
 
 	private Boolean _isCorrect;
 	private SimpleStringProperty yourAnswer;
-	private Object correctAnswer;
+	private SimpleStringProperty correctAnswer;
 
 	public Answer(String yourAnswer, String correctAnswer) {
 		yourAnswerProperty().set(yourAnswer);
@@ -34,7 +34,7 @@ public class Answer {
         if (correctAnswer == null) {
         	correctAnswer = new SimpleStringProperty("correctAnswer");
         }
-        return yourAnswer; 
+        return correctAnswer; 
     }
 	
 

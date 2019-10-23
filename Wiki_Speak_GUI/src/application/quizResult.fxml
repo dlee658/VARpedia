@@ -32,7 +32,7 @@
       </VBox>
    </center>
    <bottom>
-      <Button fx:id="retakeBtn" mnemonicParsing="false" text="Retake Quiz" BorderPane.alignment="CENTER">
+      <Button fx:id="retakeBtn" mnemonicParsing="false" onAction="#handleRetakeBtnAction" text="Retake Quiz" BorderPane.alignment="CENTER">
          <font>
             <Font size="24.0" />
          </font>
@@ -44,7 +44,7 @@
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="menuBtn" mnemonicParsing="false" text="Main Menu">
+            <Button fx:id="menuBtn" mnemonicParsing="false" onAction="#handleMenuBtnAction" text="Main Menu">
                <font>
                   <Font size="24.0" />
                </font>

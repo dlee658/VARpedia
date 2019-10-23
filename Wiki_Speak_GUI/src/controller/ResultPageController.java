@@ -1,18 +1,26 @@
 package controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import application.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
+import javafx.scene.media.MediaPlayer.Status;
 
-public class ResultPage {
+public class ResultPageController {
 	@FXML 
 	private Button menuBtn;
 
@@ -33,7 +41,7 @@ public class ResultPage {
 	private ObservableList<Answer> _answerList;
 	
 	
-	public ResultPage(int score, int questions, List<Answer> answerList) {
+	public ResultPageController(int score, int questions, List<Answer> answerList) {
 		_score = score;
 		_questions = questions;
 		_answerList = FXCollections.observableList(answerList); 
@@ -71,4 +79,33 @@ public class ResultPage {
 		correctAnswerColumn.setPrefWidth(answerTable.getPrefWidth()/3);
 	}
 	
+
+	
+	@FXML
+	private void handleMenuBtnAction(ActionEvent event) {
+		try {
+			// Load root layout from fxml file.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("mainMenu.fxml"));
+			Pane rootLayout = loader.load();
+			menuBtn.getScene().setRoot(rootLayout);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	private void handleRetakeBtnAction(ActionEvent event) {
+		try {
+			// Load root layout from fxml file.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("quizView.fxml"));
+			Pane rootLayout = loader.load();
+			menuBtn.getScene().setRoot(rootLayout);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
