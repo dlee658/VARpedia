@@ -175,7 +175,7 @@ public class AudioViewController {
 			else {
 				voice = "voice_kal_diphone";	
 			}
-			ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo $'(voice_kal_diphone) \n(SayText \""+selectedPart+ "\")' > preview.scm; festival -b preview.scm");
+			ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo $'("+voice+") \n(SayText \""+selectedPart+ "\")' > preview.scm; festival -b preview.scm");
 			try {
 				pb.start();
 			} catch (IOException e) {
@@ -217,27 +217,14 @@ public class AudioViewController {
 		}					
 	}
 
-	private void checkWav() {
-		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
-		Task<File> task = new Task<File>() {
-			@Override
-			protected File call() throws Exception {
-				try {
-					String audio = "\"Audio" + File.separatorChar + _term +numberTxt+ ".wav\"";
-					String command = "if [  ! -s  "+audio+" ];	then rm "+audio+"; echo \"delete\" > temporaryTextFile.txt; else; echo \"not deleted\" > temporaryTextFile.txt; fi";
-					ProcessBuilder pb1 = new ProcessBuilder("bash", "-c", command);
-					Process audioProcess1 = pb1.start();
-					audioProcess1.waitFor();	
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				return null;	
-			}
-		};
-
-		createWorker.submit(task);
+	private boolean isValidAudioChunk(String audioPath) {
+		File file = new File(audioPath);
+		if (file.length() == 0) {
+			return false;
+		} else {
+			return true;
+		}
+		
 
 
 
@@ -298,6 +285,19 @@ public class AudioViewController {
 			}
 		};
 		createWorker.submit(task);
+		task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+
+			@Override
+			public void handle(WorkerStateEvent arg0) {
+				if (!isValidAudioChunk(audio)) {
+					msg.setText("Text highlighted contains an unreadable character");
+					msg.setTextFill(Color.INDIANRED);
+				}
+				
+			}
+			
+		}
+		
 	}
 
 	/**

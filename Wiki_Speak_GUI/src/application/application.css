@@ -16,7 +16,7 @@
 }
 
 .button {
-	-fx-font: 18px  
+	-fx-font: 18px ; 
 	-fx-background-color: default-primary-color;
 	-fx-text-fill: text-primary-color;
 }
