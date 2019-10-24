@@ -165,7 +165,20 @@ public class AudioViewController {
 		}
 		else {
 			msg.setText("");
-			ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo \""+selectedPart+ "\" | festival --tts");
+			String voice = voiceCB.getValue().toString();
+			if(voice.equals("Male")) {
+				voice = "voice_kal_diphone";
+			}
+			else if(voice.equals("NZ Guy")) {
+				voice = "voice_akl_nz_jdt_diphone";		
+			}
+			else if(voice.equals("Posh Lady")) {
+				voice = "voice_akl_nz_cw_cg_cg";		
+			}				
+			else {
+				voice = "voice_kal_diphone";	
+			}
+			ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo $'(voice_kal_diphone) \n(SayText \""+selectedPart+ "\")' > preview.scm; festival -b preview.scm");
 			try {
 				pb.start();
 			} catch (IOException e) {
@@ -193,12 +206,50 @@ public class AudioViewController {
 			String voice = voiceCB.getValue().toString();
 			createText(selectedPart);
 			audioChunkCreation(voice);
+			checkWav();
+			
+			// if file temporaryTextFile exists, numberTxt -1 and display message that audio file not generated
+			
 			msg.setText("Audio: " + _term + numberTxt + " saved");
 			msg.setTextFill(Color.DARKGREEN);
-			nextBtn.setDisable(false);
 
+			
+			if (numberTxt > 0) {
+			nextBtn.setDisable(false);
+			}
 		}					
 	}
+	
+	private void checkWav() {
+		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
+		Task<File> task = new Task<File>() {
+			@Override
+			protected File call() throws Exception {
+				try {
+		String audio = "\"Audio" + File.separatorChar + _term +numberTxt+ ".wav\"";
+		String command = "if [  ! -s  "+audio+" ];	then rm "+audio+"; echo \"delete\" > temporaryTextFile.txt; fi";
+		ProcessBuilder pb1 = new ProcessBuilder("bash", "-c", command);
+		Process audioProcess1 = pb1.start();
+		audioProcess1.waitFor();	
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				return null;	
+			}
+		};
+
+		createWorker.submit(task);
+		
+		
+		
+		
+
+	}
+	
+	
+	
 
 	/**
 	 * Saves the highlighted text as audio
@@ -237,6 +288,10 @@ public class AudioViewController {
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
 
+					
+
+					
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (InterruptedException e) {
