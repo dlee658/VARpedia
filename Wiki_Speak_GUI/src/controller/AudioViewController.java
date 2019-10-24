@@ -208,7 +208,7 @@ public class AudioViewController {
 			audioChunkCreation(voice);
 			checkWav();
 			
-			// if file temporaryTextFile exists, numberTxt -1 and display message that audio file not generated
+			// read temporaryTextFile, numberTxt -1 and display message that audio file not generated
 			
 			msg.setText("Audio: " + _term + numberTxt + " saved");
 			msg.setTextFill(Color.DARKGREEN);
@@ -227,7 +227,7 @@ public class AudioViewController {
 			protected File call() throws Exception {
 				try {
 		String audio = "\"Audio" + File.separatorChar + _term +numberTxt+ ".wav\"";
-		String command = "if [  ! -s  "+audio+" ];	then rm "+audio+"; echo \"delete\" > temporaryTextFile.txt; fi";
+		String command = "if [  ! -s  "+audio+" ];	then rm "+audio+"; echo \"delete\" > temporaryTextFile.txt; else; echo \"not deleted\" > temporaryTextFile.txt; fi";
 		ProcessBuilder pb1 = new ProcessBuilder("bash", "-c", command);
 		Process audioProcess1 = pb1.start();
 		audioProcess1.waitFor();	
