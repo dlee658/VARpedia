@@ -22,18 +22,21 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		primaryStage.setTitle("Wiki-Speak Authoring Tool");
+		primaryStage.setTitle("Varpedia");
 		primaryStage.setResizable(false);
 
 		setUpDirectories();
 
 		try {
-		 FXMLLoader loader = new FXMLLoader();
-         loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-         Pane rootLayout;
-		rootLayout = loader.load();
-		primaryStage.setScene(new Scene(rootLayout));
-		primaryStage.show();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("mainMenu.fxml"));
+			Pane rootLayout;
+			rootLayout = loader.load();
+			Scene scene = new Scene(rootLayout); 
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			
+			primaryStage.setScene(scene);
+			primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -51,12 +54,12 @@ public class Main extends Application {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				
+
 			}
-			
+
 		});
-		
-		
+
+
 	}
 
 	/**

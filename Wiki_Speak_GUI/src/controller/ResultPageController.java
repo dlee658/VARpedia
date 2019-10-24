@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import application.Main;
+import helper.Answer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -66,10 +67,10 @@ public class ResultPageController {
 		correctAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 
 		
-//		TableColumn<Answer, Boolean> correctnessColumn = new TableColumn<>("Right/Wrong");
-//		correctnessColumn.setCellValueFactory(new PropertyValueFactory<>("_isCorrect"));
+		TableColumn<Answer, Boolean> correctnessColumn = new TableColumn<>("Correct/Wrong");
+		correctnessColumn.setCellValueFactory(new PropertyValueFactory<>("isCorrect"));
 		
-		answerTable.getColumns().setAll(youAnswerColumn, correctAnswerColumn);
+		answerTable.getColumns().setAll(youAnswerColumn, correctAnswerColumn,correctnessColumn);
 		
 		answerTable.setItems(_answerList);
 		

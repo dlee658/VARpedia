@@ -1,0 +1,10 @@
+b,b
+gastly,gastly
+green,green
+spinda,spinda
+l,c
+emily,water
+its so cute,chinchilla
+cow,cow
+pika,pikachu
+yellow,yellow

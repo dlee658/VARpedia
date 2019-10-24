@@ -7,18 +7,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import application.Main;
+import helper.Answer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -31,39 +27,39 @@ import javafx.scene.image.ImageView;;
 public class QuizController {
 	@FXML 
 	private Button exitBtn;
-	
+
 	@FXML
 	private Label questionN;
-	
+
 	@FXML
 	private MediaView mediaPlayer;
+
 	@FXML
 	private ImageView playImage;
 
-
 	@FXML
 	private Button enterBtn;
-	
+
 	@FXML
 	private TextField answerField;
-	
+
 	@FXML
 	private Label scoreLabel;
-	//
-	private String answer = "apple";
-	//
+
+	private String answer;
+
 	private int questionNumber;
 	private int score = 0;
 
 	private MediaPlayer mp;
 	private List<Answer> answerList = new ArrayList<Answer>();
-	
+
 	@FXML
 	public void initialize() {
 		questionNumber = 1;
 		generateQuesitonList();
 		getNextQuestion(questionNumber);
-		
+
 		mp.setOnEndOfMedia(new Runnable() {
 			public void run() {
 				playImage.setImage(new Image("controller"+File.separatorChar+"replay.png"));
@@ -71,7 +67,7 @@ public class QuizController {
 				mp.pause();
 			}
 		});
-			
+
 	}
 
 	@FXML
@@ -80,7 +76,7 @@ public class QuizController {
 		playImage.setImage(new Image("controller"+File.separatorChar+"play.png"));
 		finished();
 	}
-	
+
 	@FXML
 	private void handlePlayBtnAction(ActionEvent event) {
 		Status status = mp.getStatus();
@@ -93,7 +89,7 @@ public class QuizController {
 			playImage.setImage(new Image("controller"+File.separatorChar+"play.png"));
 		}
 	}
-	
+
 	@FXML
 	private void handleEnterBtnAction(ActionEvent event) {
 		mp.pause();
@@ -104,37 +100,38 @@ public class QuizController {
 		}
 		answerList.add(new Answer(input, answer));
 		questionNumber = questionNumber + 1;
-		
+
 		if (questionNumber > 10 ) {
 			finished();
+		} else {
+			answerField.clear();
+			getNextQuestion(questionNumber);
+			questionN.setText("Question " + Integer.toString(questionNumber));
 		}
-				
-		answerField.clear();
-		getNextQuestion(questionNumber);
-		questionN.setText("Question " + Integer.toString(questionNumber));
+
 	}
-	
+
 	@FXML
 	private void handleEnterKeyAction(KeyEvent key) {
 		if (key.getCode().equals(KeyCode.ENTER)){
 			enterBtn.fire();
 		}
 	}
-	
+
 
 	private void getNextQuestion(int questionNumber) {
 		String command = "awk 'NR=="+questionNumber+"' QuizList.txt";
 		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
-				
+
 		try {
 			Process process = pb.start(); 
 			process.waitFor();
-			
-			
+
+
 			InputStream stdout = process.getInputStream();
 			BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
 			String line = stdoutBuffered.readLine();
-			
+
 			if (line == null) {
 				finished();
 			} else {
@@ -151,24 +148,22 @@ public class QuizController {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
-	
+
 	private void generateQuesitonList() {
-		String command = " shuf -n 10 creationTermList.txt > QuizList.txt";
+		String command = "sed -i '/^[[:blank:]]*$/ d' creationTermList.txt; shuf -n 10 creationTermList.txt > QuizList.txt";
 		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
 		try {
 			Process searchProcess = pb.start(); 
 			searchProcess.waitFor();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public boolean isCorrect(String term) {
 		if(term.equals(answer)){
 			return true;
@@ -190,10 +185,10 @@ public class QuizController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
-	
-	
-	
+
+
+
 }

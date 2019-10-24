@@ -1,12 +1,10 @@
-a,a
 emily,water
 b,b
-l,c
 cake,cake
 cow,cow
-cake4,cake
-cake3,cake
-hello246,hello
 green,green
 potato13579,potato
-
+gastly,gastly
+pika,pikachu
+spinda,spinda
+its so cute,chinchilla

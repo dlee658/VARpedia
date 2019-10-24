@@ -1,4 +1,4 @@
-package application;
+package helper;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,7 @@ public class VideoCreation {
 		try {	
 						
 			//Create textless creation
-			String cmd = "cat *.jpg | ffmpeg -f image2pipe -framerate " + numOfImages + "/$(soxi -D " + audio + ") -i - -i "+ audio + " -c:v libx264 -pix_fmt yuv420p -vf \"scale=640:480:force_original_aspect_ratio=decrease,"
+			String cmd = "cat *.jpg | ffmpeg -f image2pipe -framerate " + numOfImages + "/`soxi -D " + audio + "` -i - -i "+ audio + " -c:v libx264 -pix_fmt yuv420p -vf \"scale=640:480:force_original_aspect_ratio=decrease,"
 					+ "pad=640:480:(ow-iw)/2:(oh-ih)/2\" -r 25 -max_muxing_queue_size 1024 -y " + video + " &> status.txt;"; 
 			
 			//Create creation

@@ -6,8 +6,8 @@ import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import application.DownloadImageTask;
 import application.Main;
+import helper.DownloadImageTask;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
@@ -66,7 +66,7 @@ public class AudioViewController {
 	@FXML
 	public void initialize() {
 		voiceCB.setValue("Male");
-		voiceCB.getItems().addAll("Male", "NZ Guy", "Posh Lady");
+		voiceCB.getItems().addAll("Male", "NZ Male", "NZ Female");
 		resultArea.setText(_resultAreaText);
 		numberTxt = 0;
 
@@ -166,13 +166,10 @@ public class AudioViewController {
 		else {
 			msg.setText("");
 			String voice = voiceCB.getValue().toString();
-			if(voice.equals("Male")) {
-				voice = "voice_kal_diphone";
-			}
-			else if(voice.equals("NZ Guy")) {
+			if(voice.equals("NZ Male")) {
 				voice = "voice_akl_nz_jdt_diphone";		
 			}
-			else if(voice.equals("Posh Lady")) {
+			else if(voice.equals("NZ Female")) {
 				voice = "voice_akl_nz_cw_cg_cg";		
 			}				
 			else {
@@ -207,30 +204,30 @@ public class AudioViewController {
 			createText(selectedPart);
 			audioChunkCreation(voice);
 			checkWav();
-			
+
 			// read temporaryTextFile, numberTxt -1 and display message that audio file not generated
-			
+
 			msg.setText("Audio: " + _term + numberTxt + " saved");
 			msg.setTextFill(Color.DARKGREEN);
 
-			
+
 			if (numberTxt > 0) {
-			nextBtn.setDisable(false);
+				nextBtn.setDisable(false);
 			}
 		}					
 	}
-	
+
 	private void checkWav() {
 		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
 		Task<File> task = new Task<File>() {
 			@Override
 			protected File call() throws Exception {
 				try {
-		String audio = "\"Audio" + File.separatorChar + _term +numberTxt+ ".wav\"";
-		String command = "if [  ! -s  "+audio+" ];	then rm "+audio+"; echo \"delete\" > temporaryTextFile.txt; else; echo \"not deleted\" > temporaryTextFile.txt; fi";
-		ProcessBuilder pb1 = new ProcessBuilder("bash", "-c", command);
-		Process audioProcess1 = pb1.start();
-		audioProcess1.waitFor();	
+					String audio = "\"Audio" + File.separatorChar + _term +numberTxt+ ".wav\"";
+					String command = "if [  ! -s  "+audio+" ];	then rm "+audio+"; echo \"delete\" > temporaryTextFile.txt; else; echo \"not deleted\" > temporaryTextFile.txt; fi";
+					ProcessBuilder pb1 = new ProcessBuilder("bash", "-c", command);
+					Process audioProcess1 = pb1.start();
+					audioProcess1.waitFor();	
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (InterruptedException e) {
@@ -241,15 +238,15 @@ public class AudioViewController {
 		};
 
 		createWorker.submit(task);
-		
-		
-		
-		
+
+
+
+
 
 	}
-	
-	
-	
+
+
+
 
 	/**
 	 * Saves the highlighted text as audio
@@ -272,10 +269,10 @@ public class AudioViewController {
 					if(voice.equals("Male")) {
 						voiceFile = "\"Voice" + File.separatorChar + "kal.scm\"";
 					}
-					else if(voice.equals("NZ Guy")) {
+					else if(voice.equals("NZ Male")) {
 						voiceFile = "\"Voice" + File.separatorChar + "jdt.scm\"";			
 					}
-					else if(voice.equals("Posh Lady")) {
+					else if(voice.equals("NZ Female")) {
 						voiceFile = "\"Voice" + File.separatorChar + "cw.scm\"";			
 					}				
 					else {
@@ -288,10 +285,10 @@ public class AudioViewController {
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
 
-					
 
-					
-					
+
+
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (InterruptedException e) {
