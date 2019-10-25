@@ -35,11 +35,11 @@ public class QuizController {
 	private MediaView mediaPlayer;
 
 	@FXML
-	private ImageView playImage;
+	private Button playBtn;
 
 	@FXML
 	private Button enterBtn;
-
+	
 	@FXML
 	private TextField answerField;
 
@@ -62,7 +62,7 @@ public class QuizController {
 
 		mp.setOnEndOfMedia(new Runnable() {
 			public void run() {
-				playImage.setImage(new Image("controller"+File.separatorChar+"replay.png"));
+				playBtn.setText("↺");
 				mp.seek(mp.getStartTime());		
 				mp.pause();
 			}
@@ -73,7 +73,7 @@ public class QuizController {
 	@FXML
 	private void handleExitBtnAction(ActionEvent event) {
 		mp.pause();
-		playImage.setImage(new Image("controller"+File.separatorChar+"play.png"));
+		playBtn.setText("▷");
 		finished();
 	}
 
@@ -83,10 +83,10 @@ public class QuizController {
 
 		if ( status == Status.PAUSED || status == Status.READY || status == Status.STOPPED)	{
 			mp.play();
-			playImage.setImage(new Image("controller"+File.separatorChar+"pause.png"));
+			playBtn.setText("||");
 		} else {
 			mp.pause();
-			playImage.setImage(new Image("controller"+File.separatorChar+"play.png"));
+			playBtn.setText("▷");
 		}
 	}
 
