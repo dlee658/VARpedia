@@ -1,10 +1,10 @@
-spinda,spinda
-potato13579,potato
-b,b
-its so cute,chinchilla
-emily,water
-gastly,gastly
 green,green
+its so cute,chinchilla
 cow,cow
+potato13579,potato
+spinda,spinda
+hello,hello
+emily,water
+b,b
 pika,pikachu
-cake,cake
+hlleo,hello

@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 
 /**
  * Main method of application
+ * Setting main menu scene using fxml
  * @author student
  *
  */
@@ -40,8 +41,8 @@ public class Main extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		//delete every unnecessary files
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
 			@Override
 			public void handle(WindowEvent arg0) {
 				String command = "rm Audio/*.txt; rm  Audio/*.wav; rm *.jpg";

@@ -63,6 +63,9 @@ public class AudioViewController {
 		_resultAreaText = resultAreaText;
 	}
 
+	/**
+	 * set voice options
+	*/	
 	@FXML
 	public void initialize() {
 		voiceCB.setValue("Male");
@@ -72,9 +75,12 @@ public class AudioViewController {
 
 
 	}
-
+	/**
+	 * set home button to go back to main menu
+	*/	
 	@FXML
 	private void handleHomeBtnAction(ActionEvent event) {
+		//warn user and ask for the confirmation to go back to main menu
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Home");
 		alert.setHeaderText("Are you sure you want to leave?");
@@ -95,6 +101,9 @@ public class AudioViewController {
 		} 
 	}
 
+	/**
+	 * button to go to the next scene
+	 */
 	@FXML
 	private void handleNextBtnAction(ActionEvent event) {
 		try {
@@ -113,23 +122,23 @@ public class AudioViewController {
 				audioProcess.waitFor();
 			}
 
-			try {	
+			
 				LoadingController avc = new LoadingController(_term);
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(Main.class.getResource("Loading.fxml"));
 				loader.setController(avc);
 				nextBtn.getScene().setRoot(loader.load());
 				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-				
-		} catch (Exception e) {
+			} 
+		 catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
+	/**
+	 * button for go back to previous page
+	*/	
 	@FXML
 	private void handleBackBtnAction(ActionEvent event) {
 		try {
@@ -142,14 +151,19 @@ public class AudioViewController {
 		}
 	}
 
+	/**
+	 * button for preview the selected text with selected voice; default voice is kal_diphone
+	*/	
 	@FXML
 	private void handlePreviewBtnAction(ActionEvent event) {
 		String selectedPart = resultArea.getSelectedText();
 		int wordCount = selectedPart.split("\\s+").length;
 		msg.setTextFill(Color.INDIANRED);
+		//can't select nothing and preview it
 		if (selectedPart.isEmpty()) {
 			msg.setText("Please highlight some text");
 		}
+		//word limit is 40 words
 		else if (wordCount > 40) { 
 			msg.setText("Selection exceeds 40 words, try again");						
 		}
@@ -165,6 +179,7 @@ public class AudioViewController {
 			else {
 				voice = "voice_kal_diphone";	
 			}
+			//preview voice with selected voice
 			ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo $'("+voice+") \n(SayText \""+selectedPart+ "\")' > preview.scm; festival -b preview.scm");
 			try {
 				pb.start();
@@ -176,29 +191,31 @@ public class AudioViewController {
 
 	}
 
+	/**
+	 * button for saving audio for selected text
+	*/	
 	@FXML
 	private void handleSaveBtnAction(ActionEvent event) {
 		String selectedPart = resultArea.getSelectedText();
 		int wordCount = selectedPart.split("\\s+").length;
 		msg.setTextFill(Color.INDIANRED);
+		//saving word without select anything disabled
 		if (selectedPart.isEmpty()) {
 			msg.setText("Please highlight some text");
 		} 
+		//40 words limit
 		else if (wordCount > 40) {
 			msg.setText("Selection exceeds 40 words, try again");
 
 		}
 		else {
+			//increment the number of audio been created
 			numberTxt = numberTxt +1;
 			String voice = voiceCB.getValue().toString();
+			//create a text file for audio with given text
 			createText(selectedPart);
+			//create a wav file with text file
 			audioChunkCreation(voice);
-
-			// read temporaryTextFile, numberTxt -1 and display message that audio file not generated
-
-			msg.setText("Audio: " + _term + numberTxt + " saved");
-			msg.setTextFill(Color.DARKGREEN);
-
 
 			if (numberTxt > 0) {
 				nextBtn.setDisable(false);
@@ -206,6 +223,10 @@ public class AudioViewController {
 		}					
 	}
 
+/**
+ * method that check whether wav file is 0 byte or not
+ * @return boolean: false if file is empty, true if some file been created
+ */
 	private boolean isValidAudioChunk(String audioPath) {
 		File file = new File(audioPath);
 		if (file.length() == 0) {
@@ -213,58 +234,28 @@ public class AudioViewController {
 		} else {
 			return true;
 		}
-		
-
-
-
-
-
 	}
-
-
-
-
+	
 	/**
 	 * Saves the highlighted text as audio
 	 * @param voice
 	 */
 	private void audioChunkCreation(String voice) {
-
+		//files directory
 		String audio = "\"Audio" + File.separatorChar + _term +numberTxt+ ".wav\"";
 		String text = "\"Audio" + File.separatorChar + _term + numberTxt+".txt\"";
-
+		//for GUI to not be froze by using workers
 		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
 		Task<File> task = new Task<File>() {
 			@Override
 			protected File call() throws Exception {
 				try {
-
-					String voiceFile;
-					String cmd;
-
-					if(voice.equals("Male")) {
-						voiceFile = "\"Voice" + File.separatorChar + "kal.scm\"";
-					}
-					else if(voice.equals("NZ Male")) {
-						voiceFile = "\"Voice" + File.separatorChar + "jdt.scm\"";			
-					}
-					else if(voice.equals("NZ Female")) {
-						voiceFile = "\"Voice" + File.separatorChar + "cw.scm\"";			
-					}				
-					else {
-						voiceFile = "\"Voice" + File.separatorChar + "kal.scm\"";			
-					}
-
-					cmd = "text2wave -o " + audio + " " + text + " -eval "+ voiceFile;					
-
+					
+					String voiceFile = "\"Voice" + File.separatorChar + voice + ".scm\"";
+					String cmd = "text2wave -o " + audio + " " + text + " -eval "+ voiceFile;					
 					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
-
-
-
-
-
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (InterruptedException e) {
@@ -275,12 +266,19 @@ public class AudioViewController {
 		};
 		createWorker.submit(task);
 		task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-
+		//when voice successfully created
 			@Override
 			public void handle(WorkerStateEvent arg0) {
+				//check that file is 0byte or not using method
 				if (!isValidAudioChunk(audio)) {
+					//if file is 0byte, than display message to user and decrement text number
 					msg.setText("Text highlighted contains an unreadable character");
 					msg.setTextFill(Color.INDIANRED);
+					numberTxt = numberTxt-1;
+				}
+				else {
+					msg.setText("Audio: " + _term + numberTxt + " saved");
+					msg.setTextFill(Color.DARKGREEN);
 				}
 				
 			}
@@ -298,6 +296,7 @@ public class AudioViewController {
 		if((checkBox.isSelected())) {
 			audio = "\"Audio" + File.separatorChar +"music" +_term +".wav\"";
 		}
+		//bash command that combine all the wav files into one single wav file
 		String cmd = "for f in Audio/*.wav; do echo \"file '$f'\" >> mylist.txt ; done ; ffmpeg -safe 0 -y -f concat -i mylist.txt -c copy " + audio + "; rm mylist.txt";
 		try {
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
@@ -312,6 +311,9 @@ public class AudioViewController {
 		}
 	}
 
+	/**
+	 * method that create text with selected text
+	 */
 	private void createText(String selectedText) {
 		String cmd = "echo \"" + selectedText + "\"";
 		ProcessBuilder pb = new ProcessBuilder("bash","-c",cmd);

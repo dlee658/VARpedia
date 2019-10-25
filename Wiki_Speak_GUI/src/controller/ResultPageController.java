@@ -78,6 +78,10 @@ public class ResultPageController {
 		answerTable.setPrefWidth(scrollPane.getPrefWidth());
 		youAnswerColumn.setPrefWidth(answerTable.getPrefWidth()/3);
 		correctAnswerColumn.setPrefWidth(answerTable.getPrefWidth()/3);
+		correctnessColumn.setPrefWidth(answerTable.getPrefWidth()/3);
+		youAnswerColumn.setResizable(false);
+		correctAnswerColumn.setResizable(false);
+		correctnessColumn.setResizable(false);
 	}
 	
 

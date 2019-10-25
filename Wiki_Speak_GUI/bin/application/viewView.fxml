@@ -6,23 +6,23 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: skyblue; -fx-border-color: blue;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewController">
    <children>
-      <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" style="-fx-border-color: blue;" text="Home">
+      <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" text="Home">
          <font>
-            <Font size="24.0" />
+            <Font size="18.0" />
          </font></Button>
-      <ListView fx:id="viewListView" layoutX="20.0" layoutY="104.0" prefHeight="450.0" prefWidth="548.0" style="-fx-border-color: blue;" />
+      <ListView fx:id="viewListView" layoutX="20.0" layoutY="104.0" prefHeight="450.0" prefWidth="548.0"/>
       <VBox layoutX="695.0" layoutY="168.0" spacing="20.0">
          <children>
-            <Button fx:id="playBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePlayBtnAction" style="-fx-border-color: blue;" text="Play">
+            <Button fx:id="playBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePlayBtnAction" text="Play">
                <font>
-                  <Font size="24.0" />
+                  <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#handleDeleteBtnAction" style="-fx-border-color: blue;" text="Delete">
+            <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#handleDeleteBtnAction" text="Delete">
                <font>
-                  <Font size="24.0" />
+                  <Font size="18.0" />
                </font>
             </Button>
          </children>

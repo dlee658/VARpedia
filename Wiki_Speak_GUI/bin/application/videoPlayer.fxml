@@ -9,28 +9,28 @@
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="900.0" style="-fx-border-color: blue; -fx-background-color: skyblue;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <MediaView fx:id="mediaPlayer" fitHeight="450.0" fitWidth="900.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <HBox alignment="CENTER" prefHeight="42.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="playBtn" mnemonicParsing="false" onAction="#handlePlayBtnAction" prefHeight="54.0" prefWidth="18.0" style="-fx-border-color: blue;" text="||">
+            <Button fx:id="playBtn" mnemonicParsing="false" onAction="#handlePlayBtnAction" prefHeight="54.0" prefWidth="18.0" text="||">
                <font>
-                  <Font size="24.0" />
+                  <Font size="18.0" />
                </font></Button>
             <Slider fx:id="timeSlider" prefHeight="16.0" prefWidth="461.0" />
             <Label fx:id="timeLabel">
                <font>
-                  <Font size="24.0" />
+                  <Font size="18.0" />
                </font></Label>
             <Label fx:id="volumeLabel" text="Vol." textFill="WHITE">
                <padding>
                   <Insets left="30.0" />
                </padding>
                <font>
-                  <Font size="24.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
             <Slider fx:id="volumeSlider" prefWidth="10.0" />
@@ -43,12 +43,12 @@
    <top>
       <HBox prefHeight="39.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="backBtn" mnemonicParsing="false" onAction="#handleBackBtnAction" style="-fx-border-color: blue;" text="Back">
+            <Button fx:id="backBtn" mnemonicParsing="false" onAction="#handleBackBtnAction" text="Back">
                <HBox.margin>
                   <Insets left="10.0" top="5.0" />
                </HBox.margin>
                <font>
-                  <Font size="24.0" />
+                  <Font size="18.0" />
                </font>
             </Button>
          </children>

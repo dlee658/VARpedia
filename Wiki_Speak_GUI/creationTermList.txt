@@ -8,3 +8,5 @@ gastly,gastly
 pika,pikachu
 spinda,spinda
 its so cute,chinchilla
+hello,hello
+hlleo,hello

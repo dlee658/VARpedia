@@ -5,22 +5,14 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HelpController">
    <top>
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: skyblue; -fx-border-color: blue;" BorderPane.alignment="CENTER">
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" style="-fx-border-color: blue;" text="Home">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Button>
+            <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" text="Home" />
             <Text layoutX="393.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Help">
-               <font>
-                  <Font size="50.0" />
-               </font>
                <fill>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                      <stops>
@@ -32,41 +24,13 @@
                   </RadialGradient>
                </fill>
             </Text>
-            <Text fill="WHITE" layoutX="60.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create - Create a creation. " wrappingWidth="727.8984375">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="163.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2) Highlight text to preview or save to audio">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="163.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3) Select the number of images you would like in your creation" wrappingWidth="633.6484375">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="163.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4) Save your creation by entering the name and pressing Create!" wrappingWidth="633.6484375">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="60.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="View - Play/Delete your saved creations">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="60.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quiz - Take a quiz on your currently saved creations ">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="163.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1) Search a term you would like to create a creation of.">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Text>
+            <Text layoutX="60.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create - Create a creation. " wrappingWidth="727.8984375" />
+            <Text layoutX="163.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2) Highlight text to preview or save to audio" />
+            <Text layoutX="163.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3) Select the number of images you would like in your creation" wrappingWidth="633.6484375" />
+            <Text layoutX="163.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4) Save your creation by entering the name and pressing Create!" wrappingWidth="633.6484375" />
+            <Text layoutX="60.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="View - Play/Delete your saved creations" />
+            <Text layoutX="60.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quiz - Take a quiz on your currently saved creations " />
+            <Text layoutX="163.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1) Search a term you would like to create a creation of." />
            
          </children>
       </Pane>

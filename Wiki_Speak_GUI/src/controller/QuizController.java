@@ -73,7 +73,7 @@ public class QuizController {
 	@FXML
 	private void handleExitBtnAction(ActionEvent event) {
 		mp.pause();
-		playBtn.setText("▷");
+		playBtn.setText(" ▷");
 		finished();
 	}
 
@@ -86,7 +86,7 @@ public class QuizController {
 			playBtn.setText("||");
 		} else {
 			mp.pause();
-			playBtn.setText("▷");
+			playBtn.setText(" ▷");
 		}
 	}
 
@@ -165,7 +165,7 @@ public class QuizController {
 	}
 
 	public boolean isCorrect(String term) {
-		if(term.equals(answer)){
+		if(term.equalsIgnoreCase(answer)){
 			return true;
 		}
 		else {

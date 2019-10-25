@@ -11,28 +11,28 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-border-color: blue; -fx-background-color: skyblue;" stylesheets="@../controller/cb.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" style="-fx-border-color: blue;" text="Home">
+      <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" text="Home">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="BackBtn" layoutX="19.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleBackBtnAction" style="-fx-border-color: blue;" text="Back">
+      <Button fx:id="BackBtn" layoutX="19.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleBackBtnAction" text="Back">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
       <HBox alignment="CENTER" layoutX="187.0" layoutY="60.0" spacing="10.0">
          <children>
-            <Label text="Select the images you want in the creation:" textFill="WHITE">
+            <Label text="Select the images you want in the creation:">
                <font>
-                  <Font size="24.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
          </children>
       </HBox>
-      <Button fx:id="nextBtn" disable="true" layoutX="819.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleNextBtnAction" style="-fx-border-color: blue;" text="Next">
+      <Button fx:id="nextBtn" disable="true" layoutX="819.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleNextBtnAction" text="Next">
          <font>
             <Font size="18.0" />
          </font>
@@ -102,7 +102,7 @@
             </CheckBox>
          </children>
       </GridPane>
-      <Button fx:id="SelectAll" layoutX="395.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleSelectAllAction" style="-fx-border-color: blue;" text="Select All">
+      <Button fx:id="SelectAll" layoutX="395.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleSelectAllAction" text="Select All">
          <font>
             <Font size="18.0" />
          </font>

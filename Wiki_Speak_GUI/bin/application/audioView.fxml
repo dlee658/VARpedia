@@ -14,9 +14,9 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <bottom>
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-border-color: blue; -fx-background-color: skyblue;" BorderPane.alignment="CENTER">
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" style="-fx-border-color: blue;" text="Home">
+            <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" text="Home">
                <font>
                   <Font size="24.0" />
                </font>
@@ -26,14 +26,14 @@
                   <Font size="18.0" />
                </font>
             </TextArea>
-            <Button fx:id="nextBtn" disable="true" layoutX="339.0" layoutY="542.0" mnemonicParsing="false" onAction="#handleNextBtnAction" style="-fx-border-color: blue;" text="Generate Audio">
+            <Button fx:id="nextBtn" disable="true" layoutX="339.0" layoutY="542.0" mnemonicParsing="false" onAction="#handleNextBtnAction" text="Generate Audio">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
             <HBox layoutX="29.0" layoutY="464.0" spacing="20.0">
                <children>
-                  <Label text="Voice:" textFill="WHITE">
+                  <Label text="Voice:" >
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -41,25 +41,25 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <ChoiceBox fx:id="voiceCB" prefHeight="45.0" prefWidth="150.0" style="-fx-border-color: blue;" />
-                  <Button fx:id="previewBtn" mnemonicParsing="false" onAction="#handlePreviewBtnAction" style="-fx-border-color: blue;" text="Preview">
+                  <ChoiceBox fx:id="voiceCB" prefHeight="45.0" prefWidth="150.0" />
+                  <Button fx:id="previewBtn" mnemonicParsing="false" onAction="#handlePreviewBtnAction" text="Preview">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#handleSaveBtnAction" style="-fx-border-color: blue;" text="Save">
+                  <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#handleSaveBtnAction" text="Save">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
                </children>
             </HBox>
-            <Button fx:id="backBtn" layoutX="14.0" layoutY="540.0" mnemonicParsing="false" onAction="#handleBackBtnAction" style="-fx-border-color: blue;" text="Back">
+            <Button fx:id="backBtn" layoutX="14.0" layoutY="540.0" mnemonicParsing="false" onAction="#handleBackBtnAction" text="Back">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="833.0" layoutY="14.0" mnemonicParsing="false" style="-fx-border-color: blue;" text="?">
+            <Button layoutX="833.0" layoutY="14.0" mnemonicParsing="false" text="?">
                <font>
                   <Font size="24.0" />
                </font>
@@ -72,7 +72,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <CheckBox fx:id="checkBox" layoutX="604.0" layoutY="464.0" mnemonicParsing="false" style="-fx-border-color: blue;" text="Background Music" textFill="WHITE">
+            <CheckBox fx:id="checkBox" layoutX="604.0" layoutY="464.0" mnemonicParsing="false" text="Background Music">
                <font>
                   <Font size="25.0" />
                </font>

@@ -77,6 +77,7 @@ public class SearchPageController {
 		//enable progress indicator and cancel btn
 		searchIndicator.setDisable(false);
 		searchIndicator.setVisible(true);
+		//searchIndicator.setStyle(" -fx-progress-color: #757575;");
 		searchBtn.setDisable(true);
 		cancelBtn.setDisable(false);
 		//do searching process
@@ -111,10 +112,12 @@ public class SearchPageController {
 		if (term.isEmpty()) {
 			nextBtn.setDisable(true);
 			resultArea.clear();
+			searchIndicator.setVisible(false);
+			searchBtn.setDisable(false);
+			cancelBtn.setDisable(true);
 			return;
 		}
 
-		searchBtn.setDisable(true);
 		getSearchResult(term);
 
 	}
