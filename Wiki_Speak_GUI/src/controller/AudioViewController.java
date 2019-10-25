@@ -121,19 +121,19 @@ public class AudioViewController {
 				Process audioProcess = pb.start();
 				audioProcess.waitFor();
 			}
-			try {	
+
+			
 				LoadingController avc = new LoadingController(_term);
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(Main.class.getResource("Loading.fxml"));
 				loader.setController(avc);
 				nextBtn.getScene().setRoot(loader.load());
 				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} catch (Exception e) {
+			} 
+		 catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	/**
@@ -216,7 +216,7 @@ public class AudioViewController {
 			createText(selectedPart);
 			//create a wav file with text file
 			audioChunkCreation(voice);
-			//if any audio been created successfully
+
 			if (numberTxt > 0) {
 				nextBtn.setDisable(false);
 			}
@@ -296,8 +296,9 @@ public class AudioViewController {
 				}
 				
 			}
-			
-		});
+
+		}); 
+
 		
 	}
 

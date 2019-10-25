@@ -46,9 +46,6 @@ public class VideoPlayer{
 	@FXML
 	private Slider volumeSlider;
 
-	@FXML
-	private ImageView btnImage;
-
 	private MediaPlayer mp;
 
 	private Duration duration;
@@ -86,7 +83,7 @@ public class VideoPlayer{
 
 		mp.setOnEndOfMedia(new Runnable() {
 			public void run() {
-				btnImage.setImage(new Image("controller"+File.separatorChar+"play.png"));
+				playBtn.setText("▷");
 				mp.seek(mp.getStartTime());		
 				mp.pause();
 			}
@@ -191,10 +188,10 @@ public class VideoPlayer{
 
 		if ( status == Status.PAUSED || status == Status.READY || status == Status.STOPPED)	{
 			mp.play();
-			btnImage.setImage(new Image("controller"+File.separatorChar+"pause.png"));
+			playBtn.setText("||");
 		} else {
 			mp.pause();
-			btnImage.setImage(new Image("controller"+File.separatorChar+"play.png"));
+			playBtn.setText("▷");
 		}
 	}
 
