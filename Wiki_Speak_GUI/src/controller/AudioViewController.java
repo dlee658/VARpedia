@@ -203,7 +203,6 @@ public class AudioViewController {
 			String voice = voiceCB.getValue().toString();
 			createText(selectedPart);
 			audioChunkCreation(voice);
-			checkWav();
 
 			// read temporaryTextFile, numberTxt -1 and display message that audio file not generated
 
@@ -296,7 +295,7 @@ public class AudioViewController {
 				
 			}
 			
-		}
+		}); 
 		
 	}
 

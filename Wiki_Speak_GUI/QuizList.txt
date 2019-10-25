@@ -1,10 +1,10 @@
-b,b
 gastly,gastly
-green,green
-spinda,spinda
-l,c
 emily,water
-its so cute,chinchilla
+b,b
+spinda,spinda
 cow,cow
 pika,pikachu
-yellow,yellow
+cake,cake
+green,green
+potato13579,potato
+its so cute,chinchilla
