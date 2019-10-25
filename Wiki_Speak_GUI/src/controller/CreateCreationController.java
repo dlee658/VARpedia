@@ -29,12 +29,8 @@ import javafx.scene.layout.VBox;
 
 
 public class CreateCreationController {
-
-
 	private String _term;
 	private int _numOfImages;
-
-
 	@FXML
 	private Button homeBtn;
 	@FXML
@@ -58,12 +54,10 @@ public class CreateCreationController {
 		msg = new Label();
 	}
 
-	@FXML
-	public void initialize() {
-
-	}
-
-
+	
+	/**
+	 * set home button to go back to main menu
+	 */
 	@FXML
 	private void handleHomeBtnAction(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -86,6 +80,9 @@ public class CreateCreationController {
 		} 
 	}
 
+	/**
+	 * button for go back to previous page
+	*/	
 	@FXML
 	private void handleBackBtnAction(ActionEvent event) {
 		try {
@@ -101,6 +98,9 @@ public class CreateCreationController {
 
 	}
 
+	/**
+	 * button to create creation
+	 */
 	@FXML
 	private void handleCreateBtnAction(ActionEvent event) {
 		String name = txt.getText();
@@ -126,21 +126,21 @@ public class CreateCreationController {
 				public void handle(WorkerStateEvent event) {
 					createIndicator.setVisible(false);
 					try {
-
+						//create alert to ask to user
 						ButtonType mainMenuBtn = new ButtonType("Return to Main Menu");
 						ButtonType createAnotherBtn = new ButtonType("Create another");
 						Alert deleteAlert = new Alert(AlertType.CONFIRMATION, null , mainMenuBtn,createAnotherBtn);
 						deleteAlert.setTitle("Creation Complete");
 						deleteAlert.setHeaderText("Creation '" +name+ "' created");
-
 						Optional<ButtonType> btn = deleteAlert.showAndWait();
-
+						//go to main menu
 						if (btn.get() == mainMenuBtn) {
 							FXMLLoader loader = new FXMLLoader();
 							loader.setLocation(Main.class.getResource("mainMenu.fxml"));
 							Pane rootLayout = loader.load();
 							createBtn.getScene().setRoot(rootLayout);
 						} 
+						//go to search page 
 						if(btn.get() == createAnotherBtn) {
 							FXMLLoader loader = new FXMLLoader();
 							loader.setLocation(Main.class.getResource("searchPage.fxml"));
