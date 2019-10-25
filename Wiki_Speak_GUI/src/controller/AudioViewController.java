@@ -112,32 +112,26 @@ public class AudioViewController {
 				Process audioProcess = pb.start();
 				audioProcess.waitFor();
 			}
-
-			RetrieveImage controller = new RetrieveImage(_term);
-
-			ExecutorService worker = Executors.newSingleThreadExecutor(); 
-			DownloadImageTask dlTask = new DownloadImageTask(_term);
-			worker.submit(dlTask);
-
-			dlTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-				@Override
-				public void handle(WorkerStateEvent event) {
-					try {
-
-						FXMLLoader loader = new FXMLLoader();
-						loader.setLocation(Main.class.getResource("retrieveImage.fxml"));
-						loader.setController(controller);
-
-						nextBtn.getScene().setRoot(loader.load());
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-
+//
+			try {	
+				LoadingController avc = new LoadingController(_term);
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(Main.class.getResource("Loading.fxml"));
+				loader.setController(avc);
+				nextBtn.getScene().setRoot(loader.load());
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		//
 	}
 
 	@FXML
@@ -203,7 +197,7 @@ public class AudioViewController {
 			String voice = voiceCB.getValue().toString();
 			createText(selectedPart);
 			audioChunkCreation(voice);
-			checkWav();
+		//	checkWav();
 
 			// read temporaryTextFile, numberTxt -1 and display message that audio file not generated
 
@@ -296,7 +290,7 @@ public class AudioViewController {
 				
 			}
 			
-		}
+		});
 		
 	}
 

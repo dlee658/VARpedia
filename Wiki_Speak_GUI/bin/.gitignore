@@ -1,4 +1,5 @@
-/controller/
+/.classpath
+/.project
 /application/
-/View/
+/controller/
 /helper/
