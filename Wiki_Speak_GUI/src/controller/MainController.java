@@ -31,7 +31,7 @@ public class MainController {
 
 	private Pane rootLayout;
 
-<<<<<<< HEAD
+
 	@FXML
 	public void initialize() {
 		try {
@@ -48,7 +48,6 @@ public class MainController {
 			}
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

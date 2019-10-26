@@ -23,7 +23,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		primaryStage.setTitle("Varpedia");
+		primaryStage.setTitle("VARpedia");
 		primaryStage.setResizable(false);
 
 		setUpDirectories();

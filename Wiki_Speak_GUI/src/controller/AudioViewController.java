@@ -229,7 +229,9 @@ public class AudioViewController {
  */
 	private boolean isValidAudioChunk(String audioPath) {
 		File file = new File(audioPath);
+		file.exists();
 		if (file.length() == 0) {
+			file.delete();
 			return false;
 		} else {
 			return true;
@@ -250,9 +252,8 @@ public class AudioViewController {
 			@Override
 			protected File call() throws Exception {
 				try {
-					
 					String voiceFile = "\"Voice" + File.separatorChar + voice + ".scm\"";
-					String cmd = "text2wave -o " + audio + " " + text + " -eval "+ voiceFile;					
+					String cmd = "text2wave -o " + audio + " " + text + " -eval "+ voiceFile + "&> audiostatus.txt";					
 					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 					Process audioProcess = pb.start();
 					audioProcess.waitFor();
@@ -270,7 +271,7 @@ public class AudioViewController {
 			@Override
 			public void handle(WorkerStateEvent arg0) {
 				//check that file is 0byte or not using method
-				if (!isValidAudioChunk(audio)) {
+				if (!isValidAudioChunk("Audio" + File.separatorChar + _term +numberTxt+ ".wav")) {
 					//if file is 0byte, than display message to user and decrement text number
 					msg.setText("Text highlighted contains an unreadable character");
 					msg.setTextFill(Color.INDIANRED);

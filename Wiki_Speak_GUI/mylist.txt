@@ -1,4 +1,0 @@
-file 'Audio/a1.wav'
-file 'Audio/a.wav'
-file 'Audio/s1.wav'
-file 'Audio/s.wav'

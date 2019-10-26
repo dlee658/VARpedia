@@ -7,3 +7,6 @@ pink,pink
 blue,blue
 black,black
 white,white
+cat,cat
+house,house
+j,j

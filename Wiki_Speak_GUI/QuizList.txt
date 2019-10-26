@@ -1,9 +1,10 @@
+black,black
+cat,cat
+blue,blue
+cat,cat
+orange,orange
+green,green
 white,white
 yellow,yellow
 purple,purple
-blue,blue
-green,green
 pink,pink
-orange,orange
-red,red
-black,black
