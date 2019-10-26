@@ -21,6 +21,7 @@ import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 import javafx.scene.media.MediaPlayer.Status;
 
+/**this page is for play the creation*/
 public class VideoPlayer{
 
 	private File _file;
@@ -65,6 +66,7 @@ public class VideoPlayer{
 
 	}
 
+	/**display volume and time to user*/
 	private void setUpMediaBar() {
 		mp.currentTimeProperty().addListener(new InvalidationListener() 
 		{
@@ -89,6 +91,7 @@ public class VideoPlayer{
 			}
 		});
 
+		//time
 		timeSlider.valueProperty().addListener(new InvalidationListener() {
 			public void invalidated(Observable ov) {
 				if (timeSlider.isValueChanging()) {
@@ -98,6 +101,7 @@ public class VideoPlayer{
 			}
 		});
 
+		//volume
 		volumeSlider.valueProperty().addListener(new InvalidationListener() {
 			public void invalidated(Observable ov) {
 				if (volumeSlider.isValueChanging()) {
@@ -108,6 +112,7 @@ public class VideoPlayer{
 
 	}
 
+	/**update values for volume and time*/
 	protected void updateValues() {
 		if (timeLabel != null && timeSlider != null && volumeSlider != null) {
 			Platform.runLater(new Runnable() {
@@ -130,6 +135,7 @@ public class VideoPlayer{
 		}
 	}
 
+	/**for time*/
 	private static String formatTime(Duration elapsed, Duration duration) {
 		int intElapsed = (int)Math.floor(elapsed.toSeconds());
 		int elapsedHours = intElapsed / (60 * 60);
@@ -168,7 +174,7 @@ public class VideoPlayer{
 			}
 		}
 	}
-
+/**go to previous page*/
 	@FXML
 	private void handleBackBtnAction(ActionEvent event) {
 		try {
@@ -181,7 +187,7 @@ public class VideoPlayer{
 			e.printStackTrace();
 		}
 	}
-
+/**play button that allows stop and play*/
 	@FXML
 	private void handlePlayBtnAction(ActionEvent event) {
 		Status status = mp.getStatus();

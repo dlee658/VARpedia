@@ -8,12 +8,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 
+/**
+ * this page is for user instruction
+ */
 public class HelpController {
 	
 	@FXML 
 	private Button homeBtn;
 
-	
+	/**
+	 * return to main page
+	 */
 	@FXML
 	private void handleHomeBtnAction(ActionEvent event) {
 		try {

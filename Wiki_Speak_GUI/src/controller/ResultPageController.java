@@ -21,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer.Status;
 
+/**this page gives user the result of the quiz*/
 public class ResultPageController {
 	@FXML 
 	private Button menuBtn;
@@ -41,7 +42,7 @@ public class ResultPageController {
 	private TableView<Answer> answerTable;
 	private ObservableList<Answer> _answerList;
 	
-	
+	/**get the inputs from previous page*/
 	public ResultPageController(int score, int questions, List<Answer> answerList) {
 		_score = score;
 		_questions = questions;
@@ -54,34 +55,24 @@ public class ResultPageController {
 		initializeTable();
 	}
 	
+	/**by using tableview, give user the correct answer and user's typed answer and show whether it is correct or not*/
 	private void initializeTable() {
-
-		
 		answerTable = new TableView<Answer>();
-
 		TableColumn<Answer, String> youAnswerColumn = new TableColumn<>("Your Answer");
 		youAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("yourAnswer"));
-		
-
 		TableColumn<Answer, String> correctAnswerColumn = new TableColumn<>("Correct Answer");
 		correctAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
-
-		
 		TableColumn<Answer, Boolean> correctnessColumn = new TableColumn<>("Correct/Wrong");
 		correctnessColumn.setCellValueFactory(new PropertyValueFactory<>("isCorrect"));
-		
 		answerTable.getColumns().setAll(youAnswerColumn, correctAnswerColumn,correctnessColumn);
-		
 		answerTable.setItems(_answerList);
-		
 		scrollPane.setContent(answerTable);
 		answerTable.setPrefWidth(scrollPane.getPrefWidth());
 		youAnswerColumn.setPrefWidth(answerTable.getPrefWidth()/3);
 		correctAnswerColumn.setPrefWidth(answerTable.getPrefWidth()/3);
 	}
 	
-
-	
+	/**return to main page*/
 	@FXML
 	private void handleMenuBtnAction(ActionEvent event) {
 		try {
@@ -96,6 +87,7 @@ public class ResultPageController {
 		}
 	}
 	
+	/**play quiz again*/
 	@FXML
 	private void handleRetakeBtnAction(ActionEvent event) {
 		try {

@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+/**this page is showing images to user and able user to select photos for the creation*/
 public class RetrieveImage {
 	@FXML 
 	private Button homeBtn;
@@ -92,6 +93,7 @@ public class RetrieveImage {
 		nextBtn.setDisable(false);
 	}
 
+	/**show 10 images to user with given searched term*/
 	public void displayImages() {
 		int i = 1;
 		String filename;
@@ -116,6 +118,7 @@ public class RetrieveImage {
 
 	}
 
+	/**check box that user select images*/
 	@FXML
 	private void handleSelectAllAction(ActionEvent event) {
 		for(Field f: this.getClass().getDeclaredFields()) {
@@ -129,10 +132,9 @@ public class RetrieveImage {
 				}
 			}
 		}
-
-
 	}
-
+	
+	/**return to main page, ask user again for confirmation*/
 	@FXML
 	private void handleHomeBtnAction(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -153,10 +155,9 @@ public class RetrieveImage {
 				e.printStackTrace();
 			}
 		} 
-
-
 	}
 
+	/**go to next page which is asking user for the creation name*/
 	@FXML
 	private void handleNextBtnAction(ActionEvent event) {
 		try {	
@@ -172,6 +173,7 @@ public class RetrieveImage {
 		}
 	}
 
+	/**get images that user has been selected*/
 	private void getSelectedImages() {
 		int i = 1;
 		_numOfImages = 0;
@@ -203,6 +205,7 @@ public class RetrieveImage {
 
 	}
 
+	/**button that go back page*/
 	@FXML
 	private void handleBackBtnAction(ActionEvent event) {
 		try {	
