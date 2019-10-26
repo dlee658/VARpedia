@@ -1,10 +1,9 @@
+white,white
+yellow,yellow
+purple,purple
+blue,blue
 green,green
-its so cute,chinchilla
-cow,cow
-potato13579,potato
-spinda,spinda
-hello,hello
-emily,water
-b,b
-pika,pikachu
-hlleo,hello
+pink,pink
+orange,orange
+red,red
+black,black

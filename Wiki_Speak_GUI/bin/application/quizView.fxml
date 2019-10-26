@@ -70,12 +70,7 @@
             </Button>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Score:">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="scoreLabel" text="0">
+                  <Label fx:id="correctness">
                      <font>
                         <Font size="24.0" />
                      </font>

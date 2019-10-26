@@ -39,12 +39,12 @@ public class QuizController {
 
 	@FXML
 	private Button enterBtn;
-	
+
 	@FXML
 	private TextField answerField;
 
 	@FXML
-	private Label scoreLabel;
+	private Label correctness;
 
 	private String answer;
 
@@ -74,7 +74,17 @@ public class QuizController {
 	private void handleExitBtnAction(ActionEvent event) {
 		mp.pause();
 		playBtn.setText(" ▷");
-		finished();
+		if (questionNumber -1 == 0) {
+			try {
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(Main.class.getResource("mainMenu.fxml"));
+				enterBtn.getScene().setRoot(loader.load());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			finished();
+		}
 	}
 
 	@FXML
@@ -96,7 +106,6 @@ public class QuizController {
 		String input = answerField.getText();
 		if(isCorrect(input)) {
 			score = score + 1;
-			scoreLabel.setText(Integer.toString(score));
 		}
 		answerList.add(new Answer(input, answer));
 		questionNumber = questionNumber + 1;

@@ -22,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.WindowEvent;
 
 public class SearchPageController {
 	@FXML 
@@ -74,6 +75,18 @@ public class SearchPageController {
 
 	@FXML
 	private void handleSearchBtnAction(ActionEvent event) {
+		String command = "rm Audio/*.txt; rm  Audio/*.wav; rm *.jpg";
+		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);			
+		try {
+			Process searchProcess = pb.start(); 
+			searchProcess.waitFor();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+
 		//enable progress indicator and cancel btn
 		searchIndicator.setDisable(false);
 		searchIndicator.setVisible(true);
@@ -100,7 +113,7 @@ public class SearchPageController {
 			loader.setLocation(Main.class.getResource("audioView.fxml"));
 			loader.setController(avc);
 			nextBtn.getScene().setRoot(loader.load());
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

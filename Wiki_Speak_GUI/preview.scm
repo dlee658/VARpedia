@@ -1,2 +1,2 @@
-(voice_akl_nz_cw_cg_cg) 
-(SayText "ces (like pastry cream),")
+(voice_akl_nz_jdt_diphone) 
+(SayText "White is the lightest color and is achromatic (having no hue)")

@@ -1,12 +1,9 @@
-emily,water
-b,b
-cake,cake
-cow,cow
+purple,purple
+orange,orange
+red,red
+yellow,yellow
 green,green
-potato13579,potato
-gastly,gastly
-pika,pikachu
-spinda,spinda
-its so cute,chinchilla
-hello,hello
-hlleo,hello
+pink,pink
+blue,blue
+black,black
+white,white

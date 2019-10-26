@@ -21,7 +21,7 @@ public class VideoCreation {
 					+ "pad=640:480:(ow-iw)/2:(oh-ih)/2\" -r 25 -max_muxing_queue_size 1024 -y " + video + " &> status.txt;"; 
 			
 			//Create creation
-			String cmd2 = "ffmpeg -i "+ video + " -c:v libx264 -pix_fmt yuv420p -vf \"drawtext=FreeSerif.ttf:fontsize=50: fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:text=" + term + "\" -r 25 -max_muxing_queue_size 1024 -y " + creation  +" &> status2.txt"; 
+			String cmd2 = "ffmpeg -i "+ video + " -c:v libx264 -pix_fmt yuv420p -vf \"drawtext=FreeSerif.ttf:fontsize=60: fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:borderw=3:text=" + term + "\" -r 25 -max_muxing_queue_size 1024 -y " + creation  +" &> status2.txt"; 
 			
 			
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd + cmd2);

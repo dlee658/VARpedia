@@ -29,16 +29,25 @@ public class ResultPageController {
 	private Button retakeBtn;
 	
 	@FXML 
-	private ScrollPane scrollPane;
-	
-	@FXML 
 	private Label scoreLabel;
 
 	private int _score;
 
 	private int _questions;
 	
-	private TableView<Answer> answerTable;
+	@FXML
+	private TableView answerTable;
+	
+	@FXML
+	private TableColumn yourAnswerColumn;
+	
+	@FXML
+	private TableColumn correctAnswerColumn;
+	
+	@FXML
+	private TableColumn correctnessColumn;
+	
+	
 	private ObservableList<Answer> _answerList;
 	
 	
@@ -56,32 +65,17 @@ public class ResultPageController {
 	
 	private void initializeTable() {
 
+		yourAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("yourAnswer"));
 		
-		answerTable = new TableView<Answer>();
-
-		TableColumn<Answer, String> youAnswerColumn = new TableColumn<>("Your Answer");
-		youAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("yourAnswer"));
-		
-
-		TableColumn<Answer, String> correctAnswerColumn = new TableColumn<>("Correct Answer");
 		correctAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 
-		
-		TableColumn<Answer, Boolean> correctnessColumn = new TableColumn<>("Correct/Wrong");
 		correctnessColumn.setCellValueFactory(new PropertyValueFactory<>("isCorrect"));
 		
-		answerTable.getColumns().setAll(youAnswerColumn, correctAnswerColumn,correctnessColumn);
+		answerTable.getColumns().setAll(yourAnswerColumn, correctAnswerColumn,correctnessColumn);
 		
 		answerTable.setItems(_answerList);
+
 		
-		scrollPane.setContent(answerTable);
-		answerTable.setPrefWidth(scrollPane.getPrefWidth());
-		youAnswerColumn.setPrefWidth(answerTable.getPrefWidth()/3);
-		correctAnswerColumn.setPrefWidth(answerTable.getPrefWidth()/3);
-		correctnessColumn.setPrefWidth(answerTable.getPrefWidth()/3);
-		youAnswerColumn.setResizable(false);
-		correctAnswerColumn.setResizable(false);
-		correctnessColumn.setResizable(false);
 	}
 	
 
