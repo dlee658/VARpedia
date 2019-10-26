@@ -1,12 +1,2 @@
-purple,purple
-orange,orange
-red,red
-yellow,yellow
-green,green
-pink,pink
-blue,blue
-black,black
-white,white
-cat,cat
-house,house
-j,j
+a,a
+B,b

@@ -20,9 +20,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;;
+import javafx.scene.control.TextField;;
 
 /**this page is for quiz that allow user to play game with previous creation*/
 public class QuizController {

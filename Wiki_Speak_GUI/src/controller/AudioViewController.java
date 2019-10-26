@@ -57,6 +57,10 @@ public class AudioViewController {
 	private String _term;
 
 	private String _resultAreaText;
+	
+	private boolean previewRunning = false;
+
+	private Process previewProcess;
 
 	public AudioViewController(String term, String resultAreaText) {
 		_term = term;
@@ -142,6 +146,8 @@ public class AudioViewController {
 	@FXML
 	private void handleBackBtnAction(ActionEvent event) {
 		try {
+			previewProcess.destroyForcibly();
+			
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("searchPage.fxml"));
 			rootLayout = loader.load();
@@ -158,7 +164,7 @@ public class AudioViewController {
 	private void handlePreviewBtnAction(ActionEvent event) {
 		String selectedPart = resultArea.getSelectedText();
 		int wordCount = selectedPart.split("\\s+").length;
-		msg.setTextFill(Color.INDIANRED);
+
 		//can't select nothing and preview it
 		if (selectedPart.isEmpty()) {
 			msg.setText("Please highlight some text");
@@ -168,6 +174,7 @@ public class AudioViewController {
 			msg.setText("Selection exceeds 40 words, try again");						
 		}
 		else {
+			previewRunning = true;
 			msg.setText("");
 			String voice = voiceCB.getValue().toString();
 			if(voice.equals("NZ Male")) {
@@ -182,7 +189,7 @@ public class AudioViewController {
 			//preview voice with selected voice
 			ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo $'("+voice+") \n(SayText \""+selectedPart+ "\")' > preview.scm; festival -b preview.scm");
 			try {
-				pb.start();
+				previewProcess = pb.start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

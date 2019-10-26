@@ -167,7 +167,8 @@ public class SearchPageController {
 		};
 
 		worker.submit(searchTask);
-/**when finished searching*/
+		
+		//when finished searching
 		searchTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
