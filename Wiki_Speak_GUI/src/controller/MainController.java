@@ -13,6 +13,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
+/**
+ * this is controller for the main page
+ * */
 public class MainController {
 	@FXML 
 	private Button createBtn;
@@ -28,6 +31,7 @@ public class MainController {
 
 	private Pane rootLayout;
 
+<<<<<<< HEAD
 	@FXML
 	public void initialize() {
 		try {
@@ -49,7 +53,9 @@ public class MainController {
 		}
 	}
 
-
+	/**
+	 * go to quiz page
+	 */
 	@FXML
 	private void handleQuizBtnAction(ActionEvent event) {
 		try {
@@ -62,6 +68,8 @@ public class MainController {
 			e.printStackTrace();
 		}
 	}
+	
+	/** start create creation, so go to search page*/
 
 	@FXML
 	private void handleCreateBtnAction(ActionEvent event) {
@@ -76,6 +84,8 @@ public class MainController {
 		}
 	}
 
+	
+	/**go to view creation page*/
 	@FXML
 	private void handleViewBtnAction(ActionEvent event) {
 		try {
@@ -89,6 +99,8 @@ public class MainController {
 		}
 	}
 
+
+	/**go to helper page that give user instruction*/
 	@FXML
 	private void handleHelpBtnAction(ActionEvent event) {
 		try {

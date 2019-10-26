@@ -24,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;;
 
+/**this page is for quiz that allow user to play game with previous creation*/
 public class QuizController {
 	@FXML 
 	private Button exitBtn;
@@ -54,6 +55,7 @@ public class QuizController {
 	private MediaPlayer mp;
 	private List<Answer> answerList = new ArrayList<Answer>();
 
+	/**when this page been opened, reuturn all value to initial value*/
 	@FXML
 	public void initialize() {
 		questionNumber = 1;
@@ -70,6 +72,7 @@ public class QuizController {
 
 	}
 
+	/**when exit, stop the video*/
 	@FXML
 	private void handleExitBtnAction(ActionEvent event) {
 		mp.pause();
@@ -87,6 +90,7 @@ public class QuizController {
 		}
 	}
 
+	/**play and stop button*/
 	@FXML
 	private void handlePlayBtnAction(ActionEvent event) {
 		Status status = mp.getStatus();
@@ -100,6 +104,7 @@ public class QuizController {
 		}
 	}
 
+	/**if user got the question correct, increment the score and 10 question total*/
 	@FXML
 	private void handleEnterBtnAction(ActionEvent event) {
 		mp.pause();
@@ -120,6 +125,7 @@ public class QuizController {
 
 	}
 
+	/**enable keyboard*/
 	@FXML
 	private void handleEnterKeyAction(KeyEvent key) {
 		if (key.getCode().equals(KeyCode.ENTER)){
@@ -127,7 +133,7 @@ public class QuizController {
 		}
 	}
 
-
+	/**get next question using bash commnad*/
 	private void getNextQuestion(int questionNumber) {
 		String command = "awk 'NR=="+questionNumber+"' QuizList.txt";
 		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
@@ -135,12 +141,9 @@ public class QuizController {
 		try {
 			Process process = pb.start(); 
 			process.waitFor();
-
-
 			InputStream stdout = process.getInputStream();
 			BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
 			String line = stdoutBuffered.readLine();
-
 			if (line == null) {
 				finished();
 			} else {
@@ -157,10 +160,9 @@ public class QuizController {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
-
 	}
 
+	/**generate question list of the quiz using bash command*/
 	private void generateQuesitonList() {
 		String command = "sed -i '/^[[:blank:]]*$/ d' creationTermList.txt; shuf -n 10 creationTermList.txt > QuizList.txt";
 		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
@@ -170,9 +172,9 @@ public class QuizController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
+	/**check whether user got the question correct or not*/
 	public boolean isCorrect(String term) {
 		if(term.equalsIgnoreCase(answer)){
 			return true;
@@ -182,6 +184,7 @@ public class QuizController {
 		}
 	}
 
+	/**when quiz finished, show user the result by result page*/
 	public void finished() {
 		try {
 			mp.pause();		

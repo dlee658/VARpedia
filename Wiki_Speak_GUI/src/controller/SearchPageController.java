@@ -24,6 +24,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.WindowEvent;
 
+/**page that search term using wikit command*/
 public class SearchPageController {
 	@FXML 
 	private Button homeBtn;
@@ -50,6 +51,7 @@ public class SearchPageController {
 
 	private Task<Boolean> searchTask;
 
+	/**return to home button*/
 	@FXML
 	private void handleHomeBtnAction(ActionEvent event) {
 		try {
@@ -63,6 +65,7 @@ public class SearchPageController {
 		}
 	}
 
+	/**button that cancel searching*/
 	@FXML
 	private void handleCancelBtnAction(ActionEvent event) {
 		searchTask.cancel();
@@ -72,7 +75,7 @@ public class SearchPageController {
 		resultArea.clear();
 	}
 
-
+/**button that search with given term*/
 	@FXML
 	private void handleSearchBtnAction(ActionEvent event) {
 		String command = "rm Audio/*.txt; rm  Audio/*.wav; rm *.jpg";
@@ -98,6 +101,7 @@ public class SearchPageController {
 		search(term);
 	}
 
+	/**enable keyboard enter*/
 	@FXML
 	private void handleEnterKeyAction(KeyEvent key) {
 		if (key.getCode().equals(KeyCode.ENTER)){
@@ -105,6 +109,7 @@ public class SearchPageController {
 		}
 	}
 
+	/**go to next page which is audio view page*/
 	@FXML
 	private void handleNextBtnAction(ActionEvent event) {
 		try {	
@@ -119,6 +124,7 @@ public class SearchPageController {
 		}
 	}
 
+	/**check whether that user typed something and allow search*/
 	private void search(String term) {
 		term = searchField.getText().trim();
 
@@ -130,7 +136,7 @@ public class SearchPageController {
 			cancelBtn.setDisable(true);
 			return;
 		}
-
+		searchBtn.setDisable(true);
 		getSearchResult(term);
 
 	}
@@ -161,7 +167,7 @@ public class SearchPageController {
 		};
 
 		worker.submit(searchTask);
-
+/**when finished searching*/
 		searchTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
@@ -169,12 +175,10 @@ public class SearchPageController {
 				try {
 					reader = new BufferedReader(new FileReader(text));
 					String line = reader.readLine().trim();
+					//if there are no result in term, display it to user
 					if (line.equals(term + " not found :^(")) {
 						resultArea.setText(term + " not found, please try again");
-
-
-
-					} else {
+					} else { //display it to user in result area
 
 						resultArea.setText(line);
 

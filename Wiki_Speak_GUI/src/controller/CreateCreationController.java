@@ -99,7 +99,7 @@ public class CreateCreationController {
 	}
 
 	/**
-	 * button to create creation
+	 * button to create creation and ask for the valid name for creation
 	 */
 	@FXML
 	private void handleCreateBtnAction(ActionEvent event) {
@@ -172,6 +172,9 @@ public class CreateCreationController {
 		}
 	}
 
+	/**
+	 * update list of creation
+	 */
 	private void updateCreationTermList(String name, String term) {
 		String command = "echo " + name + "," + term + " >> creationTermList.txt";
 		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
@@ -183,15 +186,19 @@ public class CreateCreationController {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
 	}
+	/**
+	 * enable enter button
+	 */
 	@FXML
 	private void handleEnterKeyAction(KeyEvent key) {
 		if (key.getCode().equals(KeyCode.ENTER)){
 			createBtn.fire();
 		}
 	}
-
+	/**
+	 * check if there is file with same name already exists, and return false if there is a file with same name
+	 */
 	private boolean isValidName(String name) {
 		File file = new File("Creations" + File.separatorChar + name + ".mp4");
 		if(file.exists()) {

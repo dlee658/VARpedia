@@ -21,65 +21,66 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer.Status;
 
+/**this page gives user the result of the quiz*/
 public class ResultPageController {
 	@FXML 
 	private Button menuBtn;
 
 	@FXML 
 	private Button retakeBtn;
-	
+
 	@FXML 
 	private Label scoreLabel;
 
 	private int _score;
 
 	private int _questions;
-	
+
 	@FXML
 	private TableView answerTable;
-	
+
 	@FXML
 	private TableColumn yourAnswerColumn;
-	
+
 	@FXML
 	private TableColumn correctAnswerColumn;
-	
+
 	@FXML
 	private TableColumn correctnessColumn;
-	
-	
+
+
 	private ObservableList<Answer> _answerList;
-	
-	
+
+	/**get the inputs from previous page*/
 	public ResultPageController(int score, int questions, List<Answer> answerList) {
 		_score = score;
 		_questions = questions;
 		_answerList = FXCollections.observableList(answerList); 
 	}
-	
+
 	@FXML
 	public void initialize() {
 		scoreLabel.setText(_score+ "/"+ _questions);
 		initializeTable();
 	}
-	
+
+	/**by using tableview, give user the correct answer and user's typed answer and show whether it is correct or not*/
 	private void initializeTable() {
 
+
 		yourAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("yourAnswer"));
-		
+
 		correctAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 
 		correctnessColumn.setCellValueFactory(new PropertyValueFactory<>("isCorrect"));
-		
+
 		answerTable.getColumns().setAll(yourAnswerColumn, correctAnswerColumn,correctnessColumn);
-		
+
 		answerTable.setItems(_answerList);
 
-		
 	}
-	
 
-	
+	/**return to main page*/
 	@FXML
 	private void handleMenuBtnAction(ActionEvent event) {
 		try {
@@ -93,7 +94,8 @@ public class ResultPageController {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**play quiz again*/
 	@FXML
 	private void handleRetakeBtnAction(ActionEvent event) {
 		try {

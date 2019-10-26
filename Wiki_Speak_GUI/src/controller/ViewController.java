@@ -18,6 +18,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 
+/**page that display creation to user*/
 public class ViewController {
 	@FXML 
 	private ListView<String> viewListView;
@@ -40,6 +41,7 @@ public class ViewController {
 		viewListView.setPlaceholder(new Label("No creations created"));
 	}
 	
+	/**go to main page*/
 	@FXML
 	private void handleHomeBtnAction(ActionEvent event) {
 		try {
@@ -53,6 +55,7 @@ public class ViewController {
 		}
 	}
 	
+	/**when user tries to play one of existing creation, go to video player page*/
 	@FXML
 	private void handlePlayBtnAction(ActionEvent event) {
 		try {
@@ -75,21 +78,21 @@ public class ViewController {
 		}
 	}
 	
+	/**allow user to delete existing creation*/
 	@FXML
 	private void handleDeleteBtnAction(ActionEvent event) {
 		String fileName = viewListView.getSelectionModel().getSelectedItem();
 		if (fileName == null) {
 			return;
 		}
-
+//ask user for confirmation
 		ButtonType yesBtn = new ButtonType("yes");
-		ButtonType noBtn = new ButtonType("no", ButtonBar.ButtonData.CANCEL_CLOSE);
+		ButtonType noBtn = new ButtonType("no", ButtonBar.ButtonData.CANCEL_CLOSE); 
 		Alert deleteAlert = new Alert(AlertType.CONFIRMATION,"Are you sure you want to delete: " + fileName,yesBtn,noBtn);
 		deleteAlert.setTitle("Confirm Deletion");
 		deleteAlert.setHeaderText(null);
 
 		Optional<ButtonType> btn = deleteAlert.showAndWait();
-
 		if (btn.get() == yesBtn) {
 			File file = new File("Creations" + File.separatorChar + fileName + ".mp4");
 			file.delete();
@@ -98,9 +101,9 @@ public class ViewController {
 			updateCreationTermList(fileName);
 			deleteAlert.close();
 		} 
-		
 	}
 
+	/**update creation list*/
 	private void updateCreationTermList(String fileName) {
 		String command = "sed -i '/"+fileName+",/d' ./creationTermList.txt";
 		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
