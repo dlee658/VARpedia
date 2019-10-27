@@ -53,19 +53,21 @@ public class LoadingController {
 	
 	public LoadingController(String term){		
 		_term = term;
-		LoadingControllser();
+		downloadImages();
 	}
 	
 	/**
 	 * Retrieve image with given search term, and when all image been download, go to retrieve image page
 	 * it is implemented using worker so GUI not froze
 	 * */
-	public void LoadingControllser(){
+	public void downloadImages(){
 		try {
 			RetrieveImage controller = new RetrieveImage(_term);
 			ExecutorService worker = Executors.newSingleThreadExecutor(); 
+			
 			DownloadImageTask dlTask = new DownloadImageTask(_term);
 			worker.submit(dlTask);
+			
 			dlTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 				@Override
 				public void handle(WorkerStateEvent event) {

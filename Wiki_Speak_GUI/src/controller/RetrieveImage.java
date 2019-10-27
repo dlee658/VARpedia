@@ -12,10 +12,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 /**this page is showing images to user and able user to select photos for the creation*/
 public class RetrieveImage {
@@ -26,7 +29,16 @@ public class RetrieveImage {
 	private Button nextBtn;
 
 	@FXML 
-	private Button backBtn;
+	private Button helpBtn;
+
+	@FXML 
+	private VBox helpBox;
+
+	@FXML 
+	private BorderPane imagePane;
+
+	@FXML 
+	private Label msg;
 
 	@FXML
 	private CheckBox image1CB;
@@ -83,6 +95,8 @@ public class RetrieveImage {
 
 	private int _numOfImages;
 
+	private boolean helpOn = false;
+
 	public RetrieveImage(String term) {
 		_term = term;
 	}
@@ -126,14 +140,29 @@ public class RetrieveImage {
 				try {
 					CheckBox checkBox = (CheckBox) f.get(this);
 					checkBox.setSelected(true);
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}
 	}
-	
+
+	/**check box that user select images*/
+	@FXML
+	private void handleHelpBtnAction(ActionEvent event) {
+		helpOn  = !helpOn;
+		if (helpOn) {
+			imagePane.setDisable(true);
+			helpBox.setVisible(true);
+			helpBtn.setText("X");
+		} else {
+			imagePane.setDisable(false);
+			helpBox.setVisible(false);
+			helpBtn.setText("?");
+		}
+	}
+
 	/**return to main page, ask user again for confirmation*/
 	@FXML
 	private void handleHomeBtnAction(ActionEvent event) {
@@ -161,20 +190,24 @@ public class RetrieveImage {
 	@FXML
 	private void handleNextBtnAction(ActionEvent event) {
 		try {	
-			getSelectedImages();
-			CreateCreationController controller = new CreateCreationController(_term, _numOfImages);
+			if (getSelectedImages()) {
+				CreateCreationController controller = new CreateCreationController(_term, _numOfImages);
 
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("createCreation.fxml"));
-			loader.setController(controller);			
-			nextBtn.getScene().setRoot(loader.load());
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(Main.class.getResource("createCreation.fxml"));
+				loader.setController(controller);			
+				nextBtn.getScene().setRoot(loader.load());
+			} else {
+				msg.setText("Please select at least one image");
+			}
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**get images that user has been selected*/
-	private void getSelectedImages() {
+	private boolean getSelectedImages() {
 		int i = 1;
 		_numOfImages = 0;
 		for(Field f: this.getClass().getDeclaredFields()) {
@@ -190,7 +223,7 @@ public class RetrieveImage {
 						} else {
 							fileName = _term+"0"+i+".jpg";
 						}
-					
+
 						String command = "rm " + fileName;
 						ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
 						pb.start();
@@ -200,23 +233,14 @@ public class RetrieveImage {
 				} 
 				i++;
 			}
-			
+
 		}
+		if (_numOfImages == 0) {
+			return false;
+		} 
+		return true;
 
 	}
 
-	/**button that go back page*/
-	@FXML
-	private void handleBackBtnAction(ActionEvent event) {
-		try {	
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("audioView.fxml"));
-			backBtn.getScene().setRoot(loader.load());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	
 
 }

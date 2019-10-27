@@ -63,9 +63,9 @@
                               <Font size="18.0" />
                            </font>
                         </Button>
-                        <ProgressIndicator fx:id="searchIndicator" disable="true" visible="false" />
                      </children>
                   </HBox>
+                  <ProgressIndicator fx:id="searchIndicator" disable="true" visible="false" />
                   <Label fx:id="msg" />
                </children>
             </VBox>
