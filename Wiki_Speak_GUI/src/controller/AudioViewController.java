@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 
 import application.Main;
 import helper.DownloadImageTask;
+import javafx.beans.binding.Bindings;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
@@ -23,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class AudioViewController {
@@ -40,12 +42,21 @@ public class AudioViewController {
 
 	@FXML 
 	private Button nextBtn;
+	
+	@FXML 
+	private Button helpBtn;
 
 	@FXML 
 	private TextArea resultArea;
 
 	@FXML
 	private Label msg;
+	
+	@FXML
+	private VBox helpBox;
+	
+	@FXML
+	private Pane mainAudioPane;
 
 	@FXML 
 	private ChoiceBox<String> voiceCB;
@@ -58,7 +69,7 @@ public class AudioViewController {
 
 	private String _resultAreaText;
 	
-	private boolean previewRunning = false;
+	private boolean helpOn = false;
 
 	private Process previewProcess;
 
@@ -103,6 +114,19 @@ public class AudioViewController {
 				e.printStackTrace();
 			}
 		} 
+	}
+	
+	@FXML
+	private void handleHelpBtnAction(ActionEvent event) {
+		if (helpOn) {
+			helpBox.setVisible(true);
+			helpBtn.setText("X");
+		} else {
+			helpBox.setVisible(false);
+			helpBtn.setText("?");
+		}
+		helpOn = !helpOn;
+		
 	}
 
 	/**
@@ -174,7 +198,6 @@ public class AudioViewController {
 			msg.setText("Selection exceeds 40 words, try again");						
 		}
 		else {
-			previewRunning = true;
 			msg.setText("");
 			String voice = voiceCB.getValue().toString();
 			if(voice.equals("NZ Male")) {
@@ -238,7 +261,7 @@ public class AudioViewController {
 		File file = new File(audioPath);
 		file.exists();
 		if (file.length() == 0) {
-			file.delete();
+			//file.delete();
 			return false;
 		} else {
 			return true;

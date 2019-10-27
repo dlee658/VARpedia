@@ -7,14 +7,16 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <bottom>
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+<StackPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane fx:id="mainAudioPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0">
          <children>
             <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" text="Home">
                <font>
@@ -59,14 +61,6 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="841.0" layoutY="14.0" mnemonicParsing="false" text="?">
-               <font>
-                  <Font size="24.0" />
-               </font>
-               <tooltip>
-                  <Tooltip text="Edit/Highlight some text to preview/save " />
-               </tooltip>
-            </Button>
             <Label fx:id="msg" layoutX="169.0" layoutY="540.0">
                <font>
                   <Font size="24.0" />
@@ -79,5 +73,57 @@
             </CheckBox>
          </children>
       </Pane>
-   </bottom>
-</BorderPane>
+      <VBox fx:id="helpBox" alignment="TOP_CENTER" maxHeight="550.0" maxWidth="200.0" spacing="20.0" style="-fx-background-color: pink;" visible="false">
+         <children>
+            <Label text="Help">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1) Hightlight a chunk of text you would like in your creation. You may also edit the text." wrappingWidth="593.80078125">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2) Select what voice you would like the text to be read in." wrappingWidth="591.9375">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="3) Preview or save the text, by pressing the preview or save button." wrappingWidth="602.29296875">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="4) Repeat steps 1 to 3 till you have saved all the text you want in your creation." wrappingWidth="609.7421875">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Optional: If you want to have background music in your audio, check the add background music checkbox." wrappingWidth="612.42578125">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+      <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="helpBtn" mnemonicParsing="false" onAction="#handleHelpBtnAction" text="?">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Edit/Highlight some text to preview/save " />
+               </tooltip>
+            </Button>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </children>
+</StackPane>
