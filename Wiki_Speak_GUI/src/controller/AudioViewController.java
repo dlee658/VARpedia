@@ -25,6 +25,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.paint.Color;
 
 public class AudioViewController {
@@ -71,7 +74,7 @@ public class AudioViewController {
 	
 	private boolean helpOn = false;
 
-	private Process previewProcess;
+	private MediaPlayer audioPlayer;
 
 	public AudioViewController(String term, String resultAreaText) {
 		_term = term;
@@ -119,6 +122,7 @@ public class AudioViewController {
 	@FXML
 	private void handleHelpBtnAction(ActionEvent event) {
 		if (helpOn) {
+			mainAudioPane.getChildren();
 			helpBox.setVisible(true);
 			helpBtn.setText("X");
 		} else {
@@ -170,8 +174,6 @@ public class AudioViewController {
 	@FXML
 	private void handleBackBtnAction(ActionEvent event) {
 		try {
-			previewProcess.destroyForcibly();
-			
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("searchPage.fxml"));
 			rootLayout = loader.load();
@@ -185,35 +187,34 @@ public class AudioViewController {
 	 * button for preview the selected text with selected voice; default voice is kal_diphone
 	*/	
 	@FXML
-	private void handlePreviewBtnAction(ActionEvent event) {
-		String selectedPart = resultArea.getSelectedText();
-		int wordCount = selectedPart.split("\\s+").length;
-
+	private void handlePreviewBtnAction(ActionEvent event) {		
+		
 		//can't select nothing and preview it
-		if (selectedPart.isEmpty()) {
-			msg.setText("Please highlight some text");
-		}
-		//word limit is 40 words
-		else if (wordCount > 40) { 
-			msg.setText("Selection exceeds 40 words, try again");						
-		}
-		else {
+		if (isValidHighlight() && previewBtn.getText() != "Stop") {
 			msg.setText("");
 			String voice = voiceCB.getValue().toString();
-			if(voice.equals("NZ Male")) {
-				voice = "voice_akl_nz_jdt_diphone";		
-			}
-			else if(voice.equals("NZ Female")) {
-				voice = "voice_akl_nz_cw_cg_cg";		
-			}				
-			else {
-				voice = "voice_kal_diphone";	
-			}
-			//preview voice with selected voice
-			ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "echo $'("+voice+") \n(SayText \""+selectedPart+ "\")' > preview.scm; festival -b preview.scm");
 			try {
-				previewProcess = pb.start();
+				String voiceFile = "\"Voice" + File.separatorChar + voice + ".scm\"";
+				String cmd = "echo \"" + resultArea.getSelectedText() + "\" > preview.txt; text2wave -o preview.wav preview.txt -eval "+ voiceFile + "&> audiostatus.txt";					
+				ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
+				Process audioProcess = pb.start();
+				audioProcess.waitFor();
+				
+				File file = new File("preview.wav");
+				Media audio = new Media(file.toURI().toString());
+				audioPlayer = new MediaPlayer(audio);
+				audioPlayer.setAutoPlay(true);
+				previewBtn.setText("Stop");
+				
+				audioPlayer.setOnEndOfMedia(new Runnable() {
+					public void run() {
+						previewBtn.setText("Preview");
+					}
+				});
+				
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
@@ -221,29 +222,34 @@ public class AudioViewController {
 
 	}
 
+	private boolean isValidHighlight() {
+		String selectedPart = resultArea.getSelectedText();
+		int wordCount = selectedPart.split("\\s+").length;
+
+		//can't select nothing and preview it
+		if (selectedPart.isEmpty()) {
+			msg.setText("Please highlight some text");
+			return false;
+		}
+		//word limit is 40 words
+		else if (wordCount > 40) { 
+			msg.setText("Selection exceeds 40 words, try again");	
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * button for saving audio for selected text
 	*/	
 	@FXML
 	private void handleSaveBtnAction(ActionEvent event) {
-		String selectedPart = resultArea.getSelectedText();
-		int wordCount = selectedPart.split("\\s+").length;
-		msg.setTextFill(Color.INDIANRED);
-		//saving word without select anything disabled
-		if (selectedPart.isEmpty()) {
-			msg.setText("Please highlight some text");
-		} 
-		//40 words limit
-		else if (wordCount > 40) {
-			msg.setText("Selection exceeds 40 words, try again");
-
-		}
-		else {
+		if (isValidHighlight()) {
 			//increment the number of audio been created
 			numberTxt = numberTxt +1;
 			String voice = voiceCB.getValue().toString();
 			//create a text file for audio with given text
-			createText(selectedPart);
+			createText(resultArea.getSelectedText());
 			//create a wav file with text file
 			audioChunkCreation(voice);
 
@@ -261,7 +267,7 @@ public class AudioViewController {
 		File file = new File(audioPath);
 		file.exists();
 		if (file.length() == 0) {
-			//file.delete();
+			file.delete();
 			return false;
 		} else {
 			return true;
@@ -304,12 +310,10 @@ public class AudioViewController {
 				if (!isValidAudioChunk("Audio" + File.separatorChar + _term +numberTxt+ ".wav")) {
 					//if file is 0byte, than display message to user and decrement text number
 					msg.setText("Text highlighted contains an unreadable character");
-					msg.setTextFill(Color.INDIANRED);
 					numberTxt = numberTxt-1;
 				}
 				else {
 					msg.setText("Audio: " + _term + numberTxt + " saved");
-					msg.setTextFill(Color.DARKGREEN);
 				}
 				
 			}

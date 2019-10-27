@@ -9,71 +9,67 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+
+<Pane fx:id="mainAudioPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane fx:id="mainAudioPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0">
+      <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" text="Home">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <TextArea fx:id="resultArea" layoutX="14.0" layoutY="71.0" prefHeight="361.0" prefWidth="870.0" wrapText="true">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextArea>
+      <Button fx:id="nextBtn" disable="true" layoutX="797.0" layoutY="540.0" mnemonicParsing="false" onAction="#handleNextBtnAction" text="Next">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <HBox layoutX="29.0" layoutY="464.0" spacing="20.0">
          <children>
-            <Button fx:id="homeBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeBtnAction" text="Home">
+            <Label text="Voice:">
                <font>
                   <Font size="24.0" />
                </font>
-            </Button>
-            <TextArea fx:id="resultArea" layoutX="14.0" layoutY="71.0" prefHeight="361.0" prefWidth="870.0" wrapText="true">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </TextArea>
-            <Button fx:id="nextBtn" disable="true" layoutX="797.0" layoutY="540.0" mnemonicParsing="false" onAction="#handleNextBtnAction" text="Next">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Button>
-            <HBox layoutX="29.0" layoutY="464.0" spacing="20.0">
-               <children>
-                  <Label text="Voice:">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets top="5.0" />
-                     </HBox.margin>
-                  </Label>
-                  <ChoiceBox fx:id="voiceCB" prefHeight="26.0" prefWidth="186.0" />
-                  <Button fx:id="previewBtn" mnemonicParsing="false" onAction="#handlePreviewBtnAction" text="Preview">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#handleSaveBtnAction" text="Save">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
-            <Button fx:id="backBtn" layoutX="14.0" layoutY="540.0" mnemonicParsing="false" onAction="#handleBackBtnAction" text="Back">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Button>
-            <Label fx:id="msg" layoutX="169.0" layoutY="540.0">
-               <font>
-                  <Font size="24.0" />
-               </font>
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
             </Label>
-            <CheckBox fx:id="checkBox" layoutX="604.0" layoutY="470.0" mnemonicParsing="false" text="Background Music">
+            <ChoiceBox fx:id="voiceCB" prefHeight="26.0" prefWidth="186.0" />
+            <Button fx:id="previewBtn" mnemonicParsing="false" onAction="#handlePreviewBtnAction" text="Preview">
                <font>
-                  <Font size="25.0" />
+                  <Font size="24.0" />
                </font>
-            </CheckBox>
+            </Button>
+            <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#handleSaveBtnAction" text="Save">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
          </children>
-      </Pane>
-      <VBox fx:id="helpBox" alignment="TOP_CENTER" maxHeight="550.0" maxWidth="200.0" spacing="20.0" style="-fx-background-color: pink;" visible="false">
+      </HBox>
+      <Button fx:id="backBtn" layoutX="14.0" layoutY="540.0" mnemonicParsing="false" onAction="#handleBackBtnAction" text="Back">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Label fx:id="msg" layoutX="169.0" layoutY="540.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <CheckBox fx:id="checkBox" layoutX="604.0" layoutY="470.0" mnemonicParsing="false" text="Background Music">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </CheckBox>
+      <VBox fx:id="helpBox" alignment="CENTER" layoutX="134.0" layoutY="64.0" maxHeight="400.0" maxWidth="600.0" spacing="20.0" style="-fx-background-color: ghostwhite; -fx-border-radius: 20; -fx-border-color: grey;" visible="false">
          <children>
             <Label text="Help">
                <font>
@@ -110,20 +106,13 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </VBox>
-      <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Button fx:id="helpBtn" mnemonicParsing="false" onAction="#handleHelpBtnAction" text="?">
-               <font>
-                  <Font size="24.0" />
-               </font>
-               <tooltip>
-                  <Tooltip text="Edit/Highlight some text to preview/save " />
-               </tooltip>
-            </Button>
-         </children>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-      </HBox>
+      <Button fx:id="helpBtn" layoutX="841.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHelpBtnAction" text="?">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <tooltip>
+            <Tooltip text="Edit/Highlight some text to preview/save " />
+         </tooltip>
+      </Button>
    </children>
-</StackPane>
+</Pane>

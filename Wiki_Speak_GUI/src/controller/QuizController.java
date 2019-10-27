@@ -53,7 +53,7 @@ public class QuizController {
 	private MediaPlayer mp;
 	private List<Answer> answerList = new ArrayList<Answer>();
 
-	/**when this page been opened, reuturn all value to initial value*/
+	/**when this page been opened, return all value to initial value*/
 	@FXML
 	public void initialize() {
 		questionNumber = 1;

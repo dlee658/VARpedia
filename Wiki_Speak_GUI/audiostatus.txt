@@ -1,1 +1,0 @@
-WALLOC: failed to malloc 320000000 bytes
