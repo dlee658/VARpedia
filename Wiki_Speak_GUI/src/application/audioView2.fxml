@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0">
+         <bottom>
+            <BorderPane fx:id="audioPane" BorderPane.alignment="CENTER">
+               <bottom>
+                  <StackPane BorderPane.alignment="CENTER">
+                     <children>
+                        <Button fx:id="backBtn" mnemonicParsing="false" onAction="#handleBackBtnAction" text="Back" StackPane.alignment="TOP_LEFT">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </StackPane.margin>
+                        </Button>
+                        <Button fx:id="nextBtn" disable="true" mnemonicParsing="false" onAction="#handleNextBtnAction" text="Next" StackPane.alignment="TOP_RIGHT">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </StackPane.margin>
+                        </Button>
+                        <Label fx:id="msg">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+               </bottom>
+               <top>
+                  <TextArea fx:id="resultArea" prefHeight="350.0" prefWidth="880.0" wrapText="true" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <BorderPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </BorderPane.margin>
+                  </TextArea>
+               </top>
+               <center>
+                  <HBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                     </padding>
+                     <children>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label text="Voice:">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ChoiceBox fx:id="voiceCB" prefHeight="26.0" prefWidth="186.0" />
+                              <Button fx:id="previewBtn" minHeight="46.0" minWidth="127.0" mnemonicParsing="false" onAction="#handlePreviewBtnAction" text="Preview">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#handleSaveBtnAction" text="Save">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Button>
+                              <CheckBox fx:id="checkBox" mnemonicParsing="false" text="Background Music">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                              </CheckBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+               </center>
+            </BorderPane>
+         </bottom>
+         <top>
+            <StackPane BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </BorderPane.margin>
+               <children>
+                  <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#handleHomeBtnAction" text="Home" StackPane.alignment="TOP_LEFT">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="helpBtn" mnemonicParsing="false" onAction="#handleHelpBtnAction" text="?" StackPane.alignment="TOP_RIGHT">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <tooltip>
+                        <Tooltip text="Edit/Highlight some text to preview/save " />
+                     </tooltip>
+                  </Button>
+               </children>
+            </StackPane>
+         </top>
+         <center>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Highlight and edit the text you want to save as audio for your creation" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+      <VBox fx:id="helpBox" alignment="CENTER" maxHeight="400.0" maxWidth="600.0" spacing="20.0" style="-fx-background-color: ghostwhite; -fx-border-radius: 20; -fx-border-color: grey;" visible="false">
+         <children>
+            <Label text="Help">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1) Hightlight a chunk of text you would like in your creation. You may also edit the text." wrappingWidth="593.80078125">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2) Select what voice you would like the text to be read in." wrappingWidth="591.9375">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="3) Preview or save the text, by pressing the preview or save button." wrappingWidth="602.29296875">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="4) Repeat steps 1 to 3 till you have saved all the text you want in your creation." wrappingWidth="609.7421875">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Optional: If you want to have background music in your audio, check the add background music checkbox." wrappingWidth="612.42578125">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</StackPane>

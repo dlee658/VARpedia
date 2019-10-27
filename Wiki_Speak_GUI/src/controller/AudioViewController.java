@@ -23,6 +23,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -59,7 +60,7 @@ public class AudioViewController {
 	private VBox helpBox;
 	
 	@FXML
-	private Pane mainAudioPane;
+	private BorderPane audioPane;
 
 	@FXML 
 	private ChoiceBox<String> voiceCB;
@@ -121,15 +122,17 @@ public class AudioViewController {
 	
 	@FXML
 	private void handleHelpBtnAction(ActionEvent event) {
+		helpOn = !helpOn;
 		if (helpOn) {
-			mainAudioPane.getChildren();
+			audioPane.setDisable(true);
 			helpBox.setVisible(true);
 			helpBtn.setText("X");
 		} else {
+			audioPane.setDisable(false);
 			helpBox.setVisible(false);
 			helpBtn.setText("?");
 		}
-		helpOn = !helpOn;
+		
 		
 	}
 

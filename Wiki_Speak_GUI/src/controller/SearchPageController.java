@@ -115,7 +115,7 @@ public class SearchPageController {
 		try {	
 			AudioViewController avc = new AudioViewController(searchField.getText(),resultArea.getText());
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("audioView.fxml"));
+			loader.setLocation(Main.class.getResource("audioView2.fxml"));
 			loader.setController(avc);
 			nextBtn.getScene().setRoot(loader.load());
 
