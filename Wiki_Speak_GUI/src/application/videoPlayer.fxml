@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
@@ -25,7 +26,7 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label fx:id="volumeLabel" text="Vol." textFill="WHITE">
+            <Label fx:id="volumeLabel" text="Vol.">
                <padding>
                   <Insets left="30.0" />
                </padding>
@@ -41,17 +42,22 @@
       </HBox>
    </bottom>
    <top>
-      <HBox prefHeight="39.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <StackPane BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="backBtn" mnemonicParsing="false" onAction="#handleBackBtnAction" text="Back">
-               <HBox.margin>
-                  <Insets left="10.0" top="5.0" />
-               </HBox.margin>
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
+            <Label fx:id="creationLabel" text="Label" />
+            <HBox prefHeight="39.0" prefWidth="600.0">
+               <children>
+                  <Button fx:id="backBtn" mnemonicParsing="false" onAction="#handleBackBtnAction" text="Back">
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
          </children>
-      </HBox>
+      </StackPane>
    </top>
 </BorderPane>

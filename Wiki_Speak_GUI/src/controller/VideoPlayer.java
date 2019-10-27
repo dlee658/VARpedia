@@ -37,6 +37,9 @@ public class VideoPlayer{
 
 	@FXML
 	private Slider timeSlider;
+	
+	@FXML
+	private Label creationLabel;
 
 	@FXML
 	private Label timeLabel;
@@ -60,6 +63,7 @@ public class VideoPlayer{
 	public void initialize() {
 		Media video = new Media(_file.toURI().toString());
 		mp = new MediaPlayer(video);
+		creationLabel.setText(_file.getName().substring(0, _file.getName().length()-4));
 		mp.setAutoPlay(true);
 		mediaPlayer.setMediaPlayer(mp);
 		setUpMediaBar();

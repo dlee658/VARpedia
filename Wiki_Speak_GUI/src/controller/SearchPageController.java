@@ -198,6 +198,7 @@ public class SearchPageController {
 				searchBtn.setDisable(false);
 				cancelBtn.setDisable(true);
 				nextBtn.setVisible(true);
+				nextBtn.setDisable(false);
 				searchIndicator.setVisible(false);
 			}
 		});

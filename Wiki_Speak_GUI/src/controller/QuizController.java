@@ -42,9 +42,6 @@ public class QuizController {
 	@FXML
 	private TextField answerField;
 
-	@FXML
-	private Label correctness;
-
 	private String answer;
 
 	private int questionNumber;

@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
@@ -16,23 +17,19 @@
             <MediaView fx:id="mediaPlayer" fitHeight="400.0" fitWidth="900.0" BorderPane.alignment="CENTER" />
          </center>
          <top>
-            <HBox prefHeight="39.0" prefWidth="600.0" spacing="100.0" BorderPane.alignment="CENTER">
+            <StackPane BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </BorderPane.margin>
                <children>
-                  <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#handleExitBtnAction" text="Exit">
+                  <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#handleExitBtnAction" text="Exit" StackPane.alignment="TOP_LEFT">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Label fx:id="questionN" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="236.0" text="Question One" wrapText="true">
-                     <font>
-                        <Font size="31.0" />
-                     </font>
-                  </Label>
+                  <Label fx:id="questionN" text="Question 1" />
                </children>
-               <BorderPane.margin>
-                  <Insets left="10.0" right="10.0" top="10.0" />
-               </BorderPane.margin>
-            </HBox>
+            </StackPane>
          </top>
          <bottom>
             <HBox alignment="CENTER" prefHeight="42.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
@@ -68,15 +65,6 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label fx:id="correctness">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
          </children>
       </HBox>
    </bottom>

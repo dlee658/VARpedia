@@ -188,9 +188,13 @@ public class AudioViewController {
 	*/	
 	@FXML
 	private void handlePreviewBtnAction(ActionEvent event) {		
-		
+		if (audioPlayer != null && audioPlayer.getStatus() == Status.PLAYING) {
+			audioPlayer.stop();
+			previewBtn.setText("Preview");
+			return;
+		}
 		//can't select nothing and preview it
-		if (isValidHighlight() && previewBtn.getText() != "Stop") {
+		if (isValidHighlight()) {
 			msg.setText("");
 			String voice = voiceCB.getValue().toString();
 			try {
@@ -218,7 +222,7 @@ public class AudioViewController {
 				e.printStackTrace();
 			}
 
-		}
+		} 
 
 	}
 
@@ -302,6 +306,7 @@ public class AudioViewController {
 			}
 		};
 		createWorker.submit(task);
+		
 		task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 		//when voice successfully created
 			@Override

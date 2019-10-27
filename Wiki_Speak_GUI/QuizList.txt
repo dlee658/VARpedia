@@ -1,10 +1,2 @@
-black,black
-cat,cat
-blue,blue
-cat,cat
-orange,orange
-green,green
-white,white
-yellow,yellow
-purple,purple
-pink,pink
+a,a
+B,b
