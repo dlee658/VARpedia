@@ -1,1 +1,3 @@
+a,a
 girl,girl
+truck,truck

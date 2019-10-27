@@ -72,7 +72,7 @@ public class ViewController {
 	@FXML
 	private void handleHelpBtnAction(ActionEvent event) {
 		helpOn  = !helpOn;
-		if (helpOn  ) {
+		if (helpOn) {
 			viewHB.setDisable(true);
 			helpBox.setVisible(true);
 			helpBtn.setText("X");

@@ -12,7 +12,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SearchPageController">
    <children>
       <BorderPane minHeight="600.0" minWidth="900.0">
@@ -83,12 +82,12 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Press the search button to begin your search" wrappingWidth="591.9375">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Press the &quot;Search&quot; button to begin your search" wrappingWidth="591.9375">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="If the page gets stuck on searching, you may have entered an ambiguous term. Press cancel and search another term" wrappingWidth="602.29296875">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="If the page gets stuck on searching, you may have entered an ambiguous term. Press &quot;Cancel&quot; and search another term" wrappingWidth="602.29296875">
                <font>
                   <Font size="24.0" />
                </font>

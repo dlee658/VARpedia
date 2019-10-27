@@ -71,13 +71,7 @@ public class QuizController {
 		getNextQuestion(questionNumber);
 		helpBtn.fire();
 
-		mp.setOnEndOfMedia(new Runnable() {
-			public void run() {
-				playBtn.setText("↺");
-				mp.seek(mp.getStartTime());		
-				mp.pause();
-			}
-		});
+		
 
 	}
 	
@@ -190,8 +184,16 @@ public class QuizController {
 				answer = line.substring(line.indexOf(",")+1).trim();
 				Media video = new Media(file.toURI().toString());
 				mp = new MediaPlayer(video);
-				mp.setAutoPlay(true);
+				playMP();
 				mediaPlayer.setMediaPlayer(mp);
+				
+				mp.setOnEndOfMedia(new Runnable() {
+					public void run() {
+						playBtn.setText("↺");
+						mp.seek(mp.getStartTime());		
+						mp.pause();
+					}
+				});
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
