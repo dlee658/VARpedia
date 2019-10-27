@@ -14,9 +14,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 /**page that display creation to user*/
 public class ViewController {
@@ -32,7 +35,18 @@ public class ViewController {
 	@FXML 
 	private Button homeBtn;
 
+	private boolean helpOn = false;
+	
+	@FXML
+	private HBox viewHB;
+
+	@FXML
+	private VBox helpBox;
+	
 	private Pane rootLayout;
+	
+	@FXML
+	private Button helpBtn;
 	
 	@FXML
 	private void initialize() {
@@ -53,6 +67,21 @@ public class ViewController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@FXML
+	private void handleHelpBtnAction(ActionEvent event) {
+		helpOn  = !helpOn;
+		if (helpOn  ) {
+			viewHB.setDisable(true);
+			helpBox.setVisible(true);
+			helpBtn.setText("X");
+		} else {
+			viewHB.setDisable(false);
+			helpBox.setVisible(false);
+			helpBtn.setText("?");
+		}
+
 	}
 	
 	/**when user tries to play one of existing creation, go to video player page*/

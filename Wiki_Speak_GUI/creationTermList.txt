@@ -1,5 +1,1 @@
-a,a
-B,b
-cake,cake
-cake1,cake
-cake_1,cake
+girl,girl
