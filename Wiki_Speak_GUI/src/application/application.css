@@ -19,7 +19,7 @@
 .button {
 	-fx-font-size: 24px ; 
 	-fx-background-color: default-primary-color;
-	-fx-text-fill: text-primary-color;
+	-fx-text-fill: white;
 	-fx-background-radius: 10 ;
 }
 

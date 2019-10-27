@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import application.Main;
+import helper.BashCommand;
+import helper.SceneChanger;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -34,13 +34,13 @@ public class SearchPageController {
 
 	@FXML 
 	private Button cancelBtn;
-	
+
 	@FXML 
 	private Button helpBtn;
-	
+
 	@FXML 
 	private VBox helpBox;
-		
+
 	@FXML 
 	private VBox searchVB;
 
@@ -57,17 +57,10 @@ public class SearchPageController {
 
 	private boolean helpOn = false;
 
-	/**return to home button*/
+	/**return to home page*/
 	@FXML
 	private void handleHomeBtnAction(ActionEvent event) {
-		try {
-			// Load root layout from fxml file.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-			homeBtn.getScene().setRoot(loader.load());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		SceneChanger.changeScene(null, "mainMenu.fxml", homeBtn);
 	}
 
 	/**button that cancel searching*/
@@ -79,20 +72,12 @@ public class SearchPageController {
 		cancelBtn.setDisable(true);
 	}
 
-/**button that search with given term*/
+	/**button that search with given term*/
 	@FXML
 	private void handleSearchBtnAction(ActionEvent event) {
-		String command = "rm Audio/*.txt; rm  Audio/*.wav; rm *.jpg";
-		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);			
-		try {
-			Process searchProcess = pb.start(); 
-			searchProcess.waitFor();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
+		//Remove all temp files before restarting a new creation
+		String cmd = "rm Audio/*.txt; rm  Audio/*.wav; rm *.jpg";
+		BashCommand.runCommand(cmd);	
 
 		//enable progress indicator and cancel btn
 		searchIndicator.setDisable(false);
@@ -117,7 +102,7 @@ public class SearchPageController {
 			helpBtn.setText("?");
 		}
 	}
-	
+
 	/**enable keyboard enter*/
 	@FXML
 	private void handleEnterKeyAction(KeyEvent key) {
@@ -143,7 +128,7 @@ public class SearchPageController {
 	}
 
 	/**
-	 * Returns the wikit result of the entered term and displays result in result area.
+	 * Returns the wikit result of the entered term and move to next page if a wikipedia page exists
 	 */
 	private void getSearchResult(String term) {
 		String command = "wikit " + term + " | sed 's/\\. /&\\n/g'";
@@ -168,7 +153,7 @@ public class SearchPageController {
 		};
 
 		worker.submit(searchTask);
-		
+
 		//when finished searching
 		searchTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
@@ -180,12 +165,10 @@ public class SearchPageController {
 					//if there are no result in term, display it to user
 					if (line.equals(term + " not found :^(")) {
 						msg.setText(term + " not found, please try again");
-					} else { //display it to user in result area
+					} else {
+						//Move to audio generation page
 						AudioViewController avc = new AudioViewController(searchField.getText(),text);
-						FXMLLoader loader = new FXMLLoader();
-						loader.setLocation(Main.class.getResource("audioView.fxml"));
-						loader.setController(avc);
-						searchBtn.getScene().setRoot(loader.load());
+						SceneChanger.changeScene(avc, "audioView.fxml", searchBtn);
 					}
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
@@ -199,8 +182,6 @@ public class SearchPageController {
 			}
 		});
 
-
 	}
-
 
 }

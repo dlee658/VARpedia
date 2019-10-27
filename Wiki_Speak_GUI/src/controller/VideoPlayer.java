@@ -1,27 +1,24 @@
 package controller;
 
 import java.io.File;
-import java.io.IOException;
-
-import application.Main;
+import helper.SceneChanger;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 import javafx.scene.media.MediaPlayer.Status;
 
-/**this page is for play the creation*/
+/** Class for the video player that plays a selected creation
+ * Code Credits: https://docs.oracle.com/javase/8/javafx/media-tutorial/playercontrol.htm
+ */
 public class VideoPlayer{
 
 	private File _file;
@@ -37,7 +34,7 @@ public class VideoPlayer{
 
 	@FXML
 	private Slider timeSlider;
-	
+
 	@FXML
 	private Label creationLabel;
 
@@ -178,20 +175,15 @@ public class VideoPlayer{
 			}
 		}
 	}
-/**go to previous page*/
+	/**go to previous page*/
 	@FXML
 	private void handleBackBtnAction(ActionEvent event) {
-		try {
-			// Load root layout from fxml file.
 			mp.pause();
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("viewView.fxml"));
-			backBtn.getScene().setRoot(loader.load());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			// returns to view page
+			SceneChanger.changeScene(null, "viewView.fxml", backBtn);
 	}
-/**play button that allows stop and play*/
+	/**play button that allows stop and play*/
+	
 	@FXML
 	private void handlePlayBtnAction(ActionEvent event) {
 		Status status = mp.getStatus();
@@ -204,7 +196,5 @@ public class VideoPlayer{
 			playBtn.setText("▷");
 		}
 	}
-
-
 
 }

@@ -10,29 +10,29 @@ ffmpeg version 4.1.3-0ubuntu1 Copyright (c) 2000-2019 the FFmpeg developers
   libswscale      5.  3.100 /  5.  3.100
   libswresample   3.  3.100 /  3.  3.100
   libpostproc    55.  3.100 / 55.  3.100
-Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'Video/truck.mp4':
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'Video/sleep.mp4':
   Metadata:
     major_brand     : isom
     minor_version   : 512
     compatible_brands: isomiso2avc1mp41
     encoder         : Lavf58.20.100
-  Duration: 00:00:01.30, start: 0.000000, bitrate: 3103 kb/s
-    Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p, 640x480 [SAR 3416:3415 DAR 13664:10245], 3149 kb/s, 25 fps, 25 tbr, 12800 tbn, 50 tbc (default)
+  Duration: 00:00:06.46, start: 0.000000, bitrate: 335 kb/s
+    Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p, 640x480 [SAR 3416:3415 DAR 13664:10245], 255 kb/s, 25 fps, 25 tbr, 12800 tbn, 50 tbc (default)
     Metadata:
       handler_name    : VideoHandler
-    Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 16000 Hz, mono, fltp, 74 kb/s (default)
+    Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 16000 Hz, mono, fltp, 75 kb/s (default)
     Metadata:
       handler_name    : SoundHandler
 Stream mapping:
   Stream #0:0 -> #0:0 (h264 (native) -> h264 (libx264))
   Stream #0:1 -> #0:1 (aac (native) -> aac (native))
 Press [q] to stop, [?] for help
-[Parsed_drawtext_0 @ 0x55ab2f062940] Using "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
-[libx264 @ 0x55ab2f04fac0] using SAR=3416/3415
-[libx264 @ 0x55ab2f04fac0] using cpu capabilities: MMX2 SSE2Fast LZCNT SSSE3 SSE4.2 AVX
-[libx264 @ 0x55ab2f04fac0] profile High, level 3.0
-[libx264 @ 0x55ab2f04fac0] 264 - core 155 r2917 0a84d98 - H.264/MPEG-4 AVC codec - Copyleft 2003-2018 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=4 lookahead_threads=1 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
-Output #0, mp4, to 'Creations/truck.mp4':
+[Parsed_drawtext_0 @ 0x555e24900180] Using "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+[libx264 @ 0x555e248deb00] using SAR=3416/3415
+[libx264 @ 0x555e248deb00] using cpu capabilities: MMX2 SSE2Fast LZCNT SSSE3 SSE4.2 AVX
+[libx264 @ 0x555e248deb00] profile High, level 3.0
+[libx264 @ 0x555e248deb00] 264 - core 155 r2917 0a84d98 - H.264/MPEG-4 AVC codec - Copyleft 2003-2018 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=4 lookahead_threads=1 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, mp4, to 'Creations/sleep.mp4':
   Metadata:
     major_brand     : isom
     minor_version   : 512
@@ -48,23 +48,22 @@ Output #0, mp4, to 'Creations/truck.mp4':
     Metadata:
       handler_name    : SoundHandler
       encoder         : Lavc58.35.100 aac
-frame=   31 fps= 26 q=-1.0 Lsize=     429kB time=00:00:01.28 bitrate=2746.3kbits/s speed=1.07x    
-video:415kB audio:12kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.502506%
-[libx264 @ 0x55ab2f04fac0] frame I:5     Avg QP:23.80  size: 52956
-[libx264 @ 0x55ab2f04fac0] frame P:10    Avg QP:26.18  size: 15813
-[libx264 @ 0x55ab2f04fac0] frame B:16    Avg QP:18.58  size:    85
-[libx264 @ 0x55ab2f04fac0] consecutive B-frames: 16.1% 38.7% 19.4% 25.8%
-[libx264 @ 0x55ab2f04fac0] mb I  I16..4:  7.1% 47.4% 45.5%
-[libx264 @ 0x55ab2f04fac0] mb P  I16..4:  7.1% 17.6% 23.7%  P16..4:  1.1%  0.2%  0.1%  0.0%  0.0%    skip:50.1%
-[libx264 @ 0x55ab2f04fac0] mb B  I16..4:  0.0%  0.0%  0.0%  B16..8:  2.6%  0.0%  0.0%  direct: 0.0%  skip:97.3%  L0:41.3% L1:58.7% BI: 0.0%
-[libx264 @ 0x55ab2f04fac0] 8x8 transform intra:41.9% inter:46.3%
-[libx264 @ 0x55ab2f04fac0] coded y,uvDC,uvAC intra: 78.3% 70.6% 43.1% inter: 0.5% 0.5% 0.2%
-[libx264 @ 0x55ab2f04fac0] i16 v,h,dc,p: 36% 33% 15% 16%
-[libx264 @ 0x55ab2f04fac0] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu: 14% 33% 14%  5%  5%  5%  7%  5% 11%
-[libx264 @ 0x55ab2f04fac0] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 21% 32% 11%  5%  5%  6%  7%  5%  8%
-[libx264 @ 0x55ab2f04fac0] i8c dc,h,v,p: 47% 33% 14%  6%
-[libx264 @ 0x55ab2f04fac0] Weighted P-Frames: Y:10.0% UV:10.0%
-[libx264 @ 0x55ab2f04fac0] ref P L0: 34.1% 11.9% 48.1%  5.9%
-[libx264 @ 0x55ab2f04fac0] ref B L0: 99.1%  0.9%
-[libx264 @ 0x55ab2f04fac0] kb/s:2737.24
-[aac @ 0x55ab2f067200] Qavg: 3585.976
+frame=   70 fps=0.0 q=28.0 size=       0kB time=00:00:02.81 bitrate=   0.1kbits/s speed=5.57x    frame=  132 fps=130 q=28.0 size=       0kB time=00:00:05.24 bitrate=   0.1kbits/s speed=5.17x    frame=  160 fps=107 q=-1.0 Lsize=     259kB time=00:00:06.40 bitrate= 331.1kbits/s speed=4.29x    
+video:199kB audio:55kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 2.106679%
+[libx264 @ 0x555e248deb00] frame I:3     Avg QP:16.73  size: 62441
+[libx264 @ 0x555e248deb00] frame P:40    Avg QP:15.82  size:   320
+[libx264 @ 0x555e248deb00] frame B:117   Avg QP:18.50  size:    21
+[libx264 @ 0x555e248deb00] consecutive B-frames:  1.9%  0.0%  5.6% 92.5%
+[libx264 @ 0x555e248deb00] mb I  I16..4:  4.1% 58.1% 37.8%
+[libx264 @ 0x555e248deb00] mb P  I16..4:  0.3%  1.9%  0.2%  P16..4:  0.7%  0.0%  0.0%  0.0%  0.0%    skip:96.9%
+[libx264 @ 0x555e248deb00] mb B  I16..4:  0.0%  0.0%  0.0%  B16..8:  0.0%  0.0%  0.0%  direct: 0.0%  skip:100.0%  L0:13.8% L1:86.2% BI: 0.0%
+[libx264 @ 0x555e248deb00] 8x8 transform intra:63.4% inter:49.1%
+[libx264 @ 0x555e248deb00] coded y,uvDC,uvAC intra: 72.5% 66.5% 63.9% inter: 0.0% 0.1% 0.0%
+[libx264 @ 0x555e248deb00] i16 v,h,dc,p: 54%  7% 23% 16%
+[libx264 @ 0x555e248deb00] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu: 29% 15% 17%  5%  6%  7%  6%  7%  9%
+[libx264 @ 0x555e248deb00] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 20% 18% 10%  7%  9%  9%  9%  8%  9%
+[libx264 @ 0x555e248deb00] i8c dc,h,v,p: 56% 17% 15% 12%
+[libx264 @ 0x555e248deb00] Weighted P-Frames: Y:0.0% UV:0.0%
+[libx264 @ 0x555e248deb00] ref P L0: 84.7%  1.6%  6.7%  7.0%
+[libx264 @ 0x555e248deb00] kb/s:253.24
+[aac @ 0x555e248ed500] Qavg: 158.920

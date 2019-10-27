@@ -9,15 +9,13 @@ import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import application.Main;
-import helper.DownloadImageTask;
-import javafx.beans.binding.Bindings;
+import helper.BashCommand;
+import helper.SceneChanger;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -27,12 +25,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
-import javafx.scene.paint.Color;
 
 public class AudioViewController {
 	@FXML 
@@ -46,6 +42,9 @@ public class AudioViewController {
 
 	@FXML 
 	private Button saveBtn;
+	
+	@FXML 
+	private Button backBtn;
 
 	@FXML 
 	private Button nextBtn;
@@ -67,8 +66,6 @@ public class AudioViewController {
 
 	@FXML 
 	private ChoiceBox<String> voiceCB;
-
-	private Pane rootLayout;
 
 	private int numberTxt;
 
@@ -96,7 +93,7 @@ public class AudioViewController {
 		numberTxt = 0;
 
 	}
-	
+
 	private void initializeTextArea() {
 		BufferedReader reader;
 		try {
@@ -131,16 +128,7 @@ public class AudioViewController {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK){
-			try {
-				// Load root layout from fxml file.
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-				Pane rootLayout = loader.load();
-				homeBtn.getScene().setRoot(rootLayout);
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			SceneChanger.changeScene(null, "mainMenu.fxml", homeBtn);
 		} 
 	}
 
@@ -163,34 +151,20 @@ public class AudioViewController {
 	 */
 	@FXML
 	private void handleNextBtnAction(ActionEvent event) {
-		try {
+		//Combines audio chunks together
+		audioCreation();
 
-			audioCreation();
-
-			//Combine audio with background music
-			if(checkBox.isSelected()) {
-
-				String audio = "\"Audio" + File.separatorChar +"music" +_term +".wav\"";
-				String audioC = "\"Audio" + File.separatorChar +_term +".wav\"";
-				String cmd = "ffmpeg -i "+audio+" -i backgroundMusic.wav -filter_complex amerge=inputs=2 -ac 2 "+audioC;
-
-				ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
-				Process audioProcess = pb.start();
-				audioProcess.waitFor();
-			}
-
-
-			LoadingController avc = new LoadingController(_term);
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("Loading.fxml"));
-			loader.setController(avc);
-			nextBtn.getScene().setRoot(loader.load());
-
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
+		//Combine audio with background music
+		if(checkBox.isSelected()) {
+			String audio = "\"Audio" + File.separatorChar +"music" +_term +".wav\"";
+			String audioC = "\"Audio" + File.separatorChar +_term +".wav\"";
+			String cmd = "ffmpeg -i "+audio+" -i backgroundMusic.wav -filter_complex amerge=inputs=2 -ac 2 "+audioC;
+			BashCommand.runCommand(cmd);
 		}
 
+		//Move to next page
+		LoadingController controller = new LoadingController(_term);
+		SceneChanger.changeScene(controller, "Loading.fxml", nextBtn);
 	}
 
 	/**
@@ -198,59 +172,47 @@ public class AudioViewController {
 	 */	
 	@FXML
 	private void handleBackBtnAction(ActionEvent event) {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("searchPage.fxml"));
-			rootLayout = loader.load();
-			nextBtn.getScene().setRoot(rootLayout);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		SceneChanger.changeScene(null, "searchPage.fxml", backBtn);
 	}
 
 	/**
 	 * button for preview the selected text with selected voice; default voice is kal_diphone
 	 */	
 	@FXML
-	private void handlePreviewBtnAction(ActionEvent event) {		
+	private void handlePreviewBtnAction(ActionEvent event) {	
+		//If preview is still running
 		if (audioPlayer != null && audioPlayer.getStatus() == Status.PLAYING) {
 			audioPlayer.stop();
 			previewBtn.setText("Preview");
 			return;
 		}
-		//can't select nothing and preview it
+		//Checks if  highlighted is valid and previews it
 		if (isValidHighlight()) {
 			msg.setText("");
 			String voice = voiceCB.getValue().toString();
-			try {
-				String voiceFile = "\"Voice" + File.separatorChar + voice + ".scm\"";
-				String cmd = "echo \"" + resultArea.getSelectedText() + "\" > preview.txt; text2wave -o preview.wav preview.txt -eval "+ voiceFile + "&> audiostatus.txt";					
-				ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
-				Process audioProcess = pb.start();
-				audioProcess.waitFor();
+			String voiceFile = "\"Voice" + File.separatorChar + voice + ".scm\"";
+			String cmd = "echo \"" + resultArea.getSelectedText() + "\" > preview.txt; text2wave -o preview.wav preview.txt -eval "+ voiceFile + "&> audiostatus.txt";					
+			BashCommand.runCommand(cmd);
 
-				File file = new File("preview.wav");
-				Media audio = new Media(file.toURI().toString());
-				audioPlayer = new MediaPlayer(audio);
-				audioPlayer.setAutoPlay(true);
-				previewBtn.setText("Stop");
+			File file = new File("preview.wav");
+			Media audio = new Media(file.toURI().toString());
+			audioPlayer = new MediaPlayer(audio);
+			audioPlayer.setAutoPlay(true);
+			previewBtn.setText("Stop");
 
-				audioPlayer.setOnEndOfMedia(new Runnable() {
-					public void run() {
-						previewBtn.setText("Preview");
-					}
-				});
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			audioPlayer.setOnEndOfMedia(new Runnable() {
+				public void run() {
+					previewBtn.setText("Preview");
+				}
+			});
 
 		} 
 
 	}
 
+	/**
+	 * Checks if the text highlighted is valid, not blank or exceed word limit
+	 */
 	private boolean isValidHighlight() {
 		String selectedPart = resultArea.getSelectedText();
 		int wordCount = selectedPart.split("\\s+").length;
@@ -311,22 +273,15 @@ public class AudioViewController {
 		//files directory
 		String audio = "\"Audio" + File.separatorChar + _term +numberTxt+ ".wav\"";
 		String text = "\"Audio" + File.separatorChar + _term + numberTxt+".txt\"";
-		//for GUI to not be froze by using workers
+		
+		//Run task to save audio chunks to a wav file
 		ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
 		Task<File> task = new Task<File>() {
 			@Override
 			protected File call() throws Exception {
-				try {
-					String voiceFile = "\"Voice" + File.separatorChar + voice + ".scm\"";
-					String cmd = "text2wave -o " + audio + " " + text + " -eval "+ voiceFile + "&> audiostatus.txt";					
-					ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
-					Process audioProcess = pb.start();
-					audioProcess.waitFor();
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				String voiceFile = "\"Voice" + File.separatorChar + voice + ".scm\"";
+				String cmd = "text2wave -o " + audio + " " + text + " -eval "+ voiceFile + "&> audiostatus.txt";					
+				BashCommand.runCommand(cmd);
 				return null;	
 			}
 		};
@@ -349,8 +304,6 @@ public class AudioViewController {
 			}
 
 		}); 
-
-
 	}
 
 	/**
@@ -363,36 +316,15 @@ public class AudioViewController {
 		}
 		//bash command that combine all the wav files into one single wav file
 		String cmd = "for f in Audio/*.wav; do echo \"file '$f'\" >> mylist.txt ; done ; ffmpeg -safe 0 -y -f concat -i mylist.txt -c copy " + audio + "; rm mylist.txt";
-		try {
-			ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
-			Process audioProcess = pb.start();
-
-			audioProcess.waitFor();
-		} catch (InterruptedException e) {
-
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		BashCommand.runCommand(cmd);
 	}
 
 	/**
 	 * method that create text with selected text
 	 */
 	private void createText(String selectedText) {
-		String cmd = "echo \"" + selectedText + "\"";
-		ProcessBuilder pb = new ProcessBuilder("bash","-c",cmd);
-		pb.redirectOutput(new File("Audio" + File.separatorChar + _term +numberTxt+ ".txt"));
-
-		try {
-			Process process = pb.start();
-			process.waitFor();
-
-		}
-		catch(Exception e) {
-
-		}
-
+		String cmd = "echo \"" + selectedText + "\" > \"Audio" + File.separatorChar + _term + numberTxt + ".txt\"";
+		BashCommand.runCommand(cmd);
 	}
 
 }

@@ -3,6 +3,10 @@ package helper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Class for the answer to the quiz
+ *
+ */
 public class Answer {
 
 	private Boolean _isCorrect;
@@ -22,6 +26,9 @@ public class Answer {
 		}
 	}
 	
+	/**
+	 * Returns the users given answer
+	 */
 	public String getYourAnswer() {
 		return yourAnswerProperty().get();
 	}
@@ -32,7 +39,9 @@ public class Answer {
         }
         return yourAnswer; 
     }
-	
+	/**
+	 * Returns the correct answer for the question
+	 */
 	public String getCorrectAnswer() {
 		return correctAnswerProperty().get();
 	}
@@ -44,6 +53,9 @@ public class Answer {
         return correctAnswer; 
     }
 	
+	/**
+	 * Returns whether the users answer wa correct or not
+	 */
 	public String getIsCorrect() {
 		return isCorrectProperty().get();
 	}
@@ -54,7 +66,5 @@ public class Answer {
 	        }
         return isCorrect; 
     }
-
-
 	
 }

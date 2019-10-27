@@ -1,7 +1,7 @@
-package application;
+package helper;
 
 import java.io.BufferedReader;
-
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -12,8 +12,6 @@ import javafx.collections.ObservableList;
 
 /**
  * Contains a list of the current creations created for the view list
- * @author student
- *
  */
 public class CreationList {
 	private List<String> _creationList = new ArrayList<String>();
@@ -36,8 +34,7 @@ public class CreationList {
 		String cmd = "ls Creations | sort";
 
 		try {
-			ProcessBuilder builder = new ProcessBuilder("bash","-c",cmd);
-			Process process = builder.start();
+			Process process = BashCommand.runCommand(cmd);
 			InputStream stdout = process.getInputStream();
 			BufferedReader stdoutBuffered =new BufferedReader(new InputStreamReader(stdout));
 
@@ -46,8 +43,8 @@ public class CreationList {
 				_creationList.add(line.substring(0, line.length()-4));
 			}
 		}
-		catch(Exception e) {
-
+		catch(IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

@@ -1,3 +1,6 @@
 girl,girl
 a,a
 truck,truck
+apple,apple
+new world,new world
+sleep,sleep

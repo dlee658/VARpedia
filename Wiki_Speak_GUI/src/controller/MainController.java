@@ -1,18 +1,15 @@
 package controller;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import application.Main;
+import helper.BashCommand;
+import helper.SceneChanger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -31,8 +28,6 @@ public class MainController {
 	@FXML 
 	private Button helpBtn;
 
-	private Pane rootLayout;
-
 	private boolean helpOn = false;
 	
 	@FXML
@@ -45,8 +40,7 @@ public class MainController {
 	public void initialize() {
 		try {
 			String cmd = "ls Creations |wc -l";
-			ProcessBuilder builder = new ProcessBuilder("bash","-c",cmd);
-			Process process = builder.start();
+			Process process = BashCommand.runCommand(cmd);
 
 			InputStream stdout = process.getInputStream();
 			BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
@@ -67,45 +61,21 @@ public class MainController {
 	 */
 	@FXML
 	private void handleQuizBtnAction(ActionEvent event) {
-		try {
-			// Load root layout from fxml file.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("quizView.fxml"));
-			rootLayout = loader.load();
-			quizBtn.getScene().setRoot(rootLayout);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		SceneChanger.changeScene(null, "quizView.fxml", quizBtn);
 	}
 
 	/** start create creation, so go to search page*/
 
 	@FXML
 	private void handleCreateBtnAction(ActionEvent event) {
-		try {
-			// Load root layout from fxml file.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("searchPage.fxml"));
-			rootLayout = loader.load();
-			createBtn.getScene().setRoot(rootLayout);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		SceneChanger.changeScene(null, "searchPage.fxml", createBtn);
 	}
 
 
 	/**go to view creation page*/
 	@FXML
 	private void handleViewBtnAction(ActionEvent event) {
-		try {
-			// Load root layout from fxml file.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("viewView.fxml"));
-			rootLayout = loader.load();
-			viewBtn.getScene().setRoot(rootLayout);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		SceneChanger.changeScene(null, "viewView.fxml", viewBtn);
 	}
 
 

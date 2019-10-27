@@ -7,11 +7,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import application.Main;
 import helper.Answer;
+import helper.BashCommand;
+import helper.SceneChanger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -40,24 +40,25 @@ public class QuizController {
 
 	@FXML
 	private Button enterBtn;
-	
+
 	@FXML
 	private Button helpBtn;
-	
+
 	@FXML
 	private VBox helpBox;
-	
+
 	@FXML
 	private BorderPane quizPane;
 
 	@FXML
 	private TextField answerField;
-	
+
 	private boolean helpOn = false;
 
 	private String answer;
 
 	private int questionNumber;
+
 	private int score = 0;
 
 	private MediaPlayer mp;
@@ -70,14 +71,11 @@ public class QuizController {
 		generateQuesitonList();
 		getNextQuestion(questionNumber);
 		helpBtn.fire();
-
-		
-
 	}
-	
+
 	/**
 	 * Button to get the help for this page
-	*/	
+	 */	
 	@FXML
 	private void handleHelpBtnAction(ActionEvent event) {
 		helpOn  = !helpOn;
@@ -98,13 +96,13 @@ public class QuizController {
 	private void playMP() {
 		mp.play();
 		playBtn.setText("||");
-		
+
 	}
 
 	private void pauseMP() {
 		mp.pause();
 		playBtn.setText(" ▷");
-		
+
 	}
 
 	/**when exit, stop the video*/
@@ -112,13 +110,7 @@ public class QuizController {
 	private void handleExitBtnAction(ActionEvent event) {
 		pauseMP();
 		if (questionNumber -1 == 0) {
-			try {
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-				enterBtn.getScene().setRoot(loader.load());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			SceneChanger.changeScene(null, "mainMenu.fxml", exitBtn);
 		} else {
 			finished();
 		}
@@ -141,15 +133,21 @@ public class QuizController {
 	private void handleEnterBtnAction(ActionEvent event) {
 		pauseMP();
 		String input = answerField.getText();
+		
+		//Check if answer is correct
 		if(isCorrect(input)) {
 			score = score + 1;
 		}
+		
+		//Add the answers to answer list
 		answerList.add(new Answer(input, answer));
+		
 		questionNumber = questionNumber + 1;
-
+		//If done 10 questions, finish the quiz
 		if (questionNumber > 10 ) {
 			finished();
 		} else {
+			//Set up the next question
 			answerField.clear();
 			getNextQuestion(questionNumber);
 			questionN.setText("Question " + Integer.toString(questionNumber));
@@ -165,28 +163,32 @@ public class QuizController {
 		}
 	}
 
-	/**get next question using bash commnad*/
+	/**Sets up the next creation from the quiz list for the quiz */
 	private void getNextQuestion(int questionNumber) {
-		String command = "awk 'NR=="+questionNumber+"' QuizList.txt";
-		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
+		String cmd = "awk 'NR=="+questionNumber+"' QuizList.txt";
 
 		try {
-			Process process = pb.start(); 
-			process.waitFor();
+			Process process = BashCommand.runCommand(cmd); 
 			InputStream stdout = process.getInputStream();
 			BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
 			String line = stdoutBuffered.readLine();
+			
 			if (line == null) {
 				finished();
 			} else {
+				//Get creation to play
 				String name = line.substring(0,line.indexOf(",")).trim();
 				File file = new File("Video" + File.separatorChar + name + ".mp4");
+				
+				//Get answer
 				answer = line.substring(line.indexOf(",")+1).trim();
+				
+				//Play creation 
 				Media video = new Media(file.toURI().toString());
 				mp = new MediaPlayer(video);
 				playMP();
 				mediaPlayer.setMediaPlayer(mp);
-				
+
 				mp.setOnEndOfMedia(new Runnable() {
 					public void run() {
 						playBtn.setText("↺");
@@ -197,21 +199,13 @@ public class QuizController {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 	}
 
 	/**generate question list of the quiz using bash command*/
 	private void generateQuesitonList() {
-		String command = "sed -i '/^[[:blank:]]*$/ d' creationTermList.txt; shuf -n 10 creationTermList.txt > QuizList.txt";
-		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
-		try {
-			Process searchProcess = pb.start(); 
-			searchProcess.waitFor();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		String cmd = "sed -i '/^[[:blank:]]*$/ d' creationTermList.txt; shuf -n 10 creationTermList.txt > QuizList.txt";
+		BashCommand.runCommand(cmd);
 	}
 
 	/**check whether user got the question correct or not*/
@@ -224,23 +218,11 @@ public class QuizController {
 		}
 	}
 
-	/**when quiz finished, show user the result by result page*/
+	/**When quiz is finished goes to the result page*/
 	public void finished() {
-		try {
-			pauseMP();	
-			ResultPageController controller = new ResultPageController(score, questionNumber-1, answerList);
-
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("quizResult.fxml"));
-			loader.setController(controller);			
-			enterBtn.getScene().setRoot(loader.load());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-
+		pauseMP();	
+		ResultPageController controller = new ResultPageController(score, questionNumber-1, answerList);
+		SceneChanger.changeScene(controller, "quizResult.fxml", enterBtn);
 	}
-
-
 
 }

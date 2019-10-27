@@ -18,19 +18,24 @@ import com.flickr4java.flickr.photos.Size;
 
 import javafx.concurrent.Task;
 
+/**
+ * Task that downloads images from the Flickr API
+ * Code credit: ACP 206_FlickrExample
+ */
 public class DownloadImageTask extends Task<Object> {
 
-	
 	private String _term;
 
-
+	/**
+	 * Constructor for this class
+	 */
 	public DownloadImageTask(String term) {
 		_term = term;
 	}
+	
 	@Override
 	protected Object call() throws Exception {
 		retrieveImages(_term, 10);
-
 		return null;
 	}
 
@@ -52,7 +57,6 @@ public class DownloadImageTask extends Task<Object> {
 		throw new RuntimeException("Couldn't find " + key +" in config file "+file.getName());
 	}
 
-
 	private void retrieveImages(String term, int numOfImages) {
 		try {
 			String apiKey = getAPIKey("apiKey");
@@ -71,7 +75,7 @@ public class DownloadImageTask extends Task<Object> {
 			PhotoList<Photo> results = photos.search(params,numOfImages, page);
 			int i = 1;
 
-
+			// Get images from flickr and number them 01 to 10
 			for (Photo photo: results) {
 				try {
 					BufferedImage image = photos.getImage(photo,Size.LARGE);
@@ -93,6 +97,5 @@ public class DownloadImageTask extends Task<Object> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
+	}	
 }

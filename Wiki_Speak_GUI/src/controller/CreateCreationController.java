@@ -2,19 +2,18 @@ package controller;
 
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import application.Main;
+import helper.BashCommand;
+import helper.SceneChanger;
 import helper.VideoCreation;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -24,7 +23,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 
@@ -49,7 +47,7 @@ public class CreateCreationController {
 	private ProgressIndicator createIndicator;
 
 	private Label msg;
-	
+
 	private boolean helpOn = false;
 
 	public CreateCreationController(String term, int numOfImages) {
@@ -61,9 +59,9 @@ public class CreateCreationController {
 	@FXML
 	public void initialize() {
 		setRecommendedName();
-		
+
 	}
-	
+
 	private void setRecommendedName() {
 		String name = _term;
 		int i = 0;
@@ -72,7 +70,7 @@ public class CreateCreationController {
 			name = _term + "_" + i;
 		}
 		nameField.setText(name);
-		
+
 	}
 
 	/**
@@ -87,22 +85,13 @@ public class CreateCreationController {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK){
-			try {
-				// Load root layout from fxml file.
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-				Pane rootLayout = loader.load();
-				homeBtn.getScene().setRoot(rootLayout);
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			SceneChanger.changeScene(null, "mainMenu.fxml", homeBtn);
 		} 
 	}
 
 	/**
 	 * Button to get the help for this page
-	*/	
+	 */	
 	@FXML
 	private void handleHelpBtnAction(ActionEvent event) {
 		helpOn  = !helpOn;
@@ -144,39 +133,27 @@ public class CreateCreationController {
 				@Override
 				public void handle(WorkerStateEvent event) {
 					createIndicator.setVisible(false);
-					try {
-						//create alert to ask to user
-						ButtonType mainMenuBtn = new ButtonType("Return to Main Menu");
-						ButtonType createAnotherBtn = new ButtonType("Create another");
-						Alert deleteAlert = new Alert(AlertType.CONFIRMATION, null , mainMenuBtn,createAnotherBtn);
-						deleteAlert.setTitle("Creation Complete");
-						deleteAlert.setHeaderText("Creation '" +name+ "' created");
-						Optional<ButtonType> btn = deleteAlert.showAndWait();
-						//go to main menu
-						if (btn.get() == mainMenuBtn) {
-							FXMLLoader loader = new FXMLLoader();
-							loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-							Pane rootLayout = loader.load();
-							createBtn.getScene().setRoot(rootLayout);
-						} 
-						//go to search page 
-						if(btn.get() == createAnotherBtn) {
-							FXMLLoader loader = new FXMLLoader();
-							loader.setLocation(Main.class.getResource("searchPage.fxml"));
-							Pane rootLayout = loader.load();
-							createBtn.getScene().setRoot(rootLayout);
-						}
-
-						updateCreationTermList(name,_term);
-					} catch (IOException e) {
-						e.printStackTrace();
+					//create alert to ask to user
+					ButtonType mainMenuBtn = new ButtonType("Return to Main Menu");
+					ButtonType createAnotherBtn = new ButtonType("Create another");
+					Alert deleteAlert = new Alert(AlertType.CONFIRMATION, null , mainMenuBtn,createAnotherBtn);
+					deleteAlert.setTitle("Creation Complete");
+					deleteAlert.setHeaderText("Creation '" +name+ "' created");
+					Optional<ButtonType> btn = deleteAlert.showAndWait();
+					//go to main menu
+					if (btn.get() == mainMenuBtn) {
+						SceneChanger.changeScene(null, "mainMenu.fxml", createBtn);
+					} 
+					//go to search page 
+					if(btn.get() == createAnotherBtn) {
+						SceneChanger.changeScene(null, "searchPage.fxml", createBtn);
 					}
-					
+					updateCreationTermList(name,_term);
 				}
 
 			});
-			
-		}else if (name.isBlank()){ 
+
+		} else if (name.isBlank()){ 
 			msg.setText("Please enter a name");
 
 		} else {
@@ -188,16 +165,8 @@ public class CreateCreationController {
 	 * update list of creation
 	 */
 	private void updateCreationTermList(String name, String term) {
-		String command = "echo " + name + "," + term + " >> creationTermList.txt";
-		ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);		
-		try {
-			Process searchProcess = pb.start(); 
-			searchProcess.waitFor();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		String cmd = "echo " + name + "," + term + " >> creationTermList.txt";
+		BashCommand.runCommand(cmd);	
 	}
 	/**
 	 * enable enter button
@@ -218,10 +187,4 @@ public class CreateCreationController {
 		}
 		return true;
 	}
-
-
-
-
-
-
 }

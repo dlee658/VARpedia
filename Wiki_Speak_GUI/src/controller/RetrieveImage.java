@@ -1,13 +1,11 @@
 package controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Optional;
-import application.Main;
+import helper.BashCommand;
+import helper.SceneChanger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -17,10 +15,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-/**this page is showing images to user and able user to select photos for the creation*/
+/**This controller manages the image selection page which allows users to select photos for the creation*/
+
 public class RetrieveImage {
 	@FXML 
 	private Button homeBtn;
@@ -123,16 +121,16 @@ public class RetrieveImage {
 					Image im = new Image("file:" + filename);
 					image.setImage(im);
 					i++;
-				} catch (Exception e) {
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
 					e.printStackTrace();
 				}
 			}
-
 		}
-
 	}
 
-	/**check box that user select images*/
+	/**Makes all the check boxes ticked*/
 	@FXML
 	private void handleSelectAllAction(ActionEvent event) {
 		for(Field f: this.getClass().getDeclaredFields()) {
@@ -140,15 +138,16 @@ public class RetrieveImage {
 				try {
 					CheckBox checkBox = (CheckBox) f.get(this);
 					checkBox.setSelected(true);
-
-				} catch (Exception e) {
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 	}
 
-	/**check box that user select images*/
+	/**Toggles the help dialog*/
 	@FXML
 	private void handleHelpBtnAction(ActionEvent event) {
 		helpOn  = !helpOn;
@@ -173,40 +172,22 @@ public class RetrieveImage {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK){
-			try {
-				// Load root layout from fxml file.
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-				Pane rootLayout = loader.load();
-				homeBtn.getScene().setRoot(rootLayout);
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			SceneChanger.changeScene(null, "mainMenu.fxml", homeBtn);
 		} 
 	}
 
 	/**go to next page which is asking user for the creation name*/
 	@FXML
 	private void handleNextBtnAction(ActionEvent event) {
-		try {	
-			if (getSelectedImages()) {
-				CreateCreationController controller = new CreateCreationController(_term, _numOfImages);
-
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(Main.class.getResource("createCreation.fxml"));
-				loader.setController(controller);			
-				nextBtn.getScene().setRoot(loader.load());
-			} else {
-				msg.setText("Please select at least one image");
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (getSelectedImages()) {
+			CreateCreationController controller = new CreateCreationController(_term, _numOfImages);
+			SceneChanger.changeScene(controller, "createCreation.fxml", nextBtn);
+		} else {
+			msg.setText("Please select at least one image");
 		}
 	}
 
-	/**get images that user has been selected*/
+	/**Gets the images that the user selects*/
 	private boolean getSelectedImages() {
 		int i = 1;
 		_numOfImages = 0;
@@ -224,23 +205,20 @@ public class RetrieveImage {
 							fileName = _term+"0"+i+".jpg";
 						}
 
-						String command = "rm " + fileName;
-						ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
-						pb.start();
+						String cmd = "rm " + fileName;
+						BashCommand.runCommand(cmd);
 					}
-				} catch (Exception e) {
+				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
-				} 
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				}
 				i++;
 			}
-
 		}
 		if (_numOfImages == 0) {
 			return false;
 		} 
 		return true;
-
 	}
-
-
 }
