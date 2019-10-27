@@ -14,6 +14,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -38,9 +40,20 @@ public class QuizController {
 
 	@FXML
 	private Button enterBtn;
+	
+	@FXML
+	private Button helpBtn;
+	
+	@FXML
+	private VBox helpBox;
+	
+	@FXML
+	private BorderPane quizPane;
 
 	@FXML
 	private TextField answerField;
+	
+	private boolean helpOn = false;
 
 	private String answer;
 
@@ -56,6 +69,7 @@ public class QuizController {
 		questionNumber = 1;
 		generateQuesitonList();
 		getNextQuestion(questionNumber);
+		helpBtn.fire();
 
 		mp.setOnEndOfMedia(new Runnable() {
 			public void run() {
@@ -66,12 +80,43 @@ public class QuizController {
 		});
 
 	}
+	
+	/**
+	 * Button to get the help for this page
+	*/	
+	@FXML
+	private void handleHelpBtnAction(ActionEvent event) {
+		helpOn  = !helpOn;
+		if (helpOn) {
+			pauseMP();
+			quizPane.setDisable(true);
+			helpBox.setVisible(true);
+			helpBtn.setText("X");
+		} else {
+			playMP();
+			quizPane.setDisable(false);
+			helpBox.setVisible(false);
+			helpBtn.setText("?");
+		}
+
+	}
+
+	private void playMP() {
+		mp.play();
+		playBtn.setText("||");
+		
+	}
+
+	private void pauseMP() {
+		mp.pause();
+		playBtn.setText(" ▷");
+		
+	}
 
 	/**when exit, stop the video*/
 	@FXML
 	private void handleExitBtnAction(ActionEvent event) {
-		mp.pause();
-		playBtn.setText(" ▷");
+		pauseMP();
 		if (questionNumber -1 == 0) {
 			try {
 				FXMLLoader loader = new FXMLLoader();
@@ -91,18 +136,16 @@ public class QuizController {
 		Status status = mp.getStatus();
 
 		if ( status == Status.PAUSED || status == Status.READY || status == Status.STOPPED)	{
-			mp.play();
-			playBtn.setText("||");
+			playMP();
 		} else {
-			mp.pause();
-			playBtn.setText(" ▷");
+			pauseMP();
 		}
 	}
 
 	/**if user got the question correct, increment the score and 10 question total*/
 	@FXML
 	private void handleEnterBtnAction(ActionEvent event) {
-		mp.pause();
+		pauseMP();
 		String input = answerField.getText();
 		if(isCorrect(input)) {
 			score = score + 1;
@@ -182,7 +225,7 @@ public class QuizController {
 	/**when quiz finished, show user the result by result page*/
 	public void finished() {
 		try {
-			mp.pause();		
+			pauseMP();	
 			ResultPageController controller = new ResultPageController(score, questionNumber-1, answerList);
 
 			FXMLLoader loader = new FXMLLoader();

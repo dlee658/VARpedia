@@ -7,15 +7,15 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuizController">
-   <top>
-      <BorderPane prefHeight="211.0" prefWidth="415.0" BorderPane.alignment="CENTER">
-         <center>
-            <MediaView fx:id="mediaPlayer" fitHeight="400.0" fitWidth="900.0" BorderPane.alignment="CENTER" />
-         </center>
+
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuizController">
+   <children>
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0">
          <top>
             <StackPane BorderPane.alignment="CENTER">
                <BorderPane.margin>
@@ -24,48 +24,98 @@
                <children>
                   <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#handleExitBtnAction" text="Exit" StackPane.alignment="TOP_LEFT">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="24.0" />
                      </font>
                   </Button>
                   <Label fx:id="questionN" text="Question 1" />
-               </children>
-            </StackPane>
-         </top>
-         <bottom>
-            <HBox alignment="CENTER" prefHeight="42.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="playBtn" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handlePlayBtnAction" text="||">
+                  <Button fx:id="helpBtn" mnemonicParsing="false" onAction="#handleHelpBtnAction" text="?" StackPane.alignment="TOP_RIGHT">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
                </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
-               </padding>
-            </HBox>
+            </StackPane>
+         </top>
+         <bottom>
+            <BorderPane fx:id="quizPane" prefHeight="211.0" prefWidth="415.0" BorderPane.alignment="CENTER">
+               <top>
+                  <MediaView fx:id="mediaPlayer" fitHeight="400.0" fitWidth="900.0" BorderPane.alignment="CENTER" />
+               </top>
+               <center>
+                  <HBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Button fx:id="playBtn" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handlePlayBtnAction" text="||">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+               </center>
+               <bottom>
+                  <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label text="Answer:">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="answerField" onKeyPressed="#handleEnterKeyAction">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </TextField>
+                        <Button fx:id="enterBtn" mnemonicParsing="false" onAction="#handleEnterBtnAction" text="Enter">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <BorderPane.margin>
+                        <Insets />
+                     </BorderPane.margin>
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+               </bottom>
+            </BorderPane>
          </bottom>
       </BorderPane>
-   </top>
-   <bottom>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="helpBox" alignment="TOP_CENTER" maxHeight="475.0" maxWidth="640.0" spacing="20.0" style="-fx-background-color: ghostwhite; -fx-border-radius: 20; -fx-border-color: grey;" visible="false">
          <children>
-            <Label text="Answer:">
+            <Label text="How to play">
                <font>
-                  <Font size="24.0" />
+                  <Font size="36.0" />
                </font>
             </Label>
-            <TextField fx:id="answerField" onKeyPressed="#handleEnterKeyAction">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the term you think the video is about" wrappingWidth="593.80078125">
                <font>
                   <Font size="24.0" />
                </font>
-            </TextField>
-            <Button fx:id="enterBtn" mnemonicParsing="false" onAction="#handleEnterBtnAction" text="Enter">
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="You can pause/replay the creation" wrappingWidth="591.9375">
                <font>
                   <Font size="24.0" />
                </font>
-            </Button>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="There will be up to 10 questions" wrappingWidth="602.29296875">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="At the end of the quiz,  the correct answers and your answers will be shown to you and the score of how many you got right" wrappingWidth="602.29296875">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
          </children>
-      </HBox>
-   </bottom>
-</BorderPane>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</StackPane>

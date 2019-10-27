@@ -101,7 +101,7 @@ public class CreateCreationController {
 	}
 
 	/**
-	 * button for go back to previous page
+	 * Button to get the help for this page
 	*/	
 	@FXML
 	private void handleHelpBtnAction(ActionEvent event) {

@@ -10,8 +10,10 @@ import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 /**
  * this is controller for the main page
@@ -31,6 +33,13 @@ public class MainController {
 
 	private Pane rootLayout;
 
+	private boolean helpOn = false;
+	
+	@FXML
+	private VBox mainVB;
+
+	@FXML
+	private VBox helpBox;
 
 	@FXML
 	public void initialize() {
@@ -42,11 +51,12 @@ public class MainController {
 			InputStream stdout = process.getInputStream();
 			BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
 			String line = stdoutBuffered.readLine();
-			
+
 			if (line.equals("0")) {
+				viewBtn.setDisable(true);
 				quizBtn.setDisable(true);
 			}
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -67,7 +77,7 @@ public class MainController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/** start create creation, so go to search page*/
 
 	@FXML
@@ -83,7 +93,7 @@ public class MainController {
 		}
 	}
 
-	
+
 	/**go to view creation page*/
 	@FXML
 	private void handleViewBtnAction(ActionEvent event) {
@@ -102,14 +112,17 @@ public class MainController {
 	/**go to helper page that give user instruction*/
 	@FXML
 	private void handleHelpBtnAction(ActionEvent event) {
-		try {
-			// Load root layout from fxml file.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("helpView.fxml"));
-			rootLayout = loader.load();
-			quizBtn.getScene().setRoot(rootLayout);
-		} catch (IOException e) {
-			e.printStackTrace();
+		helpOn  = !helpOn;
+		if (helpOn  ) {
+			mainVB.setDisable(true);
+			helpBox.setVisible(true);
+			helpBtn.setText("X");
+		} else {
+			mainVB.setDisable(false);
+			helpBox.setVisible(false);
+			helpBtn.setText("?");
 		}
+
+
 	}
 }
