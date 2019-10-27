@@ -34,19 +34,23 @@ public class CreateCreationController {
 	@FXML
 	private Button homeBtn;
 	@FXML
-	private VBox vb;
+	private VBox createVB;
 	@FXML
-	private Button backBtn;
+	private Button helpBtn;
+	@FXML
+	private VBox helpBox;
 	@FXML
 	private Button createBtn;
 	@FXML
-	private TextField txt;
+	private TextField nameField;
 	@FXML
 	private Label instructLabel;
 	@FXML
 	private ProgressIndicator createIndicator;
 
 	private Label msg;
+	
+	private boolean helpOn = false;
 
 	public CreateCreationController(String term, int numOfImages) {
 		_term = term;
@@ -54,7 +58,23 @@ public class CreateCreationController {
 		msg = new Label();
 	}
 
+	@FXML
+	public void initialize() {
+		setRecommendedName();
+		
+	}
 	
+	private void setRecommendedName() {
+		String name = _term;
+		int i = 0;
+		while(!isValidName(name)) {
+			i++;
+			name = _term + "_" + i;
+		}
+		nameField.setText(name);
+		
+	}
+
 	/**
 	 * set home button to go back to main menu
 	 */
@@ -72,7 +92,7 @@ public class CreateCreationController {
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(Main.class.getResource("mainMenu.fxml"));
 				Pane rootLayout = loader.load();
-				backBtn.getScene().setRoot(rootLayout);
+				homeBtn.getScene().setRoot(rootLayout);
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -84,16 +104,16 @@ public class CreateCreationController {
 	 * button for go back to previous page
 	*/	
 	@FXML
-	private void handleBackBtnAction(ActionEvent event) {
-		try {
-			// Load root layout from fxml file.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("retrieveImage.fxml"));
-			Pane rootLayout = loader.load();
-			backBtn.getScene().setRoot(rootLayout);
-
-		} catch (IOException e) {
-			e.printStackTrace();
+	private void handleHelpBtnAction(ActionEvent event) {
+		helpOn  = !helpOn;
+		if (helpOn ) {
+			createVB.setDisable(true);
+			helpBox.setVisible(true);
+			helpBtn.setText("X");
+		} else {
+			createVB.setDisable(false);
+			helpBox.setVisible(false);
+			helpBtn.setText("?");
 		}
 
 	}
@@ -103,10 +123,9 @@ public class CreateCreationController {
 	 */
 	@FXML
 	private void handleCreateBtnAction(ActionEvent event) {
-		String name = txt.getText();
+		String name = nameField.getText();
 		if (isValidName(name) && !name.isBlank()) {
-			vb.getChildren().clear();
-			vb.getChildren().addAll(instructLabel,txt,createBtn,createIndicator);
+			msg.setText("");
 			createIndicator.setVisible(true);
 
 			ExecutorService createWorker = Executors.newSingleThreadExecutor(); 
@@ -159,16 +178,9 @@ public class CreateCreationController {
 			
 		}else if (name.isBlank()){ 
 			msg.setText("Please enter a name");
-			vb.getChildren().clear();
-			vb.getChildren().addAll(instructLabel,txt,createBtn,msg);
-
 
 		} else {
 			msg.setText("Creation '" +name+ "' already exists");
-			vb.getChildren().clear();
-			vb.getChildren().addAll(instructLabel,txt,createBtn,msg);
-
-
 		}
 	}
 
