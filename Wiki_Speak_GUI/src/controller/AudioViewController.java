@@ -1,6 +1,9 @@
 package controller;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -46,7 +49,7 @@ public class AudioViewController {
 
 	@FXML 
 	private Button nextBtn;
-	
+
 	@FXML 
 	private Button helpBtn;
 
@@ -55,10 +58,10 @@ public class AudioViewController {
 
 	@FXML
 	private Label msg;
-	
+
 	@FXML
 	private VBox helpBox;
-	
+
 	@FXML
 	private BorderPane audioPane;
 
@@ -71,32 +74,53 @@ public class AudioViewController {
 
 	private String _term;
 
-	private String _resultAreaText;
-	
+	private File _textFile;
+
 	private boolean helpOn = false;
 
 	private MediaPlayer audioPlayer;
 
-	public AudioViewController(String term, String resultAreaText) {
+	public AudioViewController(String term, File textfile) {
 		_term = term;
-		_resultAreaText = resultAreaText;
+		_textFile = textfile;
 	}
 
 	/**
 	 * set voice options
-	*/	
+	 */	
 	@FXML
 	public void initialize() {
+		initializeTextArea();
 		voiceCB.setValue("Male");
 		voiceCB.getItems().addAll("Male", "NZ Male", "NZ Female");
-		resultArea.setText(_resultAreaText);
 		numberTxt = 0;
 
+	}
+	
+	private void initializeTextArea() {
+		BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader(_textFile));
+			String line = reader.readLine().trim();
+			//display the search result to user
+			resultArea.setText(line);
+
+			while ((line = reader.readLine()) != null ) {
+				resultArea.appendText(line);
+			}
+			reader.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
+
 	/**
 	 * set home button to go back to main menu
-	*/	
+	 */	
 	@FXML
 	private void handleHomeBtnAction(ActionEvent event) {
 		//warn user and ask for the confirmation to go back to main menu
@@ -119,7 +143,7 @@ public class AudioViewController {
 			}
 		} 
 	}
-	
+
 	@FXML
 	private void handleHelpBtnAction(ActionEvent event) {
 		helpOn = !helpOn;
@@ -132,8 +156,6 @@ public class AudioViewController {
 			helpBox.setVisible(false);
 			helpBtn.setText("?");
 		}
-		
-		
 	}
 
 	/**
@@ -157,15 +179,15 @@ public class AudioViewController {
 				audioProcess.waitFor();
 			}
 
-			
-				LoadingController avc = new LoadingController(_term);
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(Main.class.getResource("Loading.fxml"));
-				loader.setController(avc);
-				nextBtn.getScene().setRoot(loader.load());
-				
-			} 
-		 catch (Exception e) {
+
+			LoadingController avc = new LoadingController(_term);
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("Loading.fxml"));
+			loader.setController(avc);
+			nextBtn.getScene().setRoot(loader.load());
+
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -173,7 +195,7 @@ public class AudioViewController {
 
 	/**
 	 * button for go back to previous page
-	*/	
+	 */	
 	@FXML
 	private void handleBackBtnAction(ActionEvent event) {
 		try {
@@ -188,7 +210,7 @@ public class AudioViewController {
 
 	/**
 	 * button for preview the selected text with selected voice; default voice is kal_diphone
-	*/	
+	 */	
 	@FXML
 	private void handlePreviewBtnAction(ActionEvent event) {		
 		if (audioPlayer != null && audioPlayer.getStatus() == Status.PLAYING) {
@@ -206,19 +228,19 @@ public class AudioViewController {
 				ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
 				Process audioProcess = pb.start();
 				audioProcess.waitFor();
-				
+
 				File file = new File("preview.wav");
 				Media audio = new Media(file.toURI().toString());
 				audioPlayer = new MediaPlayer(audio);
 				audioPlayer.setAutoPlay(true);
 				previewBtn.setText("Stop");
-				
+
 				audioPlayer.setOnEndOfMedia(new Runnable() {
 					public void run() {
 						previewBtn.setText("Preview");
 					}
 				});
-				
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
@@ -248,7 +270,7 @@ public class AudioViewController {
 
 	/**
 	 * button for saving audio for selected text
-	*/	
+	 */	
 	@FXML
 	private void handleSaveBtnAction(ActionEvent event) {
 		if (isValidHighlight()) {
@@ -266,10 +288,10 @@ public class AudioViewController {
 		}					
 	}
 
-/**
- * method that check whether wav file is 0 byte or not
- * @return boolean: false if file is empty, true if some file been created
- */
+	/**
+	 * method that check whether wav file is 0 byte or not
+	 * @return boolean: false if file is empty, true if some file been created
+	 */
 	private boolean isValidAudioChunk(String audioPath) {
 		File file = new File(audioPath);
 		file.exists();
@@ -280,7 +302,7 @@ public class AudioViewController {
 			return true;
 		}
 	}
-	
+
 	/**
 	 * Saves the highlighted text as audio
 	 * @param voice
@@ -309,9 +331,9 @@ public class AudioViewController {
 			}
 		};
 		createWorker.submit(task);
-		
+
 		task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-		//when voice successfully created
+			//when voice successfully created
 			@Override
 			public void handle(WorkerStateEvent arg0) {
 				//check that file is 0byte or not using method
@@ -323,12 +345,12 @@ public class AudioViewController {
 				else {
 					msg.setText("Audio: " + _term + numberTxt + " saved");
 				}
-				
+
 			}
 
 		}); 
 
-		
+
 	}
 
 	/**

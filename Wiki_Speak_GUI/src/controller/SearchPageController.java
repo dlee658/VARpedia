@@ -1,5 +1,6 @@
 package controller;
 
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,13 +17,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
-import javafx.stage.WindowEvent;
+import javafx.scene.layout.VBox;
 
 /**page that search term using wikit command*/
 public class SearchPageController {
@@ -34,22 +34,28 @@ public class SearchPageController {
 
 	@FXML 
 	private Button cancelBtn;
+	
+	@FXML 
+	private Button helpBtn;
+	
+	@FXML 
+	private VBox helpBox;
+		
+	@FXML 
+	private VBox searchVB;
 
 	@FXML 
-	private Button nextBtn;
+	private Label msg;
 
 	@FXML 
 	private TextField searchField;
 
 	@FXML 
-	private TextArea resultArea;
-
-	@FXML 
 	private ProgressIndicator searchIndicator;
 
-	private Pane rootLayout;
-
 	private Task<Boolean> searchTask;
+
+	private boolean helpOn = false;
 
 	/**return to home button*/
 	@FXML
@@ -58,8 +64,7 @@ public class SearchPageController {
 			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("mainMenu.fxml"));
-			rootLayout = loader.load();
-			homeBtn.getScene().setRoot(rootLayout);
+			homeBtn.getScene().setRoot(loader.load());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -72,7 +77,6 @@ public class SearchPageController {
 		searchIndicator.setVisible(false);
 		searchBtn.setDisable(false);
 		cancelBtn.setDisable(true);
-		resultArea.clear();
 	}
 
 /**button that search with given term*/
@@ -93,7 +97,6 @@ public class SearchPageController {
 		//enable progress indicator and cancel btn
 		searchIndicator.setDisable(false);
 		searchIndicator.setVisible(true);
-		//searchIndicator.setStyle(" -fx-progress-color: #757575;");
 		searchBtn.setDisable(true);
 		cancelBtn.setDisable(false);
 		//do searching process
@@ -101,6 +104,20 @@ public class SearchPageController {
 		search(term);
 	}
 
+	@FXML
+	private void handleHelpBtnAction(ActionEvent event) {
+		helpOn  = !helpOn;
+		if (helpOn) {
+			searchVB.setDisable(true);
+			helpBox.setVisible(true);
+			helpBtn.setText("X");
+		} else {
+			searchVB.setDisable(false);
+			helpBox.setVisible(false);
+			helpBtn.setText("?");
+		}
+	}
+	
 	/**enable keyboard enter*/
 	@FXML
 	private void handleEnterKeyAction(KeyEvent key) {
@@ -109,31 +126,15 @@ public class SearchPageController {
 		}
 	}
 
-	/**go to next page which is audio view page*/
-	@FXML
-	private void handleNextBtnAction(ActionEvent event) {
-		try {	
-			AudioViewController avc = new AudioViewController(searchField.getText(),resultArea.getText());
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("audioView2.fxml"));
-			loader.setController(avc);
-			nextBtn.getScene().setRoot(loader.load());
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	/**check whether that user typed something and allow search*/
 	private void search(String term) {
 		term = searchField.getText().trim();
 
 		if (term.isEmpty()) {
-			nextBtn.setDisable(true);
-			resultArea.clear();
 			searchIndicator.setVisible(false);
 			searchBtn.setDisable(false);
 			cancelBtn.setDisable(true);
+			msg.setText("Please enter a term");
 			return;
 		}
 		searchBtn.setDisable(true);
@@ -178,16 +179,13 @@ public class SearchPageController {
 					String line = reader.readLine().trim();
 					//if there are no result in term, display it to user
 					if (line.equals(term + " not found :^(")) {
-						resultArea.setText(term + " not found, please try again");
+						msg.setText(term + " not found, please try again");
 					} else { //display it to user in result area
-
-						resultArea.setText(line);
-
-						while ((line = reader.readLine()) != null ) {
-							resultArea.appendText(line);
-						}
-						reader.close();
-						//save term to a textfile
+						AudioViewController avc = new AudioViewController(searchField.getText(),text);
+						FXMLLoader loader = new FXMLLoader();
+						loader.setLocation(Main.class.getResource("audioView.fxml"));
+						loader.setController(avc);
+						searchBtn.getScene().setRoot(loader.load());
 					}
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
@@ -197,8 +195,6 @@ public class SearchPageController {
 
 				searchBtn.setDisable(false);
 				cancelBtn.setDisable(true);
-				nextBtn.setVisible(true);
-				nextBtn.setDisable(false);
 				searchIndicator.setVisible(false);
 			}
 		});
