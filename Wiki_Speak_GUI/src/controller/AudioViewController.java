@@ -22,6 +22,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
@@ -60,6 +61,9 @@ public class AudioViewController {
 
 	@FXML
 	private VBox helpBox;
+	
+	@FXML
+	private ProgressIndicator saveIndicator;
 
 	@FXML
 	private BorderPane audioPane;
@@ -211,12 +215,32 @@ public class AudioViewController {
 	}
 
 	/**
+	 * button for saving audio for selected text
+	 */	
+	@FXML
+	private void handleSaveBtnAction(ActionEvent event) {
+		msg.setText("");
+		saveIndicator.setVisible(true);
+		if (isValidHighlight()) {
+			//increment the number of audio been created
+			numberTxt = numberTxt +1;
+			String voice = voiceCB.getValue().toString();
+			//create a text file for audio with given text
+			createText(resultArea.getSelectedText());
+			//create a wav file with text file
+			audioChunkCreation(voice);
+		} else {
+			saveIndicator.setVisible(false);
+		}
+	}
+
+	/**
 	 * Checks if the text highlighted is valid, not blank or exceed word limit
 	 */
 	private boolean isValidHighlight() {
 		String selectedPart = resultArea.getSelectedText();
 		int wordCount = selectedPart.split("\\s+").length;
-
+	
 		//can't select nothing and preview it
 		if (selectedPart.isEmpty()) {
 			msg.setText("Please highlight some text");
@@ -228,26 +252,6 @@ public class AudioViewController {
 			return false;
 		}
 		return true;
-	}
-
-	/**
-	 * button for saving audio for selected text
-	 */	
-	@FXML
-	private void handleSaveBtnAction(ActionEvent event) {
-		if (isValidHighlight()) {
-			//increment the number of audio been created
-			numberTxt = numberTxt +1;
-			String voice = voiceCB.getValue().toString();
-			//create a text file for audio with given text
-			createText(resultArea.getSelectedText());
-			//create a wav file with text file
-			audioChunkCreation(voice);
-
-			if (numberTxt > 0) {
-				nextBtn.setDisable(false);
-			}
-		}					
 	}
 
 	/**
@@ -291,6 +295,7 @@ public class AudioViewController {
 			//when voice successfully created
 			@Override
 			public void handle(WorkerStateEvent arg0) {
+				saveIndicator.setVisible(false);
 				//check that file is 0byte or not using method
 				if (!isValidAudioChunk("Audio" + File.separatorChar + _term +numberTxt+ ".wav")) {
 					//if file is 0byte, than display message to user and decrement text number
@@ -299,6 +304,10 @@ public class AudioViewController {
 				}
 				else {
 					msg.setText("Audio: " + _term + numberTxt + " saved");
+				}
+				
+				if (numberTxt > 0) {
+					nextBtn.setDisable(false);
 				}
 
 			}

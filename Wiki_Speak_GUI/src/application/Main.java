@@ -53,7 +53,8 @@ public class Main extends Application {
 	private void setUpDirectories() {
 		File creation = new File("Creations");
 		File audio = new File("Audio");
-		File video = new File("Video");
+		File quiz = new File("Quiz");
+		File temp = new File("Temp");
 
 		if (!creation.isDirectory()) {
 			creation.mkdir();
@@ -61,8 +62,11 @@ public class Main extends Application {
 		if (!audio.isDirectory()) {
 			audio.mkdir();
 		}
-		if (!video.isDirectory()) {
-			video.mkdir();
+		if (!quiz.isDirectory()) {
+			quiz.mkdir();
+		}
+		if (!temp.isDirectory()) {
+			temp.mkdir();
 		}
 
 	}

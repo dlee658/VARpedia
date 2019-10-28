@@ -5,6 +5,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.BorderPane?>
@@ -22,6 +23,7 @@
                <bottom>
                   <StackPane BorderPane.alignment="CENTER">
                      <children>
+                        <ProgressIndicator fx:id="saveIndicator" visible="false" />
                         <Button fx:id="backBtn" mnemonicParsing="false" onAction="#handleBackBtnAction" text="Back" StackPane.alignment="TOP_LEFT">
                            <font>
                               <Font size="24.0" />

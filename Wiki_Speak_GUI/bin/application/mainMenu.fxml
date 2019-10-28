@@ -104,7 +104,7 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="View your Creations: Press the &quot;View&quot; button to watch or delete your saved creations" wrappingWidth="591.9375">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="View your Creations: Press the &quot;View&quot; button to watch or delete your saved creations. This button unlocks when you have at least one saved creation" wrappingWidth="591.9375">
                <font>
                   <Font size="24.0" />
                </font>

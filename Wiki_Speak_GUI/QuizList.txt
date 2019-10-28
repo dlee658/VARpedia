@@ -1,6 +1,0 @@
-truck,truck
-apple,apple
-sleep,sleep
-new world,new world
-girl,girl
-a,a
