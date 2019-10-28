@@ -60,6 +60,8 @@ public class QuizController {
 	private int questionNumber;
 
 	private int score = 0;
+	
+	private final String QUIZ = "Quiz" + File.separatorChar;
 
 	private MediaPlayer mp;
 	private List<Answer> answerList = new ArrayList<Answer>();
@@ -165,7 +167,7 @@ public class QuizController {
 
 	/**Sets up the next creation from the quiz list for the quiz */
 	private void getNextQuestion(int questionNumber) {
-		String cmd = "awk 'NR=="+questionNumber+"' QuizList.txt";
+		String cmd = "awk 'NR=="+questionNumber+"' "+QUIZ+"QuizList.txt";
 
 		try {
 			Process process = BashCommand.runCommand(cmd); 
@@ -178,7 +180,7 @@ public class QuizController {
 			} else {
 				//Get creation to play
 				String name = line.substring(0,line.indexOf(",")).trim();
-				File file = new File("Video" + File.separatorChar + name + ".mp4");
+				File file = new File("Quiz" + File.separatorChar + name + ".mp4");
 				
 				//Get answer
 				answer = line.substring(line.indexOf(",")+1).trim();
@@ -204,7 +206,7 @@ public class QuizController {
 
 	/**generate question list of the quiz using bash command*/
 	private void generateQuesitonList() {
-		String cmd = "sed -i '/^[[:blank:]]*$/ d' creationTermList.txt; shuf -n 10 creationTermList.txt > QuizList.txt";
+		String cmd = "sed -i '/^[[:blank:]]*$/ d' "+QUIZ+"creationTermList.txt; shuf -n 10 "+QUIZ+"creationTermList.txt > "+QUIZ+"QuizList.txt";
 		BashCommand.runCommand(cmd);
 	}
 

@@ -80,11 +80,15 @@ public class AudioViewController {
 	private boolean helpOn = false;
 
 	private MediaPlayer audioPlayer;
+	
+	private final String TEMP = "Temp" + File.separatorChar;
 
 	public AudioViewController(String term, File textfile) {
 		_term = term;
 		_textFile = textfile;
 	}
+	
+	
 
 	/**
 	 * set voice options
@@ -195,10 +199,10 @@ public class AudioViewController {
 			msg.setText("");
 			String voice = voiceCB.getValue().toString();
 			String voiceFile = "\"Voice" + File.separatorChar + voice + ".scm\"";
-			String cmd = "echo \"" + resultArea.getSelectedText() + "\" > preview.txt; text2wave -o preview.wav preview.txt -eval "+ voiceFile + "&> audiostatus.txt";					
+			String cmd = "echo \"" + resultArea.getSelectedText() + "\" > " + TEMP + "preview.txt; text2wave -o "+TEMP+"preview.wav "+TEMP+"preview.txt -eval "+ voiceFile + "&> audiostatus.txt";					
 			BashCommand.runCommand(cmd);
 
-			File file = new File("preview.wav");
+			File file = new File(TEMP + "preview.wav");
 			Media audio = new Media(file.toURI().toString());
 			audioPlayer = new MediaPlayer(audio);
 			audioPlayer.setAutoPlay(true);

@@ -49,6 +49,8 @@ public class CreateCreationController {
 	private Label msg;
 
 	private boolean helpOn = false;
+	
+	private final String QUIZ = "Quiz" + File.separatorChar;
 
 	public CreateCreationController(String term, int numOfImages) {
 		_term = term;
@@ -165,7 +167,7 @@ public class CreateCreationController {
 	 * update list of creation
 	 */
 	private void updateCreationTermList(String name, String term) {
-		String cmd = "echo " + name + "," + term + " >> creationTermList.txt";
+		String cmd = "echo " + name + "," + term + " >> " + QUIZ + "creationTermList.txt";
 		BashCommand.runCommand(cmd);	
 	}
 	/**

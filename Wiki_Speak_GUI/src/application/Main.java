@@ -41,7 +41,7 @@ public class Main extends Application {
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent arg0) {
-				String cmd = "rm Audio/*.txt; rm  Audio/*.wav; rm *.jpg";
+				String cmd = "rm Audio/*.txt; rm  Audio/*.wav; rm *.jpg; rm -r Temp; rm Quiz/QuizList.txt";
 				BashCommand.runCommand(cmd);
 			}
 		});
