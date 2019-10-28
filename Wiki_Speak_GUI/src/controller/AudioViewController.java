@@ -172,7 +172,7 @@ public class AudioViewController {
 
 		//Move to next page
 		LoadingController controller = new LoadingController(_term);
-		SceneChanger.changeScene(controller, "Loading.fxml", nextBtn);
+		SceneChanger.changeScene(controller, "loading.fxml", nextBtn);
 	}
 
 	/**
@@ -199,7 +199,7 @@ public class AudioViewController {
 			msg.setText("");
 			String voice = voiceCB.getValue().toString();
 			String voiceFile = "\"Voice" + File.separatorChar + voice + ".scm\"";
-			String cmd = "echo \"" + resultArea.getSelectedText() + "\" > " + TEMP + "preview.txt; text2wave -o "+TEMP+"preview.wav "+TEMP+"preview.txt -eval "+ voiceFile + "&> audiostatus.txt";					
+			String cmd = "echo \"" + resultArea.getSelectedText() + "\" > " + TEMP + "preview.txt; text2wave -o "+TEMP+"preview.wav "+TEMP+"preview.txt -eval "+ voiceFile;					
 			BashCommand.runCommand(cmd);
 
 			File file = new File(TEMP + "preview.wav");
@@ -288,7 +288,7 @@ public class AudioViewController {
 			@Override
 			protected File call() throws Exception {
 				String voiceFile = "\"Voice" + File.separatorChar + voice + ".scm\"";
-				String cmd = "text2wave -o " + audio + " " + text + " -eval "+ voiceFile + "&> audiostatus.txt";					
+				String cmd = "text2wave -o " + audio + " " + text + " -eval "+ voiceFile;					
 				BashCommand.runCommand(cmd);
 				return null;	
 			}

@@ -27,12 +27,12 @@
    <center>
       <VBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <ProgressIndicator prefHeight="200.0" prefWidth="200.0" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fetching images, please wait a moment">
                <font>
                   <Font size="26.0" />
                </font>
             </Text>
+            <ProgressIndicator prefHeight="200.0" prefWidth="200.0" />
          </children>
       </VBox>
    </center>
